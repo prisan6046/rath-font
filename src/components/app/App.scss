@@ -1,0 +1,40 @@
+@import "/assets/css/freelancer.min.css";
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+// @import "/bower_components/font-awesome/css/font-awesome.min.css";
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+	  	"Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+	  	sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+  
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+	monospace;
+}
+
+.bg-dark-section-1{
+	background-color: #313131;
+}
+.bg-dark-section-2{
+	background-color: #c3c3c3;
+}
+.star-danger{
+	background: #ff0c0c;
+}
+.h-100-px{
+	height: 100px !important;
+}
+.bg-blue-lv1{
+	background: #337AB7;
+}
+.bg-blue-lv2{
+	background: #BFE5FB;
+}
+.bg-gray-lv1{
+	background: #E2E2E0;
+}
