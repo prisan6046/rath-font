@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Script from 'react-load-script'
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
-import ScriptLink from './ScriptLink';
+import ScriptLink from '../link/ScriptLink';
 
 // import 'jquery-slimscroll';
 window.jQuery = $;

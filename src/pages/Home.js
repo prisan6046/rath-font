@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class Home extends Component {
     render() {
@@ -7,14 +8,14 @@ class Home extends Component {
                 <div className="container-fluid bg-blue-lv2 py-3 border-bottom">
                     <div className="row">
                         <div className="col-lg-6">
-                            <h4 className="text-secondary">Title</h4>
-                            <button className="btn btn-primary">Register</button>
+                            <h4 className="text-secondary">Title</h4>                            
+                            <Link to="/add" className="btn btn-primary">Add</Link>
                         </div>
 
                         <div className="col-lg-6">
                             <form class="form-inline my-2 my-lg-0">
                                 <input class="form-control ml-auto mr-sm-2 w-75" type="search" placeholder="Search" aria-label="Search" />
-                                <button class="btn btn-default my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+                                <button className="btn btn-default"><i class="fas fa-search"></i></button>
                             </form>
 
                             <ul class="nav nav-pills" id="pills-tab" role="tablist">
