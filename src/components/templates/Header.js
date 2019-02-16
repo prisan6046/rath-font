@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 
 class Header extends Component {
     render() {        
@@ -10,7 +11,7 @@ class Header extends Component {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-                        <a className="navbar-brand" href="#">Hidden brand</a>
+                        <Link className="navbar-brand" to="/">Hidden brand</Link>
                         <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
                             <li className="nav-item active">
                                 <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
