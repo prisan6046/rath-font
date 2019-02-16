@@ -10,7 +10,7 @@ class SignIn extends Component {
                     <div className="row">
                         <div className="col-5 mx-auto">
                             <div className="card bg-light">
-                                <div className="card-body">
+                                <div className="card-body h-fixed">
                                     <div className="form-group mb-5 text-center">
                                         <img src="/assets/img/company_logo.png" className="img-fluid logo-login"/>
                                     </div>                                   
