@@ -1,0 +1,31 @@
+body{
+    height: 100%;
+}
+.SignIn,
+.SignUp{
+    background-image: url('/assets/img/background_login_2.png');    
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    
+    height: 100%;
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    input[type=text],
+    .SignIn select{
+        border-style: solid; 
+        border-width: 0px 0px 1px 0px;    
+        background-color: #f8f9fa !important;
+    }
+
+    label{
+        font-weight: bold;
+    }
+
+    img.logo-login{
+        margin: 50px 0px 50px 0px;
+    }
+}
