@@ -2,11 +2,10 @@ version: '2'
 services:
   ruth-font-new:
     container_name: "ruth-font-new"
-    image: "uth-font-new:latest"
-    mem_limit: 2000m
+    image: "ruth-font-new:latest"
     restart: always
     build:
       context: .
     ports:
-      - "5000:5000"
+      - "3000:3000"
     network_mode: bridge

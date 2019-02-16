@@ -20,11 +20,11 @@ class RouteController extends Component{
         return(
             <div>
                 <Switch>
+                <Route exact path="/" component={SignIn} />       
                 <Route path="/signin" render={() => <SignIn/>} />
                 <Route path="/signup" render={() => <SignUp/>} />  
                 <DefaultLayout>
-                    <Switch wrapperComponent={Header}>
-                        <Route exact path="/" component={SignIn} />                    
+                    <Switch wrapperComponent={Header}>             
                         <Route path="/home" component={Home} />
                         <Route path="/add" component={Add} />                                                                      
                     </Switch>                

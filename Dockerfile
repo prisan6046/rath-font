@@ -1,17 +1,16 @@
-# base image
+
 FROM node:9.6.1
 
-# set working directory
-RUN mkdir /usr/src/app
-WORKDIR /usr/src/app
+RUN mkdir -p /application
 
-# add `/usr/src/app/node_modules/.bin` to $PATH
-ENV PATH /usr/src/app/node_modules/.bin:$PATH
+COPY . /application
 
-# install and cache app dependencies
-COPY package.json /usr/src/app/package.json
+WORKDIR /application
+
 RUN npm install --silent
+RUN npm rebuild node-sass
 RUN npm install react-scripts@1.1.1 -g --silent
 
-# start app
 CMD ["npm", "start"]
+
+EXPOSE 3000
