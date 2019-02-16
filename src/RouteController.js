@@ -9,17 +9,25 @@ import Header from './components/templates/Header';
 
 
 class RouteController extends Component{
-    render(){
-        return(
-            <div className="RouteController">                                
-                <Switch>
-                    <Route exact path="/" component={SignIn} />                    
-                    <Route path="/home" component={Home} />
-                    <Route path="/add" component={Add} />
 
-                    <Route path="/signin" render={() => <SignIn/>} />
-                    <Route path="/signup" component={SignUp} />                                                
-                </Switch>                
+    render(){
+        const DefaultLayout = ({children}) => (
+            <div className="DefaultLayout">
+                <Header/>
+                {children}
+            </div>
+        );
+        return(
+            <div>
+                <Route path="/signin" render={() => <SignIn/>} />
+                <Route path="/signup" render={() => <SignUp/>} />  
+                <DefaultLayout>
+                    <Switch wrapperComponent={Header}>
+                        <Route exact path="/" component={SignIn} />                    
+                        <Route path="/home" component={Home} />
+                        <Route path="/add" component={Add} />                                                                      
+                    </Switch>                
+                </DefaultLayout>                
             </div>
         );
     }
