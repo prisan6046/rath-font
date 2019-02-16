@@ -19,6 +19,7 @@ class RouteController extends Component{
         );
         return(
             <div>
+                <Switch>
                 <Route path="/signin" render={() => <SignIn/>} />
                 <Route path="/signup" render={() => <SignUp/>} />  
                 <DefaultLayout>
@@ -27,7 +28,8 @@ class RouteController extends Component{
                         <Route path="/home" component={Home} />
                         <Route path="/add" component={Add} />                                                                      
                     </Switch>                
-                </DefaultLayout>                
+                </DefaultLayout>          
+                </Switch>      
             </div>
         );
     }
