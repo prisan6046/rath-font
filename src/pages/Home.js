@@ -2,6 +2,23 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 class Home extends Component {
+    
+    constructor(){
+        super()
+        this.state = {
+            token : '',
+            status : false ,
+        }
+
+    }
+
+    componentDidMount(){
+        this.state.token = localStorage.getItem('token');
+        if(this.state.token == null){
+            this.props.history.push("/")
+        }
+    }
+
     render() {
         return(
             <div className="Home">

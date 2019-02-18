@@ -14,13 +14,13 @@ class Header extends Component {
                         <Link className="navbar-brand" to="/">Hidden brand</Link>
                         <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
                             <li className="nav-item active">
-                                <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
+                                <a className="nav-link" href="#"> <span className="sr-only">(current)</span></a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Link</a>
+                                <a className="nav-link" href="#"></a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                                <a className="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
                             </li>
                         </ul>
 
