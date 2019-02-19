@@ -33,15 +33,12 @@ class SignIn extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        console.log()
         var formData = new FormData();
         formData.append('user', this.state.user);
         formData.append('pass', this.state.password);
 
-        axios.post('http://34.73.123.38/api/token/authLogin', formData, {
-            onUploadProgress: ProgressEvent => {
-
-            },
-        }).then(res => {
+        axios.post('http://34.73.123.38/api/token/authLogin', formData ).then(res => {
             if(res.data.status == 200){
                 localStorage.setItem('token' , res.data.token);
                 this.props.history.push("/home");
@@ -69,15 +66,15 @@ class SignIn extends Component {
                                     <form onSubmit={this.handleSubmit} >                        
                                         <div className="form-group text-center">
                                             <label htmlFor="">Email</label>
-                                            <input type="text" value={this.state.user } onChange={this.handleUserChange} className="form-control" name="" id=""/>
+                                            <input type="text" value={this.state.user } onChange={this.handleUserChange} className="form-control" name="name" />
                                         </div>
                                         <div className="form-group text-center">
                                             <label htmlFor="">Password</label>
-                                            <input type="text" value={this.state.password} onChange={this.handlePasswordChange} className="form-control" name="" id=""/>
+                                            <input type="password" value={this.state.password} onChange={this.handlePasswordChange} className="form-control" name="pass" />
                                         </div>
                                         <div className="form-group form-inline">
                                             <div className="mx-auto">
-                                                <Link to="/home" className="btn btn-primary mr-2">เข้าสู่ระบบ</Link>
+                                                <button to="" className="btn btn-primary mr-2">เข้าสู่ระบบ</button>
                                                 <Link to="/signup" className="btn btn-default">ลงทะเบียน</Link>
                                             </div>                                                                                
                                         </div>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 class Home extends Component {
-    
+
     constructor(){
         super()
         this.state = {
@@ -30,26 +30,26 @@ class Home extends Component {
                         </div>
 
                         <div className="col-lg-6">
-                            <form class="form-inline my-2 my-lg-0">
-                                <input class="form-control ml-auto mr-sm-2 w-75" type="search" placeholder="Search" aria-label="Search" />
-                                <button className="btn btn-default"><i class="fas fa-search"></i></button>
+                            <form className="form-inline my-2 my-lg-0">
+                                <input className="form-control ml-auto mr-sm-2 w-75" type="search" placeholder="Search" aria-label="Search" />
+                                <button className="btn btn-default"><i className="fas fa-search"></i></button>
                             </form>
 
-                            <ul class="nav nav-pills" id="pills-tab" role="tablist">
-                                <li class="nav-item ml-auto">
-                                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"><i class="fas fa-list-ul"></i></a>
+                            <ul className="nav nav-pills" id="pills-tab" role="tablist">
+                                <li className="nav-item ml-auto">
+                                    <a className="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"><i className="fas fa-list-ul"></i></a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false"><i class="fas fa-chart-bar"></i></a>
+                                <li className="nav-item">
+                                    <a className="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false"><i className="fas fa-chart-bar"></i></a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><i class="fas fa-calendar-alt"></i></a>                    
+                                <li className="nav-item">
+                                    <a className="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><i className="fas fa-calendar-alt"></i></a>                    
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><i class="fas fa-table"></i></a>  
+                                <li className="nav-item">
+                                    <a className="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><i className="fas fa-table"></i></a>  
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><i class="fas fa-align-left"></i></a>                    
+                                <li className="nav-item">
+                                    <a className="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><i className="fas fa-align-left"></i></a>                    
                                 </li>
                             </ul>
                             {/* <div class="tab-content" id="pills-tabContent">
@@ -66,7 +66,7 @@ class Home extends Component {
                 <div className="container-fluid bg-gray-lv1 py-3">
                     <div className="row">
                         <div className="col-lg-12">                     
-                            <table class="table table-striped">
+                            <table className="table table-striped">
                                 <thead>
                                     <tr>
                                         <th scope="col"></th>
