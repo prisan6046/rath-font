@@ -3,95 +3,120 @@ import { Link } from 'react-router-dom';
 
 class Home extends Component {
 
-    constructor(){
+    constructor() {
         super()
         this.state = {
-            token : '',
-            status : false ,
+            token: '',
+            list_doc: [],
+            status: false,
         }
 
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.state.token = localStorage.getItem('token');
-        if(this.state.token == null){
+        if (this.state.token == null) {
             this.props.history.push("/")
         }
+
+        fetch('http://34.73.123.38/api/token/get_all_doc?token=' + this.state.token)
+            .then((Response) => Response.json())
+            .then((res) => {
+                this.setState({
+                    list_doc: res
+                })
+                console.log(res)
+            })
     }
 
     render() {
-        return(
+
+        let list_doc = []
+        this.state.list_doc.map((val, i) => {
+            let url = "/showdata/"+val._id.$oid
+            return list_doc.push(
+                <tr key={i}>
+                    <td>{val.avg_car_number}</td>
+                    <td>{val.avg_car_province}</td>
+                    <td>{val.avg_car_brand}</td>
+                    <td>{val.date_not_allow}</td>
+                    <td>{val.date_check}</td>
+                    <td>{val.date_check}</td>
+                    <td>{val.date_check}</td>
+                    <td>รอการตรวจสอบ</td>
+                    <td><a href={url} ><button type="button" className="btn btn-primary">ดูข้อมูล</button></a> </td>
+                </tr>
+            )
+        })
+
+        return (
             <div className="Home">
-                <div className="container-fluid bg-blue-lv2 py-3 border-bottom">
+                <div className="container-fluid py-4">
                     <div className="row">
-                        <div className="col-lg-6">
-                            <h4 className="text-secondary">Title</h4>                            
-                            <Link to="/add" className="btn btn-primary">Add</Link>
-                        </div>
+                        <div className="col-lg-12">
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="row mb-2">
+                                        <div className="col-lg-12">
+                                            <div className="tab-content" id="myTabContent">
+                                                <div className="tab-pane fade show active" id="corpor3" role="tabpanel" aria-labelledby="corpor3-tab">
+                                                    <div className="Corpor3Form">
+                                                        <div className="row">
+                                                            <div className="col-lg-12">
+                                                                <div className="CarForm">
+                                                                    <div className="box">
+                                                                        <div className="box-header">
+                                                                            <h3 className="box-title">รายการ</h3>
+                                                                        </div>
+                                                                        <div className="box-body table-responsive no-padding">
+                                                                            <div className="box-body">
+                                                                                <div className="form-group">
+                                                                                    <select className="form-control">
+                                                                                        <option>กรุณาเลือก</option>
+                                                                                        <option>ห้ามใช้ชั่วคราว</option>
+                                                                                        <option>ห้ามใช้ชั่วคราวแต่ใกล้ครบกำหนดเวลา</option>
+                                                                                        <option>ยกเลิกคำสั่งห้ามใช้ชั่วคราว</option>
+                                                                                        <option>ห้ามใช้ชั่วคราวและเกินกำหนดเวลา 30 วัน</option>
+                                                                                        <option>ห้ามใช้เด็ดขาด</option>
+                                                                                        <option>ห้ามใช้ชั่วคราวและกำลังปรับปรุง</option>
+                                                                                        <option>ยกเลิกคำสั่งห้ามใช้เด็ดขาด</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <table className="table">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th>ทะเบียนรถ</th>
+                                                                                        <th>ทะเบียนจังหวัด</th>
+                                                                                        <th>ยี่ห้อยานพาหนะ</th>
+                                                                                        <th>วันที่ห้ามใช้ยานพาหนะ</th>
+                                                                                        <th>วันที่ออกใบอนุญาติ</th>
+                                                                                        <th>วันที่ขอให้ตรวจสอบ</th>
+                                                                                        <th>วัน/เวลาที่คำสั่งมีผล</th>
+                                                                                        <th>สถานะการตรวจ</th>
+                                                                                        <th></th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    {
+                                                                                        list_doc
+                                                                                    }
 
-                        <div className="col-lg-6">
-                            <form className="form-inline my-2 my-lg-0">
-                                <input className="form-control ml-auto mr-sm-2 w-75" type="search" placeholder="Search" aria-label="Search" />
-                                <button className="btn btn-default"><i className="fas fa-search"></i></button>
-                            </form>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                            <ul className="nav nav-pills" id="pills-tab" role="tablist">
-                                <li className="nav-item ml-auto">
-                                    <a className="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"><i className="fas fa-list-ul"></i></a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false"><i className="fas fa-chart-bar"></i></a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><i className="fas fa-calendar-alt"></i></a>                    
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><i className="fas fa-table"></i></a>  
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><i className="fas fa-align-left"></i></a>                    
-                                </li>
-                            </ul>
-                            {/* <div class="tab-content" id="pills-tabContent">
-                                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">...</div>
-                                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">...</div>
-                                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
-                            </div> */}
-                        </div>
-                    {/* /.row */}
-                    </div>
-                {/* /.container */}
-                </div>
-
-                <div className="container-fluid bg-gray-lv1 py-3">
-                    <div className="row">
-                        <div className="col-lg-12">                     
-                            <table className="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col">ทะเบียนรถ</th>
-                                        <th scope="col">ทะเบียนรถ</th>
-                                        <th scope="col">ทะเบียนรถ</th>
-                                        <th scope="col">ทะเบียนรถ</th>
-                                        <th scope="col">ทะเบียนรถ</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">ห้ามใช้ชั่วคราว (1)</th>                                        
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">ห้ามใช้ชั่วคราว (1)</th>                                        
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">ห้ามใช้ชั่วคราว (1)</th>                                        
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">ห้ามใช้ชั่วคราว (1)</th>                                        
-                                    </tr>
-                                </tbody>
-                            </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

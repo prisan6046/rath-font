@@ -3,9 +3,14 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './pages/Home';
 import Add from './pages/Add';
+import Chart from './pages/chart';
 import SignIn from './pages/login/SignIn';
 import SignUp from './pages/login/SignUp';
 import Logout from './pages/login/logout';
+import Adduser from './components/form/Adduser';
+import Addservice from './components/form/AddService';
+import AddLocation from './components/form/Addlocation'
+import ShowData from './components/show/formone'
 import Header from './components/templates/Header';
 
 
@@ -41,6 +46,11 @@ class RouteController extends Component{
                     <Switch wrapperComponent={Header}>             
                         <Route path="/home" component={Home} />
                         <Route path="/add" component={Add} />   
+                        <Route path="/chart" component={Chart} />
+                        <Route path="/adduser" component={Adduser} />
+                        <Route path="/addservicecar" component={Addservice} />
+                        <Route path="/addlocation" component={AddLocation} />
+                        <Route path="/showdata/:id" component={ShowData} />
                         <Route path="/logout" component={Logout} />                                                                   
                     </Switch>                
                 </DefaultLayout>    

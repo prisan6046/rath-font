@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './Login.scss';
 import { Link } from 'react-router-dom'
 import axios from 'axios';
+import store from '../../store/index';
 
 class SignIn extends Component {
 
@@ -19,6 +20,13 @@ class SignIn extends Component {
         this.handlePasswordChange = this.handlePasswordChange.bind(this)
       }
 
+      componentDidMount(){
+        this.state.token = localStorage.getItem('token');
+            if(this.state.token != null){
+               
+                this.props.history.push("/home")
+            }
+        }
 
       handleUserChange(e) {
         this.setState({
@@ -41,6 +49,7 @@ class SignIn extends Component {
         axios.post('http://34.73.123.38/api/token/authLogin', formData ).then(res => {
             if(res.data.status == 200){
                 localStorage.setItem('token' , res.data.token);
+                store.dispatch({ type : 'Profile' , payload : res.data.name })
                 this.props.history.push("/home");
             }else{
                 alert("เข้าสู่ระบบไม่สำเร็จ " + res.data.status)
