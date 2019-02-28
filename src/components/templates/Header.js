@@ -3,6 +3,7 @@ import { Link , withRouter } from 'react-router-dom';
 import axios from 'axios'
 import { connect } from 'react-redux';
 import store from '../../store/index'
+import './Template.scss';
 
 class Header extends Component {
 
@@ -43,18 +44,14 @@ class Header extends Component {
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
                         <Link className="navbar-brand" to="/">ข้อมูลการตรวจสอบยานพาหนะ</Link>
                         <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-                            <li className="nav-item active">
-                                <a className="nav-link" href="#"> <span className="sr-only">(current)</span></a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="/home">หน้าหลัก</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="/add">ลงข้อมูลแบบ คพ.</a>
-                            </li>
-            
-                            <li className="nav-item">
-                                <a className="nav-link" href="/chart">สรุปสถิติ</a>
+
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">หน้าหลัก</a>
+                                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a className="dropdown-item" href="/home">หน้าแรก</a>
+                                    <a className="dropdown-item" href="/add">ผู้ใช้งาน</a>
+                                    <a className="dropdown-item" href="/chart">สถิติ</a>
+                                </div>
                             </li>
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ตั้งค่าระบบ</a>

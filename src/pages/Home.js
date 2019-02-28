@@ -51,11 +51,30 @@ class Home extends Component {
 
         return (
             <div className="Home">
-                <div className="container-fluid py-4">
+                <div className="container-fluid p-0">
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="card">
-                                <div className="card-body">
+                                <div className="card-header bg-blue-lv2">
+                                    <div className="row">
+                                        <div className="col-lg-3">
+                                            <h3 className="box-title">รายการ</h3>
+                                        </div>
+                                        <div className="col-lg">
+                                            <select className="form-control">
+                                                <option>กรุณาเลือก</option>
+                                                <option>ห้ามใช้ชั่วคราว</option>
+                                                <option>ห้ามใช้ชั่วคราวแต่ใกล้ครบกำหนดเวลา</option>
+                                                <option>ยกเลิกคำสั่งห้ามใช้ชั่วคราว</option>
+                                                <option>ห้ามใช้ชั่วคราวและเกินกำหนดเวลา 30 วัน</option>
+                                                <option>ห้ามใช้เด็ดขาด</option>
+                                                <option>ห้ามใช้ชั่วคราวและกำลังปรับปรุง</option>
+                                                <option>ยกเลิกคำสั่งห้ามใช้เด็ดขาด</option>
+                                            </select>
+                                        </div>
+                                    </div>                                                                        
+                                </div>
+                                <div className="card-body bg-gray-lv1">
                                     <div className="row mb-2">
                                         <div className="col-lg-12">
                                             <div className="tab-content" id="myTabContent">
@@ -65,22 +84,10 @@ class Home extends Component {
                                                             <div className="col-lg-12">
                                                                 <div className="CarForm">
                                                                     <div className="box">
-                                                                        <div className="box-header">
-                                                                            <h3 className="box-title">รายการ</h3>
-                                                                        </div>
                                                                         <div className="box-body table-responsive no-padding">
                                                                             <div className="box-body">
                                                                                 <div className="form-group">
-                                                                                    <select className="form-control">
-                                                                                        <option>กรุณาเลือก</option>
-                                                                                        <option>ห้ามใช้ชั่วคราว</option>
-                                                                                        <option>ห้ามใช้ชั่วคราวแต่ใกล้ครบกำหนดเวลา</option>
-                                                                                        <option>ยกเลิกคำสั่งห้ามใช้ชั่วคราว</option>
-                                                                                        <option>ห้ามใช้ชั่วคราวและเกินกำหนดเวลา 30 วัน</option>
-                                                                                        <option>ห้ามใช้เด็ดขาด</option>
-                                                                                        <option>ห้ามใช้ชั่วคราวและกำลังปรับปรุง</option>
-                                                                                        <option>ยกเลิกคำสั่งห้ามใช้เด็ดขาด</option>
-                                                                                    </select>
+                                                                                    
                                                                                 </div>
                                                                             </div>
                                                                             <table className="table">
@@ -119,7 +126,7 @@ class Home extends Component {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>                
             </div>
         )
     }

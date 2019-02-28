@@ -12,6 +12,7 @@ import Addservice from './components/form/AddService';
 import AddLocation from './components/form/Addlocation'
 import ShowData from './components/show/formone'
 import Header from './components/templates/Header';
+import Side from './components/templates/Side';
 
 
 const NotFoundPage = () => <div>
@@ -33,28 +34,37 @@ class RouteController extends Component{
         const DefaultLayout = ({children}) => (
             <div className="DefaultLayout">
                 <Header/>
-                {children}
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-lg-2 bg-black px-0">
+                            <Side />
+                        </div>
+                        <div className="col-lg px-0">
+                            {children}
+                        </div>
+                    </div>
+                </div>                
             </div>
         );
         return(
             <div>
                 <Switch>
-                <Route exact path="/" component={SignIn} />       
-                <Route path="/signin" render={() => <SignIn/>} />
-                <Route path="/signup" render={() => <SignUp/>} />  
-                <DefaultLayout>
-                    <Switch wrapperComponent={Header}>             
-                        <Route path="/home" component={Home} />
-                        <Route path="/add" component={Add} />   
-                        <Route path="/chart" component={Chart} />
-                        <Route path="/adduser" component={Adduser} />
-                        <Route path="/addservicecar" component={Addservice} />
-                        <Route path="/addlocation" component={AddLocation} />
-                        <Route path="/showdata/:id" component={ShowData} />
-                        <Route path="/logout" component={Logout} />                                                                   
-                    </Switch>                
-                </DefaultLayout>    
-                <Route component={NotFoundPage} />      
+                    <Route exact path="/" component={SignIn} />       
+                    <Route path="/signin" render={() => <SignIn/>} />
+                    <Route path="/signup" render={() => <SignUp/>} />  
+                    <DefaultLayout>
+                        <Switch wrapperComponent={Header}>             
+                            <Route path="/home" component={Home} />
+                            <Route path="/add" component={Add} />   
+                            <Route path="/chart" component={Chart} />
+                            <Route path="/adduser" component={Adduser} />
+                            <Route path="/addservicecar" component={Addservice} />
+                            <Route path="/addlocation" component={AddLocation} />
+                            <Route path="/showdata/:id" component={ShowData} />
+                            <Route path="/logout" component={Logout} />                                                                   
+                        </Switch>                
+                    </DefaultLayout>    
+                    <Route component={NotFoundPage} />      
                 </Switch>      
             </div>
         );
