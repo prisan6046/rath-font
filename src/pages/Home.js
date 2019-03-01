@@ -36,6 +36,7 @@ class Home extends Component {
             let url = "/showdata/"+val._id.$oid
             return list_doc.push(
                 <tr key={i}>
+                    <td>{i}</td>
                     <td>{val.avg_car_number}</td>
                     <td>{val.avg_car_province}</td>
                     <td>{val.avg_car_brand}</td>
@@ -48,6 +49,16 @@ class Home extends Component {
                 </tr>
             )
         })
+
+        const car_statuses = [
+            'ห้ามใช้ชั่วคราว',
+            'ห้ามใช้ชั่วคราวแต่ใกล้ครบกำหนดเวลา',
+            'ยกเลิกคำสั่งห้ามใช้ชั่วคราว',
+            'ห้ามใช้ชั่วคราวและเกินกำหนดเวลา 30 วัน',
+            'ห้ามใช้เด็ดขาด',
+            'ห้ามใช้ชั่ห้ามใช้ชั่วคราวและกำลังปรับปรุงวคราว',
+            'ยกเลิกคำสั่งห้ามใช้เด็ดขาด'
+        ];
 
         return (
             <div className="Home">
@@ -90,9 +101,10 @@ class Home extends Component {
                                                                                     
                                                                                 </div>
                                                                             </div>
-                                                                            <table className="table">
+                                                                            <table className="table table-home">
                                                                                 <thead>
                                                                                     <tr>
+                                                                                        <th className="w-25"></th>
                                                                                         <th>ทะเบียนรถ</th>
                                                                                         <th>ทะเบียนจังหวัด</th>
                                                                                         <th>ยี่ห้อยานพาหนะ</th>
@@ -105,10 +117,22 @@ class Home extends Component {
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                    {
-                                                                                        list_doc
-                                                                                    }
-
+                                                                                    {car_statuses.map((val, i) => {
+                                                                                            return (
+                                                                                                <tr key={i}>
+                                                                                                    <td><i class="fas fa-caret-right"></i> {val} (10)</td>
+                                                                                                    <td></td>
+                                                                                                    <td></td>
+                                                                                                    <td></td>
+                                                                                                    <td></td>
+                                                                                                    <td></td>
+                                                                                                    <td></td>
+                                                                                                    <td></td>
+                                                                                                    <td></td>
+                                                                                                    <td></td>
+                                                                                                </tr>
+                                                                                            );
+                                                                                        })}
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>
@@ -123,6 +147,7 @@ class Home extends Component {
                                         </div>
                                     </div>
                                 </div>
+                                <div class="card-footer bg-blue-lv1 p-0">&nbsp;</div>
                             </div>
                         </div>
                     </div>

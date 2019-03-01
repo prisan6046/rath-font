@@ -44,3 +44,24 @@ code {
 .bg-black{
 	background: #000;
 }
+
+.font-12-px{
+	font-size: 12px;
+}
+
+.table-home{
+	font-size: 12px;
+
+	thead{		
+		th{
+			padding: 5px !important;
+		}
+	}
+
+	tbody{
+		font-weight: bold;
+		td{
+			padding: 5px !important;
+		}
+	}
+}
