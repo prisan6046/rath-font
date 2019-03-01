@@ -60,98 +60,82 @@ class Home extends Component {
             'ยกเลิกคำสั่งห้ามใช้เด็ดขาด'
         ];
 
+        const color_collapse = ['#FFFF98', '#FF66CB', '#98CB02', '#FF9836', '#FF0001', '#A4A4A4', '#36CB36'];
+
         return (
             <div className="Home">
-                <div className="container-fluid p-0">
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="card">
-                                <div className="card-header bg-blue-lv2">
-                                    <div className="row">
-                                        <div className="col-lg-3">
-                                            <h3 className="box-title">รายการ</h3>
-                                        </div>
-                                        <div className="col-lg">
-                                            <select className="form-control">
-                                                <option>กรุณาเลือก</option>
-                                                <option>ห้ามใช้ชั่วคราว</option>
-                                                <option>ห้ามใช้ชั่วคราวแต่ใกล้ครบกำหนดเวลา</option>
-                                                <option>ยกเลิกคำสั่งห้ามใช้ชั่วคราว</option>
-                                                <option>ห้ามใช้ชั่วคราวและเกินกำหนดเวลา 30 วัน</option>
-                                                <option>ห้ามใช้เด็ดขาด</option>
-                                                <option>ห้ามใช้ชั่วคราวและกำลังปรับปรุง</option>
-                                                <option>ยกเลิกคำสั่งห้ามใช้เด็ดขาด</option>
-                                            </select>
-                                        </div>
-                                    </div>                                                                        
+                <div className="col-lg-12 p-0">
+                    <div className="card">
+                        <div className="card-header bg-blue-lv2">
+                            <div className="row">
+                                <div className="col-lg-3">
+                                    <h3 className="box-title">รายการ</h3>
                                 </div>
-                                <div className="card-body bg-gray-lv1">
-                                    <div className="row mb-2">
-                                        <div className="col-lg-12">
-                                            <div className="tab-content" id="myTabContent">
-                                                <div className="tab-pane fade show active" id="corpor3" role="tabpanel" aria-labelledby="corpor3-tab">
-                                                    <div className="Corpor3Form">
-                                                        <div className="row">
-                                                            <div className="col-lg-12">
-                                                                <div className="CarForm">
-                                                                    <div className="box">
-                                                                        <div className="box-body table-responsive no-padding">
-                                                                            <div className="box-body">
-                                                                                <div className="form-group">
-                                                                                    
-                                                                                </div>
-                                                                            </div>
-                                                                            <table className="table table-home">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th className="w-25"></th>
-                                                                                        <th>ทะเบียนรถ</th>
-                                                                                        <th>ทะเบียนจังหวัด</th>
-                                                                                        <th>ยี่ห้อยานพาหนะ</th>
-                                                                                        <th>วันที่ห้ามใช้ยานพาหนะ</th>
-                                                                                        <th>วันที่ออกใบอนุญาติ</th>
-                                                                                        <th>วันที่ขอให้ตรวจสอบ</th>
-                                                                                        <th>วัน/เวลาที่คำสั่งมีผล</th>
-                                                                                        <th>สถานะการตรวจ</th>
-                                                                                        <th></th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                    {car_statuses.map((val, i) => {
-                                                                                            return (
-                                                                                                <tr key={i}>
-                                                                                                    <td><i class="fas fa-caret-right"></i> {val} (10)</td>
-                                                                                                    <td></td>
-                                                                                                    <td></td>
-                                                                                                    <td></td>
-                                                                                                    <td></td>
-                                                                                                    <td></td>
-                                                                                                    <td></td>
-                                                                                                    <td></td>
-                                                                                                    <td></td>
-                                                                                                    <td></td>
-                                                                                                </tr>
-                                                                                            );
-                                                                                        })}
-                                                                                </tbody>
-                                                                            </table>
+                                <div className="col-lg">
+                                    {/* <select className="form-control">
+                                        <option>กรุณาเลือก</option>
+                                        <option>ห้ามใช้ชั่วคราว</option>
+                                        <option>ห้ามใช้ชั่วคราวแต่ใกล้ครบกำหนดเวลา</option>
+                                        <option>ยกเลิกคำสั่งห้ามใช้ชั่วคราว</option>
+                                        <option>ห้ามใช้ชั่วคราวและเกินกำหนดเวลา 30 วัน</option>
+                                        <option>ห้ามใช้เด็ดขาด</option>
+                                        <option>ห้ามใช้ชั่วคราวและกำลังปรับปรุง</option>
+                                        <option>ยกเลิกคำสั่งห้ามใช้เด็ดขาด</option>
+                                    </select> */}
+                                </div>
+                            </div>                                                                        
+                        </div>
+                        <div className="card-body bg-gray-lv1">
+                            <div className="row mb-2">
+                                <div className="col-lg-12">
+                                    <table className="table table-home">
+                                        <thead>
+                                            <tr>
+                                                <th className="w-25"></th>
+                                                <th><input type="checkbox" name="id_car" id="id_car" className="bg-white" /> ทะเบียนรถ</th>
+                                                <th>ทะเบียนจังหวัด</th>
+                                                <th>ยี่ห้อยานพาหนะ</th>
+                                                <th>วันที่ห้ามใช้ยานพาหนะ</th>
+                                                <th>วันที่ออกใบอนุญาติ</th>
+                                                <th>วันที่ขอให้ตรวจสอบ</th>
+                                                <th>วัน/เวลาที่คำสั่งมีผล</th>
+                                                <th>สถานะการตรวจ</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colSpan="9">
+                                                    <div class="list-group">
+                                                        {car_statuses.map((val, i) => {
+                                                            return (
+                                                                <div>
+                                                                    <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href={`#collapseExample-${i}`} role="button" aria-expanded="false" aria-controls={`collapseExample-${i}`}><i class="fas fa-caret-right"></i> {val} ({Object.keys(this.state.list_doc).length})</a>
+                                                                    <div class="collapse" id={`collapseExample-${i}`}>
+                                                                        <div className="card card-body" style={{backgroundColor: color_collapse[i]}}>
+                                                                            {this.state.list_doc.map((val, i) => {
+                                                                                return(
+                                                                                    <table>
+                                                                                        {list_doc}
+                                                                                    </table>
+                                                                                )
+                                                                            })}                                                                            
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
+                                                            );
+                                                        })}
                                                     </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
+                                                </td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="card-footer bg-blue-lv1 p-0">&nbsp;</div>
                             </div>
                         </div>
+                        <div class="card-footer bg-blue-lv1 p-0">&nbsp;</div>
                     </div>
-                </div>                
+                </div>              
             </div>
         )
     }
