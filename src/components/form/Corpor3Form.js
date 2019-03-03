@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import store from '../../store/index';
+import { url } from '../../parameter/index'
 
 class Corpor3Form extends Component {
 
     componentDidMount() {
         this.state.token = localStorage.getItem('token');
-        axios.get('http://34.73.123.38/api/token/province').then(res => {
+        axios.get(url+'/province').then(res => {
             this.setState({ data_province: res.data })
         })
 
-        fetch('http://34.73.123.38/api/token/get_all_user?token=' + this.state.token)
+        fetch(url+'/get_all_user?token=' + this.state.token)
             .then((Response) => Response.json())
             .then((res) => {
                 this.setState({
@@ -239,7 +240,7 @@ class Corpor3Form extends Component {
 
         })
         if(e.target.value != ''){
-            fetch('http://34.73.123.38/api/token/get_user_one?id=' + e.target.value)
+            fetch(url+'/get_user_one?id=' + e.target.value)
             .then((Response) => Response.json())
             .then((res) => {
                 this.setState({

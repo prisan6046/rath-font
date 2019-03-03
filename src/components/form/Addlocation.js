@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
+import { url } from './../../parameter/index'
+
 
 class AddService extends Component {
 
@@ -27,7 +29,7 @@ class AddService extends Component {
         var formData = new FormData();
         formData.append('name_location', this.state.name_location);
         
-        axios.post('http://34.73.123.38/api/token/add_location', formData).then(res => {
+        axios.post(url+'/add_location', formData).then(res => {
             alert("บันทึกสำเร็จ")
             // this.setState({ 
             //     name_service: '' 
@@ -40,7 +42,7 @@ class AddService extends Component {
 
     componentDidMount() {
         this.state.token = localStorage.getItem('token');
-        fetch('http://34.73.123.38/api/token/get_location?token=' + this.state.token)
+        fetch(url+'/get_location?token=' + this.state.token)
             .then((Response) => Response.json())
             .then((res) => {
                 this.setState({

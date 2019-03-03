@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { url } from '../../parameter/index'
+
 
 class CarForm extends Component {
 
@@ -12,7 +14,7 @@ class CarForm extends Component {
     }
 
     componentDidMount(){
-        axios.get('http://34.73.123.38/api/token/province').then(res => {
+        axios.get(url+'/province').then(res => {
             this.setState({ data_province : res.data })
         })
 

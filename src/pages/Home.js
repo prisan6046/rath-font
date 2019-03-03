@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import {url} from '../parameter/index'
 
 class Home extends Component {
 
@@ -14,32 +15,30 @@ class Home extends Component {
     }
 
     componentDidMount() {
-       
 
-            this.state.token = localStorage.getItem('token');
-            console.log(this.state.token)
-            if (this.state.token == null) {
-                this.props.history.push("/")
-            }
-        fetch('http://34.73.123.38/api/token/get_all_doc?token=' + this.state.token)
+
+        this.state.token = localStorage.getItem('token');
+        if (this.state.token == null) {
+            this.props.history.push("/")
+        }
+        fetch(url+'/get_all_doc?token=' + this.state.token)
             .then((Response) => Response.json())
             .then((res) => {
                 this.setState({
                     list_doc: res
                 })
-                console.log(res)
-            }).catch(function() {
+            }).catch(function () {
                 localStorage.removeItem('token');
-                window.location.href = '/'; 
+                window.location.href = '/';
             });
-        
+
     }
 
     render() {
 
         let list_doc = []
         this.state.list_doc.map((val, i) => {
-            let url = "/showdata/"+val._id.$oid
+            let url = "/showdata/" + val._id.$oid
             return list_doc.push(
                 <tr key={i}>
                     <td></td>
@@ -50,8 +49,8 @@ class Home extends Component {
                     <td>{val.date_check}</td>
                     <td>{val.date_check}</td>
                     <td>{val.date_check}</td>
-                    <td>รอการตรวจสอบ</td>
-                    
+                    <td></td>
+
                 </tr>
             )
         })
@@ -89,7 +88,7 @@ class Home extends Component {
                                         <option>ยกเลิกคำสั่งห้ามใช้เด็ดขาด</option>
                                     </select> */}
                                 </div>
-                            </div>                                                                        
+                            </div>
                         </div>
                         <div className="card-body bg-gray-lv1">
                             <div className="row mb-2">
@@ -108,46 +107,46 @@ class Home extends Component {
                                                 <th>สถานะการตรวจ</th>
                                             </tr>
                                         </thead>
-                                        
-                                            {car_statuses.map((val, i) => {
-                                                return (    
-                                                    <tbody>                                                
-                                                        <tr>
-                                                            <td colSpan="9">
-                                                                <div class="list-group">
-                                                                    <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href={`#collapseExample-${i}`} role="button" aria-expanded="false" aria-controls={`collapseExample-${i}`}><i class="fas fa-caret-right"></i> {val} ({Object.keys(this.state.list_doc).length})</a>
-                                                                </div>
-                                                            </td>                                                                                                                        
-                                                        </tr>
-                                                        
-                                                        {this.state.list_doc.map((val, n) => {
-                                                            let url = "/showdata/"+val._id.$oid
-                                                            return(
-                                                                <tr key={n} className="collapse" id={`collapseExample-${i}`} style={{backgroundColor: color_collapse[i]}}>
-                                                                    {/* <div className="card card-body" style={{backgroundColor: color_collapse[i]}}> */}
-                                                                        <td className="border-0"></td>
-                                                                        <td className="border-0"><Link to={url} className="text-dark">{val.avg_car_number}</Link></td>
-                                                                        <td className="border-0">{val.avg_car_province}</td>
-                                                                        <td className="border-0">{val.avg_car_brand}</td>
-                                                                        <td className="border-0">{val.date_not_allow}</td>
-                                                                        <td className="border-0">{val.date_check}</td>
-                                                                        <td className="border-0">{val.date_check}</td>
-                                                                        <td className="border-0">{val.date_check}</td>
-                                                                        <td className="border-0">รอการตรวจสอบ</td>
-                                                                    {/* </div> */}
-                                                                </tr>  
-                                                            );
-                                                        })}
-                                                    </tbody>
-                                                );
-                                            })}                                        
+
+                                        {car_statuses.map((val, i) => {
+                                            return (
+                                                <tbody>
+                                                    <tr>
+                                                        <td colSpan="9">
+                                                            <div className="list-group">
+                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href={`#collapseExample-${i}`} role="button" aria-expanded="false" aria-controls={`collapseExample-${i}`}><i className="fas fa-caret-right"></i> {val} ({Object.keys(this.state.list_doc).length})</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    {this.state.list_doc.map((val, n) => {
+                                                        let url = "/showdata/" + val._id.$oid
+                                                        return (
+                                                            <tr key={n} className="collapse" id={`collapseExample-${i}`} style={{ backgroundColor: color_collapse[i] }}>
+                                                                {/* <div className="card card-body" style={{backgroundColor: color_collapse[i]}}> */}
+                                                                <td className="border-0"></td>
+                                                                <td className="border-0"><Link to={url} className="text-dark">{val.avg_car_number}</Link></td>
+                                                                <td className="border-0">{val.avg_car_province}</td>
+                                                                <td className="border-0">{val.avg_car_brand}</td>
+                                                                <td className="border-0">{val.date_not_allow}</td>
+                                                                <td className="border-0">{val.date_check}</td>
+                                                                <td className="border-0">{val.date_check}</td>
+                                                                <td className="border-0">{val.date_check}</td>
+                                                                <td className="border-0">{car_statuses[i]}</td>
+                                                                {/* </div> */}
+                                                            </tr>
+                                                        );
+                                                    })}
+                                                </tbody>
+                                            );
+                                        })}
                                     </table>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer bg-blue-lv1 p-0">&nbsp;</div>
+                        <div className="card-footer bg-blue-lv1 p-0">&nbsp;</div>
                     </div>
-                </div>              
+                </div>
             </div>
         )
     }

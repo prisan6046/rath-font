@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import CarForm from './CarForm';
 import axios from 'axios';
+import { url } from '../../parameter/index'
 
 class Corpor6Form extends Component {
 
@@ -100,7 +101,7 @@ class Corpor6Form extends Component {
         formData.append('date_now', this.state.date_now);
         formData.append('staff_id', this.state.staff_id);
 
-        axios.post('http://34.73.123.38/api/token/carForm_four', formData, {
+        axios.post(url+'/carForm_four', formData, {
             onUploadProgress: ProgressEvent => {
                 this.setState({ loaded: 'upload'})
             },

@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import CarForm from './CarForm';
 import axios from 'axios';
+import { url } from '../../parameter/index'
 
 class Corpor4Form extends Component {
 
     componentDidMount(){
         this.state.token = localStorage.getItem('token');
-        fetch('http://34.73.123.38/api/token/get_all_user?token=' + this.state.token)
+        fetch(url+'/get_all_user?token=' + this.state.token)
             .then((Response) => Response.json())
             .then((res) => {
                 this.setState({
@@ -103,7 +104,7 @@ class Corpor4Form extends Component {
         })
 
         if(e.target.value != ''){
-            fetch('http://34.73.123.38/api/token/get_user_one?id=' + e.target.value)
+            fetch(url+'/get_user_one?id=' + e.target.value)
             .then((Response) => Response.json())
             .then((res) => {
                 this.setState({

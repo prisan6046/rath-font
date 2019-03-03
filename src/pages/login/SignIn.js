@@ -3,6 +3,7 @@ import './Login.scss';
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 import store from '../../store/index';
+import { url } from '../../parameter/index'
 
 class SignIn extends Component {
 
@@ -47,7 +48,7 @@ class SignIn extends Component {
         formData.append('user', this.state.user);
         formData.append('pass', this.state.password);
 
-        axios.post('http://34.73.123.38/api/token/authLogin', formData).then(res => {
+        axios.post(url+'/authLogin', formData).then(res => {
             if (res.data.status == 200) {
                 localStorage.setItem('token', res.data.token);
                 store.dispatch({ type: 'Profile', payload: res.data.name })

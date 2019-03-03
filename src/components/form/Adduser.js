@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
+import { url } from '../../parameter/index'
 
 class AddUser extends Component {
 
@@ -59,7 +60,7 @@ class AddUser extends Component {
         formData.append('user', this.state.username);
         formData.append('pass', this.state.password);
 
-        axios.post('http://34.73.123.38/api/token/authRegister', formData).then(res => {
+        axios.post(url+'/authRegister', formData).then(res => {
             alert("บันทึกสำเร็จ")
             this.setState({ name: '' })
             this.setState({ point: '' })
@@ -71,7 +72,7 @@ class AddUser extends Component {
 
     componentDidMount() {
         this.state.token = localStorage.getItem('token');
-        fetch('http://34.73.123.38/api/token/get_all_user?token=' + this.state.token)
+        fetch(url+'/get_all_user?token=' + this.state.token)
             .then((Response) => Response.json())
             .then((res) => {
                 this.setState({
