@@ -21,14 +21,14 @@ class SignIn extends Component {
         this.handlePasswordChange = this.handlePasswordChange.bind(this)
     }
 
-    componentDidMount() {
-        this.state.token = localStorage.getItem('token');
-        if (this.state.token != null) {
+    // componentDidMount() {
+    //     this.state.token = localStorage.getItem('token');
+    //     if (this.state.token != null) {
 
-            window.location.href = '/';
+    //         window.location.href = '/';
 
-        }
-    }
+    //     }
+    // }
 
     handleUserChange(e) {
         this.setState({
