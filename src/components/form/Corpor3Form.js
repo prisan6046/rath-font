@@ -338,10 +338,7 @@ class Corpor3Form extends Component {
         return (
             <div>
                 <div className="Corpor3Form">
-                    <br />
-                    <a href="http://localhost:3001/pdf_one"> <button type="button" className="btn btn-primary">พิมพ์เอกสาร (คพ.๓)</button></a>
-                    <br />
-                    <br />
+                  
                     <form onSubmit={this.handleSubmit} >
                         <div className="row">
                             <div className="col-lg-6">

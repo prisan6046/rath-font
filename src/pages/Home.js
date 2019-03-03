@@ -14,11 +14,13 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        this.state.token = localStorage.getItem('token');
-        if (this.state.token == null) {
-            this.props.history.push("/")
-        }
+       
 
+            this.state.token = localStorage.getItem('token');
+            console.log(this.state.token)
+            if (this.state.token == null) {
+                this.props.history.push("/")
+            }
         fetch('http://34.73.123.38/api/token/get_all_doc?token=' + this.state.token)
             .then((Response) => Response.json())
             .then((res) => {
@@ -26,7 +28,11 @@ class Home extends Component {
                     list_doc: res
                 })
                 console.log(res)
-            })
+            }).catch(function() {
+                localStorage.removeItem('token');
+                window.location.href = '/'; 
+            });
+        
     }
 
     render() {

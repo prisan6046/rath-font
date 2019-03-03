@@ -9,33 +9,34 @@ class SignIn extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.state = { 
-            user : '',
-            password : '',
-            client_id :'',
-            client_secret : '',
+        this.state = {
+            user: '',
+            password: '',
+            client_id: '',
+            client_secret: '',
         };
 
         this.handleUserChange = this.handleUserChange.bind(this)
         this.handlePasswordChange = this.handlePasswordChange.bind(this)
-      }
+    }
 
-      componentDidMount(){
+    componentDidMount() {
         this.state.token = localStorage.getItem('token');
-            if(this.state.token != null){
-               
-                this.props.history.push("/home")
-            }
-        }
+        if (this.state.token != null) {
 
-      handleUserChange(e) {
+            window.location.href = '/';
+
+        }
+    }
+
+    handleUserChange(e) {
         this.setState({
-            user : e.target.value
+            user: e.target.value
         });
     }
     handlePasswordChange(e) {
         this.setState({
-            password : e.target.value
+            password: e.target.value
         });
     }
 
@@ -46,23 +47,23 @@ class SignIn extends Component {
         formData.append('user', this.state.user);
         formData.append('pass', this.state.password);
 
-        axios.post('http://34.73.123.38/api/token/authLogin', formData ).then(res => {
-            if(res.data.status == 200){
-                localStorage.setItem('token' , res.data.token);
-                store.dispatch({ type : 'Profile' , payload : res.data.name })
+        axios.post('http://34.73.123.38/api/token/authLogin', formData).then(res => {
+            if (res.data.status == 200) {
+                localStorage.setItem('token', res.data.token);
+                store.dispatch({ type: 'Profile', payload: res.data.name })
                 this.props.history.push("/home");
-            }else{
+            } else {
                 alert("เข้าสู่ระบบไม่สำเร็จ " + res.data.status)
-                this.setState({ user : ''})
-                this.setState({ password : ''})
+                this.setState({ user: '' })
+                this.setState({ password: '' })
             }
-            
+
         })
 
     }
 
     render() {
-        return(
+        return (
             <div className="SignIn">
                 <div className="container">
                     <div className="row">
@@ -70,12 +71,12 @@ class SignIn extends Component {
                             <div className="card bg-light">
                                 <div className="card-body h-fixed">
                                     <div className="form-group mb-5 text-center">
-                                        <img src="/assets/img/company_logo.png" className="img-fluid logo-login"/>
-                                    </div>         
-                                    <form onSubmit={this.handleSubmit} >                        
+                                        <img src="/assets/img/company_logo.png" className="img-fluid logo-login" />
+                                    </div>
+                                    <form onSubmit={this.handleSubmit} >
                                         <div className="form-group text-center">
                                             <label htmlFor="">Email</label>
-                                            <input type="text" value={this.state.user } onChange={this.handleUserChange} className="form-control" name="name" />
+                                            <input type="text" value={this.state.user} onChange={this.handleUserChange} className="form-control" name="name" />
                                         </div>
                                         <div className="form-group text-center">
                                             <label htmlFor="">Password</label>
@@ -85,11 +86,11 @@ class SignIn extends Component {
                                             <div className="mx-auto">
                                                 <button to="" className="btn btn-primary mr-2">เข้าสู่ระบบ</button>
                                                 <Link to="/signup" className="btn btn-default">ลงทะเบียน</Link>
-                                            </div>                                                                                
+                                            </div>
                                         </div>
-                                    </form>  
+                                    </form>
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
                     </div>
                 </div>
