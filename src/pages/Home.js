@@ -75,6 +75,7 @@ class Home extends Component {
                             <div className="row">
                                 <div className="col-lg-3">
                                     <h3 className="box-title">รายการ</h3>
+                                    <a href="/add"><button className="btn btn-primary">ลงข้อมูลแบบ คพ.</button></a>
                                 </div>
                                 <div className="col-lg">
                                     {/* <select className="form-control">
@@ -243,7 +244,7 @@ class Home extends Component {
                                                     </tr>
                                                     {this.state.list_doc.map((val, n) => {
                                                         let url = "/showdata/" + val._id.$oid
-                                                        if (val.res_check == "ห้ามใช้เด็ดขาด"){
+                                                        if (val.res_check == "ห้ามใช้ยานพาหนะเด็ดขาด"){
                                                             return (
                                                                 <tr key={n} className="collapse" id="collapseExample-4" style={{ backgroundColor: color_collapse[4] }}>
                                                                     {/* <div className="card card-body" style={{backgroundColor: color_collapse[i]}}> */}

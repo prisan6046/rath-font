@@ -13,6 +13,7 @@ import AddLocation from './components/form/Addlocation'
 import ShowData from './components/show/formone'
 import Header from './components/templates/Header';
 import Side from './components/templates/Side';
+import PDF from './components/form/craetePDF'
 
 
 const NotFoundPage = () => <div>
@@ -61,7 +62,9 @@ class RouteController extends Component{
                             <Route path="/addservicecar" component={Addservice} />
                             <Route path="/addlocation" component={AddLocation} />
                             <Route path="/showdata/:id" component={ShowData} />
-                            <Route path="/logout" component={Logout} />                                                                   
+                            <Route path="/logout" component={Logout} />  
+                                
+                            <Route path="/PDF" component={PDF} />                                                              
                         </Switch>                
                     </DefaultLayout>    
                     <Route component={NotFoundPage} />      

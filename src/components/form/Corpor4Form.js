@@ -136,7 +136,7 @@ class Corpor4Form extends Component {
         formData.append('end_remove_car', this.state.end_remove_car);
         
 
-        axios.post('http://34.73.123.38/api/token/carForm_two', formData, {
+        axios.post(url+'/carForm_two', formData, {
             onUploadProgress: ProgressEvent => {
                 this.setState({ loaded: 'upload'})
             },

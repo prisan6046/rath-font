@@ -49,7 +49,7 @@ class Header extends Component {
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">หน้าหลัก</a>
                                 <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a className="dropdown-item" href="/home">หน้าแรก</a>
-                                    <a className="dropdown-item" href="/add">ผู้ใช้งาน</a>
+                                    <a className="dropdown-item" href="/adduser">ผู้ใช้งาน</a>
                                     <a className="dropdown-item" href="/chart">สถิติ</a>
                                 </div>
                             </li>

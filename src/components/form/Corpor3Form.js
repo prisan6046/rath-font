@@ -282,7 +282,7 @@ class Corpor3Form extends Component {
         formData.append('home_province', this.state.home_province);
         formData.append('home_tel', this.state.home_tel);
 
-        axios.post('http://34.73.123.38/api/token/carForm_one', formData, {
+        axios.post(url+'/carForm_one', formData, {
             onUploadProgress: ProgressEvent => {
                 this.setState({ loaded: 'upload' })
             },
