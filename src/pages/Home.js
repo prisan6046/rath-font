@@ -42,7 +42,7 @@ class Home extends Component {
             let url = "/showdata/"+val._id.$oid
             return list_doc.push(
                 <tr key={i}>
-                    <td>{i}</td>
+                    <td></td>
                     <td>{val.avg_car_number}</td>
                     <td>{val.avg_car_province}</td>
                     <td>{val.avg_car_brand}</td>
@@ -51,7 +51,7 @@ class Home extends Component {
                     <td>{val.date_check}</td>
                     <td>{val.date_check}</td>
                     <td>รอการตรวจสอบ</td>
-                    <td><a href={url} ><button type="button" className="btn btn-primary">ดูข้อมูล</button></a> </td>
+                    
                 </tr>
             )
         })
@@ -108,33 +108,39 @@ class Home extends Component {
                                                 <th>สถานะการตรวจ</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td colSpan="9">
-                                                    <div class="list-group">
-                                                        {car_statuses.map((val, i) => {
-                                                            return (
-                                                                <div>
+                                        
+                                            {car_statuses.map((val, i) => {
+                                                return (    
+                                                    <tbody>                                                
+                                                        <tr>
+                                                            <td colSpan="9">
+                                                                <div class="list-group">
                                                                     <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href={`#collapseExample-${i}`} role="button" aria-expanded="false" aria-controls={`collapseExample-${i}`}><i class="fas fa-caret-right"></i> {val} ({Object.keys(this.state.list_doc).length})</a>
-                                                                    <div class="collapse" id={`collapseExample-${i}`}>
-                                                                        <div className="card card-body" style={{backgroundColor: color_collapse[i]}}>
-                                                                            {this.state.list_doc.map((val, i) => {
-                                                                                return(
-                                                                                    <table>
-                                                                                        {list_doc}
-                                                                                    </table>
-                                                                                )
-                                                                            })}                                                                            
-                                                                        </div>
-                                                                    </div>
                                                                 </div>
+                                                            </td>                                                                                                                        
+                                                        </tr>
+                                                        
+                                                        {this.state.list_doc.map((val, n) => {
+                                                            let url = "/showdata/"+val._id.$oid
+                                                            return(
+                                                                <tr key={n} className="collapse" id={`collapseExample-${i}`} style={{backgroundColor: color_collapse[i]}}>
+                                                                    {/* <div className="card card-body" style={{backgroundColor: color_collapse[i]}}> */}
+                                                                        <td className="border-0"></td>
+                                                                        <td className="border-0"><Link to={url} className="text-dark">{val.avg_car_number}</Link></td>
+                                                                        <td className="border-0">{val.avg_car_province}</td>
+                                                                        <td className="border-0">{val.avg_car_brand}</td>
+                                                                        <td className="border-0">{val.date_not_allow}</td>
+                                                                        <td className="border-0">{val.date_check}</td>
+                                                                        <td className="border-0">{val.date_check}</td>
+                                                                        <td className="border-0">{val.date_check}</td>
+                                                                        <td className="border-0">รอการตรวจสอบ</td>
+                                                                    {/* </div> */}
+                                                                </tr>  
                                                             );
                                                         })}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            
-                                        </tbody>
+                                                    </tbody>
+                                                );
+                                            })}                                        
                                     </table>
                                 </div>
                             </div>
