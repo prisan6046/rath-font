@@ -61,7 +61,7 @@ class Home extends Component {
             'ยกเลิกคำสั่งห้ามใช้ชั่วคราว',
             'ห้ามใช้ชั่วคราวและเกินกำหนดเวลา 30 วัน',
             'ห้ามใช้เด็ดขาด',
-            'ห้ามใช้ชั่ห้ามใช้ชั่วคราวและกำลังปรับปรุงวคราว',
+            'ห้ามใช้ห้ามใช้ชั่วคราวและกำลังปรับปรุงชั่วคราว',
             'ยกเลิกคำสั่งห้ามใช้เด็ดขาด'
         ];
 
@@ -108,38 +108,223 @@ class Home extends Component {
                                             </tr>
                                         </thead>
 
-                                        {car_statuses.map((val, i) => {
-                                            return (
+                                      
                                                 <tbody>
                                                     <tr>
                                                         <td colSpan="9">
                                                             <div className="list-group">
-                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href={`#collapseExample-${i}`} role="button" aria-expanded="false" aria-controls={`collapseExample-${i}`}><i className="fas fa-caret-right"></i> {val} ({Object.keys(this.state.list_doc).length})</a>
+                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-0" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[0]}</i></a>
                                                             </div>
                                                         </td>
                                                     </tr>
-
                                                     {this.state.list_doc.map((val, n) => {
                                                         let url = "/showdata/" + val._id.$oid
-                                                        return (
-                                                            <tr key={n} className="collapse" id={`collapseExample-${i}`} style={{ backgroundColor: color_collapse[i] }}>
-                                                                {/* <div className="card card-body" style={{backgroundColor: color_collapse[i]}}> */}
-                                                                <td className="border-0"></td>
-                                                                <td className="border-0"><Link to={url} className="text-dark">{val.avg_car_number}</Link></td>
-                                                                <td className="border-0">{val.avg_car_province}</td>
-                                                                <td className="border-0">{val.avg_car_brand}</td>
-                                                                <td className="border-0">{val.date_not_allow}</td>
-                                                                <td className="border-0">{val.date_check}</td>
-                                                                <td className="border-0">{val.date_check}</td>
-                                                                <td className="border-0">{val.date_check}</td>
-                                                                <td className="border-0">{car_statuses[i]}</td>
-                                                                {/* </div> */}
-                                                            </tr>
-                                                        );
+                                                        if (val.res_check == "ห้ามใช้ยานพาหนะชั่วคราว"){
+                                                            return (
+                                                                <tr key={n} className="collapse" id="collapseExample-0" style={{ backgroundColor: color_collapse[0] }}>
+                                                                    {/* <div className="card card-body" style={{backgroundColor: color_collapse[i]}}> */}
+                                                                    <td className="border-0"></td>
+                                                                    <td className="border-0"><Link to={url} className="text-dark">{val.avg_car_number}</Link></td>
+                                                                    <td className="border-0">{val.avg_car_province}</td>
+                                                                    <td className="border-0">{val.avg_car_brand}</td>
+                                                                    <td className="border-0">{val.date_not_allow}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{car_statuses[0]}</td>
+                                                                    {/* </div> */}
+                                                                </tr>
+                                                            );
+                                                        }
+                                                        
                                                     })}
                                                 </tbody>
-                                            );
-                                        })}
+                                
+                                                <tbody>
+                                                    <tr>
+                                                        <td colSpan="9">
+                                                            <div className="list-group">
+                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-1" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[1]}</i></a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    {this.state.list_doc.map((val, n) => {
+                                                        let url = "/showdata/" + val._id.$oid
+                                                        if (val.res_check == "ห้ามใช้ชั่วคราวแต่ใกล้ครบกำหนดเวลา"){
+                                                            return (
+                                                                <tr key={n} className="collapse" id="collapseExample-1" style={{ backgroundColor: color_collapse[1] }}>
+                                                                    {/* <div className="card card-body" style={{backgroundColor: color_collapse[i]}}> */}
+                                                                    <td className="border-0"></td>
+                                                                    <td className="border-0"><Link to={url} className="text-dark">{val.avg_car_number}</Link></td>
+                                                                    <td className="border-0">{val.avg_car_province}</td>
+                                                                    <td className="border-0">{val.avg_car_brand}</td>
+                                                                    <td className="border-0">{val.date_not_allow}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{car_statuses[1]}</td>
+                                                                    {/* </div> */}
+                                                                </tr>
+                                                            );
+                                                        }
+                                                        
+                                                    })}
+                                                </tbody>
+
+                                                <tbody>
+                                                    <tr>
+                                                        <td colSpan="9">
+                                                            <div className="list-group">
+                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-2" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[2]}</i></a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    {this.state.list_doc.map((val, n) => {
+                                                        let url = "/showdata/" + val._id.$oid
+                                                        if (val.res_check == "ยกเลิกคำสั่งห้ามใช้ชั่วคราว"){
+                                                            return (
+                                                                <tr key={n} className="collapse" id="collapseExample-2" style={{ backgroundColor: color_collapse[2] }}>
+                                                                    {/* <div className="card card-body" style={{backgroundColor: color_collapse[i]}}> */}
+                                                                    <td className="border-0"></td>
+                                                                    <td className="border-0"><Link to={url} className="text-dark">{val.avg_car_number}</Link></td>
+                                                                    <td className="border-0">{val.avg_car_province}</td>
+                                                                    <td className="border-0">{val.avg_car_brand}</td>
+                                                                    <td className="border-0">{val.date_not_allow}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{car_statuses[2]}</td>
+                                                                    {/* </div> */}
+                                                                </tr>
+                                                            );
+                                                        }
+                                                        
+                                                    })}
+                                                </tbody>
+
+                                                <tbody>
+                                                    <tr>
+                                                        <td colSpan="9">
+                                                            <div className="list-group">
+                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-3" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[3]}</i></a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    {this.state.list_doc.map((val, n) => {
+                                                        let url = "/showdata/" + val._id.$oid
+                                                        if (val.res_check == "ห้ามใช้ชั่วคราวและเกินกำหนดเวลา 30 วัน"){
+                                                            return (
+                                                                <tr key={n} className="collapse" id="collapseExample-3" style={{ backgroundColor: color_collapse[3] }}>
+                                                                    {/* <div className="card card-body" style={{backgroundColor: color_collapse[i]}}> */}
+                                                                    <td className="border-0"></td>
+                                                                    <td className="border-0"><Link to={url} className="text-dark">{val.avg_car_number}</Link></td>
+                                                                    <td className="border-0">{val.avg_car_province}</td>
+                                                                    <td className="border-0">{val.avg_car_brand}</td>
+                                                                    <td className="border-0">{val.date_not_allow}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{car_statuses[3]}</td>
+                                                                    {/* </div> */}
+                                                                </tr>
+                                                            );
+                                                        }
+                                                        
+                                                    })}
+                                                </tbody>
+
+                                                <tbody>
+                                                    <tr>
+                                                        <td colSpan="9">
+                                                            <div className="list-group">
+                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-4" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[4]}</i></a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    {this.state.list_doc.map((val, n) => {
+                                                        let url = "/showdata/" + val._id.$oid
+                                                        if (val.res_check == "ห้ามใช้เด็ดขาด"){
+                                                            return (
+                                                                <tr key={n} className="collapse" id="collapseExample-4" style={{ backgroundColor: color_collapse[4] }}>
+                                                                    {/* <div className="card card-body" style={{backgroundColor: color_collapse[i]}}> */}
+                                                                    <td className="border-0"></td>
+                                                                    <td className="border-0"><Link to={url} className="text-dark">{val.avg_car_number}</Link></td>
+                                                                    <td className="border-0">{val.avg_car_province}</td>
+                                                                    <td className="border-0">{val.avg_car_brand}</td>
+                                                                    <td className="border-0">{val.date_not_allow}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{car_statuses[4]}</td>
+                                                                    {/* </div> */}
+                                                                </tr>
+                                                            );
+                                                        }
+                                                        
+                                                    })}
+                                                </tbody>
+
+                                                <tbody>
+                                                    <tr>
+                                                        <td colSpan="9">
+                                                            <div className="list-group">
+                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-5" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[5]}</i></a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    {this.state.list_doc.map((val, n) => {
+                                                        let url = "/showdata/" + val._id.$oid
+                                                        if (val.res_check == "ห้ามใช้ห้ามใช้ชั่วคราวและกำลังปรับปรุงชั่วคราว"){
+                                                            return (
+                                                                <tr key={n} className="collapse" id="collapseExample-5" style={{ backgroundColor: color_collapse[5] }}>
+                                                                    {/* <div className="card card-body" style={{backgroundColor: color_collapse[i]}}> */}
+                                                                    <td className="border-0"></td>
+                                                                    <td className="border-0"><Link to={url} className="text-dark">{val.avg_car_number}</Link></td>
+                                                                    <td className="border-0">{val.avg_car_province}</td>
+                                                                    <td className="border-0">{val.avg_car_brand}</td>
+                                                                    <td className="border-0">{val.date_not_allow}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{car_statuses[5]}</td>
+                                                                    {/* </div> */}
+                                                                </tr>
+                                                            );
+                                                        }
+                                                        
+                                                    })}
+                                                </tbody>
+
+                                                <tbody>
+                                                    <tr>
+                                                        <td colSpan="9">
+                                                            <div className="list-group">
+                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-6" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[6]}</i></a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    {this.state.list_doc.map((val, n) => {
+                                                        let url = "/showdata/" + val._id.$oid
+                                                        if (val.res_check == "ยกเลิกคำสั่งห้ามใช้เด็ดขาด"){
+                                                            return (
+                                                                <tr key={n} className="collapse" id="collapseExample-6" style={{ backgroundColor: color_collapse[6] }}>
+                                                                    {/* <div className="card card-body" style={{backgroundColor: color_collapse[i]}}> */}
+                                                                    <td className="border-0"></td>
+                                                                    <td className="border-0"><Link to={url} className="text-dark">{val.avg_car_number}</Link></td>
+                                                                    <td className="border-0">{val.avg_car_province}</td>
+                                                                    <td className="border-0">{val.avg_car_brand}</td>
+                                                                    <td className="border-0">{val.date_not_allow}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{val.date_check}</td>
+                                                                    <td className="border-0">{car_statuses[6]}</td>
+                                                                    {/* </div> */}
+                                                                </tr>
+                                                            );
+                                                        }
+                                                        
+                                                    })}
+                                                </tbody>
                                     </table>
                                 </div>
                             </div>
