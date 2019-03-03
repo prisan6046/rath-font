@@ -10,6 +10,14 @@ class Home extends Component {
             token: '',
             list_doc: [],
             status: false,
+            sum1 : '',
+            sum2 : '',
+            sum3 : '',
+            sum4 : '',
+            sum5 : '',
+            sum6 : '',
+            sum7 : ''
+
         }
 
     }
@@ -31,6 +39,25 @@ class Home extends Component {
                 localStorage.removeItem('token');
                 window.location.href = '/';
             });
+
+            fetch(url+'/get_sum_order?token=' + this.state.token)
+            .then((Response) => Response.json())
+            .then((res) => {
+                console.log(res.sumone)
+                this.setState({
+                    sum1: res.sumone ,
+                    sum2 : res.sumtwo,
+                    sum3 : res.sumthree,
+                    sum4 : res.sumfour,
+                    sum5 : res.sumfive,
+                    sum6 : res.sumsix,
+                    sum7 : res.sumseven
+                 })
+            }).catch(function () {
+                localStorage.removeItem('token');
+                window.location.href = '/';
+            });
+
 
     }
 
@@ -114,13 +141,14 @@ class Home extends Component {
                                                     <tr>
                                                         <td colSpan="9">
                                                             <div className="list-group">
-                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-0" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[0]}</i></a>
+                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-0" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[0]} ({ this.state.sum1})</i></a>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     {this.state.list_doc.map((val, n) => {
                                                         let url = "/showdata/" + val._id.$oid
                                                         if (val.res_check == "ห้ามใช้ยานพาหนะชั่วคราว"){
+                                                          
                                                             return (
                                                                 <tr key={n} className="collapse" id="collapseExample-0" style={{ backgroundColor: color_collapse[0] }}>
                                                                     {/* <div className="card card-body" style={{backgroundColor: color_collapse[i]}}> */}
@@ -145,7 +173,7 @@ class Home extends Component {
                                                     <tr>
                                                         <td colSpan="9">
                                                             <div className="list-group">
-                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-1" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[1]}</i></a>
+                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-1" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[1]}({ this.state.sum2})</i></a>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -176,7 +204,7 @@ class Home extends Component {
                                                     <tr>
                                                         <td colSpan="9">
                                                             <div className="list-group">
-                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-2" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[2]}</i></a>
+                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-2" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[2]} ({ this.state.sum3})</i></a>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -207,7 +235,7 @@ class Home extends Component {
                                                     <tr>
                                                         <td colSpan="9">
                                                             <div className="list-group">
-                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-3" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[3]}</i></a>
+                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-3" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[3]} ({ this.state.sum4})</i></a>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -238,7 +266,7 @@ class Home extends Component {
                                                     <tr>
                                                         <td colSpan="9">
                                                             <div className="list-group">
-                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-4" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[4]}</i></a>
+                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-4" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[4]} ({ this.state.sum5})</i></a>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -269,7 +297,7 @@ class Home extends Component {
                                                     <tr>
                                                         <td colSpan="9">
                                                             <div className="list-group">
-                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-5" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[5]}</i></a>
+                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-5" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[5]} ({ this.state.sum6})</i></a>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -300,7 +328,7 @@ class Home extends Component {
                                                     <tr>
                                                         <td colSpan="9">
                                                             <div className="list-group">
-                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-6" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[6]}</i></a>
+                                                                <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-6" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[6]} ({ this.state.sum7})</i></a>
                                                             </div>
                                                         </td>
                                                     </tr>
