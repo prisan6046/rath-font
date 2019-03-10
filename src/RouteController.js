@@ -44,7 +44,7 @@ class RouteController extends Component{
                             {children}
                         </div>
                     </div>
-                </div>                
+                </div>
             </div>
         );
         return(
