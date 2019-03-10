@@ -1,9 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
-// download html2canvas and jsPDF and save the files in app/ext, or somewhere else
-// the built versions are directly consumable
-// import {html2canvas, jsPDF} from 'app/ext';
+
 
 
 export default class Export extends Component {
@@ -26,9 +24,14 @@ export default class Export extends Component {
 
   render() {
     return (<div>
-      <div className="mb5">
-        <button onClick={this.printDocument}>Print</button>
+     
+      <div className="col-md-8">
+          <center><h1>ตรวจสอบเอกสาร</h1> </center>
+          <br />
+          <center><button class="btn btn-warning" onClick={this.printDocument}>พิมพ์เอกสาร</button></center>
       </div>
+      <br />
+      <br />
       <div id="divToPrint">
         <div className="col-md-8">
           <p align="right" className="mt4">แบบ คพ. ๓</p>

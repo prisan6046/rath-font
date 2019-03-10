@@ -64,7 +64,7 @@ class RouteController extends Component{
                             <Route path="/showdata/:id" component={ShowData} />
                             <Route path="/logout" component={Logout} />  
                                 
-                            <Route path="/PDF" component={PDF} />                                                              
+                            <Route path="/PDF3/:id" component={PDF} />                                                              
                         </Switch>                
                     </DefaultLayout>    
                     <Route component={NotFoundPage} />      

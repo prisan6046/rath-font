@@ -36,13 +36,13 @@ class Add extends Component {
                                                     <Corpor3Form />
                                                 </div>
                                                 <div className="tab-pane fade" id="corpor4" role="tabpanel" aria-labelledby="corpor4-tab">
-                                                    {/* <Corpor4Form /> */}
+                                                    <Corpor4Form />
                                                 </div>
                                                 <div className="tab-pane fade" id="corpor5" role="tabpanel" aria-labelledby="corpor5-tab">
-                                                    {/* <Corpor5Form /> */}
+                                                    <Corpor5Form />
                                                 </div>
                                                 <div className="tab-pane fade" id="corpor6" role="tabpanel" aria-labelledby="corpor6-tab">
-                                                    {/* <Corpor6Form /> */}
+                                                    <Corpor6Form />
                                                 </div>
                                             </div>
                                         </div>                                        

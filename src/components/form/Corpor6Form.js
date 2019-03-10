@@ -114,10 +114,7 @@ class Corpor6Form extends Component {
     render() {
         return(
             <div className="Corpor6Form">   
-                <br />
-                <a href="http://localhost:3001/pdf_four"> <button type="button" className="btn btn-primary">พิมพ์เอกสาร (คพ.๖)</button></a>
-                <br />
-                <br />
+               
                 <form onSubmit={this.handleSubmit} >                                                 
                     <div className="row">
                         <div className="col-lg-6">

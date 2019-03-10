@@ -126,13 +126,13 @@ class Corpor3Form extends Component {
         const year_th = YearThai(moment(date).format('YYYY'))
         const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
         const date_format_en = moment(date).format('YYYY-MM-DD');
-
         this.setState({
-            date_check: date_format_en,
-            date_show: moment(date_format_en).format('YYYY-MM-DD')
+            date_check: full_date_th,
+            date_show: moment(full_date_th).format('YYYY-MM-DD')
         });
         // console.log("date_show....", this.state.date_check);
     }
+
 
     handleLocationCheckChange(e) {
         this.setState({
@@ -162,10 +162,18 @@ class Corpor3Form extends Component {
             res_check: e.target.value
         });
     }
-    handleDateNotAllowChange(e) {
+
+    handleDateNotAllowChange = (date) => {        
+        moment.locale('en');
+        const year_th = YearThai(moment(date).format('YYYY'))
+        const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+        const date_format_en = moment(date).format('YYYY-MM-DD');
+
         this.setState({
-            date_not_allow: e.target.value
+            date_not_allow : date_format_en,
+            date_show: moment(date_format_en).format('YYYY-MM-DD')
         });
+        // console.log("date_show....", this.state.date_check);
     }
 
     handleTypeCarChange(e) {
@@ -497,7 +505,14 @@ class Corpor3Form extends Component {
                                                 <label htmlFor="date_check" className="col-form-label">วันที่ห้ามใช้ยานพาหนะ</label>
                                             </div>
                                             <div className="col-lg-8">
-                                                <input type="date" className="form-control bg-blue-lv3" value={this.state.date_not_allow} onChange={this.handleDateNotAllowChange} name="date_check" id="date_check" />
+                                            <DatePicker 
+                                                selected={this.state.date_not_allow} 
+                                                onChange={this.handleDateNotAllowChange} 
+                                                dateFormat="วันที่ d MMMM ค.ศ.YYYY"
+                                                locale="th"
+                                                name="date_check" 
+                                                id="date_check" />
+                                                {/* <input type="date" className="form-control bg-blue-lv3" value={this.state.date_not_allow} onChange={this.handleDateNotAllowChange} name="date_check" id="date_check" /> */}
                                             </div>
                                         </div>
                                     </div>

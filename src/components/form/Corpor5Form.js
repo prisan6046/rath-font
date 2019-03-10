@@ -221,10 +221,7 @@ class Corpor5Form extends Component {
 
         return (
             <div className="Corpor5Form">
-                <br />
-                <a href="http://localhost:3001/pdf_three"> <button type="button" className="btn btn-primary">พิมพ์เอกสาร (คพ.๕)</button></a>
-                <br />
-                <br />
+              
                 <form onSubmit={this.handleSubmit} >
                     <div className="row">
                         <div className="col">
