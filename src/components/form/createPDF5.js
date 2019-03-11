@@ -4,7 +4,7 @@ import jsPDF from 'jspdf'
 
 
 
-export default class Export extends Component {
+export default class Export5 extends Component {
   constructor(props) {
     super(props);
   }
@@ -35,7 +35,7 @@ export default class Export extends Component {
         <br />
         <div id="divToPrint">
           <div className="col-md-8">
-            <p align="right" className="mt4">แบบ คพ. ๓</p>
+            <p align="right" className="mt4">แบบ คพ. ๕</p>
             <p align="center" className="mt4"><img src="/assets/img/logo.png" height="150px" /></p>
             <p align="" className="mt4">เล่มที่ </p>
             <p align="center" className="mt4">คำสั่ง ห้ามใช้ยานพาหนะชั่วคราวหรือ<u>ห้ามใช้ยานพาหนะเด็ดขาด</u> </p>
