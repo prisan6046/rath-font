@@ -412,6 +412,17 @@ class Corpor3Form extends Component {
                                                 locale="th"
                                                 name="date_check" 
                                                 id="date_check" />
+                                                <br/>
+                                                
+                                                <DatePicker 
+                                                selected={this.state.date_show} 
+                                                dateFormat="วันที่ d MMMM ค.ศ.YYYY"
+                                                locale="th"
+                                                name="" 
+                                                id=""
+                                                showTimeSelect
+                                                dateFormat="MMMM d, yyyy h:mm aa"
+                                                timeFormat="HH:mm"/>
                                             </div>
                                         </div>
 
