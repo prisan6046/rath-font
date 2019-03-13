@@ -22,36 +22,3 @@ ReactDOM.render((
     </Provider>
 ), document.getElementById('root')
 );
-
-// import { createStore } from 'redux'
-
-// const reducer = (state, action) => {
-//     switch(action.type){
-//         case "ADD":
-//             state =state+action.payload
-//             break;
-//         case "SUBTECT":
-//             break;
-//     }
-//     return state
-// }
-
-// const store = createStore(reducer , 1)
-
-
-// store.subscribe(()=>{
-//     console.log("data >>> " , store.getState())
-// })
-
-// store.dispatch({
-//     type: "ADD",
-//     payload : 100
-// })
-// store.dispatch({
-//     type: "ADD",
-//     payload : 100
-// })
-// store.dispatch({
-//     type: "ADD",
-//     payload : 100
-// })
