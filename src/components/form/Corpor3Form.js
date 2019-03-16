@@ -408,7 +408,7 @@ class Corpor3Form extends Component {
                                                 <DatePicker 
                                                 selected={this.state.date_show} 
                                                 onChange={this.handleChangeDatePicker} 
-                                                dateFormat="วันที่ d MMMM ค.ศ.YYYY"
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
                                                 locale="th"
                                                 name="date_check" 
                                                 id="date_check" />
@@ -416,7 +416,7 @@ class Corpor3Form extends Component {
                                                 
                                                 <DatePicker 
                                                 selected={this.state.date_show} 
-                                                dateFormat="วันที่ d MMMM ค.ศ.YYYY"
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
                                                 locale="th"
                                                 name="" 
                                                 id=""
@@ -519,7 +519,7 @@ class Corpor3Form extends Component {
                                             <DatePicker 
                                                 selected={this.state.date_not_allow} 
                                                 onChange={this.handleDateNotAllowChange} 
-                                                dateFormat="วันที่ d MMMM ค.ศ.YYYY"
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
                                                 locale="th"
                                                 name="date_check" 
                                                 id="date_check" />

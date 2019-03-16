@@ -3,7 +3,6 @@ import Moment from 'moment';
 
 export const YearThai = (year) => {
     let data = (parseInt(year, 10) + 543);
-
     return data;
 }
 const MonthThai = (month) => {
