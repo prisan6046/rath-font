@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { url } from '../parameter/index';
-import { Chart } from "react-charts";
-import ChartConfig from '../components/libraries/ChartConfig';
-import ShowHome from '../components/form/showhome';
+import ShowChart from '../components/home/showchart';
+import ShowTable from '../components/home/showtable';
+import ShowHome from '../components/home/showhome';
 
 
 class Home extends Component {
@@ -44,6 +44,18 @@ class Home extends Component {
                                     <h3 className="box-title">รายการ</h3>
                                     <a href="/add"><button className="btn btn-primary">ลงข้อมูลแบบ คพ.</button></a>
                                 </div>
+                                <div className="col-lg">
+                                    {/* <select className="form-control">
+                                        <option>กรุณาเลือก</option>
+                                        <option>ห้ามใช้ชั่วคราว</option>
+                                        <option>ห้ามใช้ชั่วคราวแต่ใกล้ครบกำหนดเวลา</option>
+                                        <option>ยกเลิกคำสั่งห้ามใช้ชั่วคราว</option>
+                                        <option>ห้ามใช้ชั่วคราวและเกินกำหนดเวลา 30 วัน</option>
+                                        <option>ห้ามใช้เด็ดขาด</option>
+                                        <option>ห้ามใช้ชั่วคราวและกำลังปรับปรุง</option>
+                                        <option>ยกเลิกคำสั่งห้ามใช้เด็ดขาด</option>
+                                    </select> */}
+                                </div>
                                 <div className="col-lg-6">
                                     <form className="form-inline my-2 my-lg-0">
                                         <input className="form-control ml-auto mr-sm-2 w-75" type="search" placeholder="Search" aria-label="Search" />
@@ -73,7 +85,7 @@ class Home extends Component {
 
                         <div className="card-body bg-gray-lv1">
                             {
-                                this.state.button_check == 1 ?
+                                    this.state.button_check == 1 ?
                                     <div>
                                         {this.state.token != '' ?
                                             <ShowHome token={this.state.token} /> : <div></div>
@@ -82,26 +94,17 @@ class Home extends Component {
                                     </div>
                                     : this.state.button_check == 2 ?
                                         <div>
-                                            <div className="col-lg-12">
-                                                <ChartConfig dataType="ordinal">
-                                                    {({ data }) => (
-                                                        <Chart
-                                                            data={data}
-                                                            series={{ type: 'bar' }}
-                                                            axes={[
-                                                                { primary: true, type: 'ordinal', position: 'bottom' },
-                                                                { position: 'left', type: 'linear', stacked: true },
-                                                            ]}
-                                                            primaryCursor
-                                                            secondaryCursor
-
-                                                        />
-                                                    )}
-                                                </ChartConfig>
-
-                                            </div>
+                                           <ShowChart />
                                         </div>
-                                        :
+                                    : this.state.button_check == 3 ?
+                                        <div>
+                                        
+                                        </div>
+                                    : this.state.button_check == 4 ?
+                                        <div>
+                                            <ShowTable  token={this.state.token} />
+                                        </div>
+                                    :
                                         <div>
                                         </div>
                             }
