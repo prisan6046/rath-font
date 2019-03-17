@@ -1,7 +1,18 @@
 import React, { Component } from 'react'
 import CarForm from './CarForm';
 import axios from 'axios';
-import { url } from '../../parameter/index'
+import { url } from '../../parameter/index';
+
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import moment from 'moment';
+import { DateThai, YearThai } from '../libraries/DateThai';
+import 'moment/locale/th';
+import { registerLocale, setDefaultLocale } from 'react-datepicker';
+import th from 'date-fns/locale/th';
+registerLocale('th', th);
+
+
 
 class Corpor6Form extends Component {
 
@@ -45,10 +56,14 @@ class Corpor6Form extends Component {
         })
     }
 
-    handleDateOutChange(e){
+    handleDateOutChange = (date) => {
+        moment.locale('en');
+        const year_th = YearThai(moment(date).format('YYYY'))
+        const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+
         this.setState({
-            date_out : e.target.value
-        })
+            date_out : full_date_th
+        });
     }
 
     handleLocationOutChange(e){
@@ -74,10 +89,14 @@ class Corpor6Form extends Component {
             val_now : e.target.value
         })
     }
-    handleDateNowChange(e){
+    handleDateNowChange =(date)=>{
+        moment.locale('en');
+        const year_th = YearThai(moment(date).format('YYYY'))
+        const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+
         this.setState({
-            date_now : e.target.value
-        })
+            date_now : full_date_th
+        });
     }
     handleStaffIdChange(e){
         this.setState({
@@ -144,7 +163,14 @@ class Corpor6Form extends Component {
                                             <label htmlFor="date_check" className="col-form-label">วันที่ออกคำสั่งยกเลิก</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="date" className="form-control bg-blue-lv3" value={this.state.date_out} onChange={this.handleDateOutChange} name="date_check" id="date_check"/>
+                                             <DatePicker 
+                                                selected={this.state.date_out} 
+                                                onChange={this.handleDateOutChange} 
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
+                                                locale="th"
+                                                name="date_check" 
+                                                id="date_check" />
+                                            {/* <input type="date" className="form-control bg-blue-lv3" value={this.state.date_out} onChange={this.handleDateOutChange} name="date_check" id="date_check"/> */}
                                         </div>
                                     </div>
 
@@ -221,7 +247,14 @@ class Corpor6Form extends Component {
                                             <label htmlFor="type_check" className="col-form-label">วัน/เวลาที่คำสั่งมีผล</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="date" className="form-control bg-blue-lv3" name="date_check" value={this.state.date_now} onChange={this.handleDateNowChange} id="date_check"/>
+                                            <DatePicker 
+                                                selected={this.state.date_now} 
+                                                onChange={this.handleDateNowChange} 
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
+                                                locale="th"
+                                                name="date_check" 
+                                                id="date_check" />
+                                            {/* <input type="date" className="form-control bg-blue-lv3" name="date_check" value={this.state.date_now} onChange={this.handleDateNowChange} id="date_check"/> */}
                                         </div>
                                     </div>
                                 </div>

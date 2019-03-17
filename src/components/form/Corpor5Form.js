@@ -4,6 +4,16 @@ import axios from 'axios';
 import { url } from '../../parameter/index'
 
 
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import moment from 'moment';
+import { DateThai, YearThai } from '../libraries/DateThai';
+import 'moment/locale/th';
+import { registerLocale, setDefaultLocale } from 'react-datepicker';
+import th from 'date-fns/locale/th';
+registerLocale('th', th);
+
+
 class Corpor5Form extends Component {
 
     componentDidMount() {
@@ -63,10 +73,17 @@ class Corpor5Form extends Component {
 
     }
 
-    handleDataCheckAppvoreChange(e) {
+    handleDataCheckAppvoreChange = (date) => {
+
+        moment.locale('en');
+        const year_th = YearThai(moment(date).format('YYYY'))
+        const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+
         this.setState({
-            data_check_appvore: e.target.value
-        })
+            data_check_appvore : full_date_th
+        });
+
+      
     }
 
     handleLocationCheckAppvoreChange(e) {
@@ -80,15 +97,25 @@ class Corpor5Form extends Component {
         })
     }
 
-    handleResDataGarageChange(e) {
+    handleResDataGarageChange = (date) => {
+        moment.locale('en');
+        const year_th = YearThai(moment(date).format('YYYY'))
+        const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+
         this.setState({
-            res_date_garage: e.target.value
-        })
+            res_date_garage : full_date_th
+        });
+
     }
-    handleReqDataGarageChange(e) {
+    handleReqDataGarageChange = (date) => {
+        moment.locale('en');
+        const year_th = YearThai(moment(date).format('YYYY'))
+        const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+
         this.setState({
-            req_date_garage: e.target.value
-        })
+            req_date_garage : full_date_th
+        });
+
     }
 
     handleStaffReqChange(e) {
@@ -113,10 +140,17 @@ class Corpor5Form extends Component {
             order_no: e.target.value
         })
     }
-    handleDataCheckChange(e) {
+    handleDataCheckChange =(date)=> {
+        moment.locale('en');
+        const year_th = YearThai(moment(date).format('YYYY'))
+        const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+
         this.setState({
-            req_data_check: e.target.value
-        })
+            req_data_check : full_date_th
+        });
+        // this.setState({
+        //     req_data_check: e.target.value
+        // })
     }
 
     handleReqLocationChange(e) {
@@ -176,7 +210,6 @@ class Corpor5Form extends Component {
                 this.setState({ loaded: 'upload' })
             },
         }).then(res => {
-            console.log(res)
             alert("บันทึกสำเร็จ")
         })
     }
@@ -251,7 +284,14 @@ class Corpor5Form extends Component {
                                             <label htmlFor="date_check" className="col-form-label">วันที่ขอให้ตรวจสอบ</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="date" className="form-control bg-blue-lv3" value={this.state.req_data_check} onChange={this.handleDataCheckChange} name="date_check" id="date_check" />
+                                            <DatePicker 
+                                                selected={this.state.garage_in_date} 
+                                                onChange={this.handleDataCheckChange} 
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
+                                                locale="th"
+                                                name="date_check" 
+                                                id="date_check" />
+                                            {/* <input type="date" className="form-control bg-blue-lv3" value={this.state.req_data_check} onChange={this.handleDataCheckChange} name="date_check" id="date_check" /> */}
                                         </div>
                                     </div>
 
@@ -278,7 +318,14 @@ class Corpor5Form extends Component {
                                             <label htmlFor="date_check" className="col-form-label">วัน/เวลาที่รับคำร้อง</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="datetime-local" className="form-control bg-blue-lv3" value={this.state.res_date_garage} onChange={this.handleResDataGarageChange} name="date_check" id="date_check" />
+                                            <DatePicker 
+                                                selected={this.state.res_date_garage} 
+                                                onChange={this.handleResDataGarageChange} 
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
+                                                locale="th"
+                                                name="date_check" 
+                                                id="date_check" />
+                                            {/* <input type="datetime-local" className="form-control bg-blue-lv3" value={this.state.res_date_garage} onChange={this.handleResDataGarageChange} name="date_check" id="date_check" /> */}
                                         </div>
                                     </div>
 
@@ -287,7 +334,14 @@ class Corpor5Form extends Component {
                                             <label htmlFor="date_check" className="col-form-label">วัน/เวลาที่สั่งคำร้อง</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="datetime-local" className="form-control bg-blue-lv3" value={this.state.req_date_garage} onChange={this.handleReqDataGarageChange} name="date_check" id="date_check" />
+                                         <DatePicker 
+                                                selected={this.state.req_date_garage} 
+                                                onChange={this.handleReqDataGarageChange} 
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
+                                                locale="th"
+                                                name="date_check" 
+                                                id="date_check" />
+                                            {/* <input type="datetime-local" className="form-control bg-blue-lv3" value={this.state.req_date_garage} onChange={this.handleReqDataGarageChange} name="date_check" id="date_check" /> */}
                                         </div>
                                     </div>
 
@@ -354,7 +408,14 @@ class Corpor5Form extends Component {
                                             <label htmlFor="date_check" className="col-form-label">วัน/เวลาที่นัดตรวจสอบ</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="datetime-local" className="form-control bg-blue-lv3" value={this.state.data_check_appvore} onChange={this.handleDataCheckAppvoreChange} name="date_check" id="date_check" />
+                                        <DatePicker 
+                                                selected={this.state.data_check_appvore} 
+                                                onChange={this.handleDataCheckAppvoreChange} 
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
+                                                locale="th"
+                                                name="date_check" 
+                                                id="date_check" />
+                                            {/* <input type="datetime-local" className="form-control bg-blue-lv3" value={this.state.data_check_appvore} onChange={this.handleDataCheckAppvoreChange} name="date_check" id="date_check" /> */}
                                         </div>
                                     </div>
 

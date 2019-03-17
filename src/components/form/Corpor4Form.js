@@ -3,6 +3,16 @@ import CarForm from './CarForm';
 import axios from 'axios';
 import { url } from '../../parameter/index'
 
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import moment from 'moment';
+import { DateThai, YearThai } from '../libraries/DateThai';
+import 'moment/locale/th';
+import { registerLocale, setDefaultLocale } from 'react-datepicker';
+import th from 'date-fns/locale/th';
+registerLocale('th', th);
+
+
 class Corpor4Form extends Component {
 
     componentDidMount(){
@@ -15,38 +25,7 @@ class Corpor4Form extends Component {
                 })
             })
 
-        // fetch(url+'/get_doc_id?id=' + this.props.id + "&token=" + this.state.token)
-        //     .then((Response) => Response.json())
-        //     .then((res) => {
-        //         this.setState({
-        //             book_no: res['0']['book_no'],
-        //             order_no: res['0']['order_no'],
-        //             date_check: res['0']['date_check'],
-        //             location_check: res['0']['location_check'],
-        //             staff_check: res['0']['staff_check'],
-        //             staff_check_id: res['0']['staff_check_id'],
-        //             type_check: res['0']['type_check'],
-        //             val_check: res['0']['val_check'],
-        //             res_check: res['0']['res_check'],
-        //             date_not_allow: res['0']['date_not_allow'],
-        //             avg_type_car: res['0']['avg_type_car'],
-        //             avg_car_number: res['0']['avg_car_number'],
-        //             avg_car_brand: res['0']['avg_car_brand'],
-        //             avg_car_province: res['0']['avg_car_province'],
-        //             avg_car_color: res['0']['avg_car_color'],
-        //             avg_car_engine: res['0']['avg_car_engine'],
-        //             avg_car_type_engine: res['0']['avg_car_type_engine'],
-        //             avg_car_type_fuel: res['0']['avg_car_type_fuel'],
-        //             driver_title: res['0']['driver_title'],
-        //             driver_name: res['0']['driver_name'],
-        //             home_number: res['0']['home_number'],
-        //             home_code: res['0']['home_code'],
-        //             home_district: res['0']['home_district'],
-        //             home_subdistrict: res['0']['home_subdistrict'],
-        //             home_province: res['0']['home_province'],
-        //             home_tel: res['0']['home_tel'],
-        //     })
-        // })
+       
     }
 
     constructor() {
@@ -90,20 +69,38 @@ class Corpor4Form extends Component {
             garage_name: e.target.value
         })
     }
-    handleGarageInDateChange(e) {
+
+    handleGarageInDateChange = (date) => {
+        moment.locale('en');
+        const year_th = YearThai(moment(date).format('YYYY'))
+        const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+        const date_format_en = moment(date).format('YYYY-MM-DD');
+
         this.setState({
-            garage_in_date: e.target.value
-        })
+            garage_in_date: full_date_th
+        });
     }
-    handleGarageOutDateChange(e) {
+    handleGarageOutDateChange = (date)=> {
+        moment.locale('en');
+        const year_th = YearThai(moment(date).format('YYYY'))
+        const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+        const date_format_en = moment(date).format('YYYY-MM-DD');
+
         this.setState({
-            garage_out_date: e.target.value
-        })
+            garage_out_date: full_date_th
+        });
     }
-    handleEndRomoveCarChange(e) {
+
+    handleEndRomoveCarChange = (date) => {
+        moment.locale('en');
+        const year_th = YearThai(moment(date).format('YYYY'))
+        const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+        const date_format_en = moment(date).format('YYYY-MM-DD');
+
         this.setState({
-            end_remove_car: e.target.value
-        })
+            end_remove_car: full_date_th
+        });
+       
     }
     handleBookOnChange(e) {
         this.setState({
@@ -179,6 +176,17 @@ class Corpor4Form extends Component {
         })
     }
 
+    handleDateNotAllowChange = (date) => {        
+        moment.locale('en');
+        const year_th = YearThai(moment(date).format('YYYY'))
+        const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+        const date_format_en = moment(date).format('YYYY-MM-DD');
+
+        this.setState({
+            date_allow: full_date_th
+        });
+        // console.log("date_show....", this.state.date_check);
+    }
 
     render() {
 
@@ -247,7 +255,14 @@ class Corpor4Form extends Component {
                                             <label htmlFor="date_check" className="col-form-label">วันที่ออกใบอนุญาต</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="date" className="form-control bg-blue-lv3" value={this.state.date_allow} onChange={this.handleDateAllowChange} name="date_check" id="date_check" />
+                                            <DatePicker 
+                                                selected={this.state.date_allow} 
+                                                onChange={this.handleDateNotAllowChange} 
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
+                                                locale="th"
+                                                name="date_check" 
+                                                id="date_check" />
+                                            {/* <input type="date" className="form-control bg-blue-lv3" value={this.state.date_allow} onChange={this.handleDateAllowChange} name="date_check" id="date_check" /> */}
                                         </div>
                                     </div>
 
@@ -322,7 +337,14 @@ class Corpor4Form extends Component {
                                             <label htmlFor="type_check" className="col-form-label">วัน/เวลาที่รถเข้าอู่</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="datetime-local" className="form-control bg-blue-lv3 w-50" value={this.state.garage_in_date} onChange={this.handleGarageInDateChange} name="avg_check" id="avg_check" />
+                                            <DatePicker 
+                                                selected={this.state.garage_in_date} 
+                                                onChange={this.handleGarageInDateChange} 
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
+                                                locale="th"
+                                                name="avg_check" 
+                                                id="avg_check" />
+                                            {/* <input type="datetime-local" className="form-control bg-blue-lv3 w-50" value={this.state.garage_in_date} onChange={this.handleGarageInDateChange} name="avg_check" id="avg_check" /> */}
                                         </div>
                                     </div>
 
@@ -331,7 +353,14 @@ class Corpor4Form extends Component {
                                             <label htmlFor="type_check" className="col-form-label">วัน/เวลาที่รถออกจากอู่</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="datetime-local" className="form-control bg-blue-lv3 w-50" value={this.state.garage_out_date} onChange={this.handleGarageOutDateChange} name="avg_check" id="avg_check" />
+                                            <DatePicker 
+                                                selected={this.state.garage_out_date} 
+                                                onChange={this.handleGarageOutDateChange} 
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
+                                                locale="th"
+                                                name="avg_check" 
+                                                id="avg_check" />
+                                            {/* <input type="datetime-local" className="form-control bg-blue-lv3 w-50" value={this.state.garage_out_date} onChange={this.handleGarageOutDateChange} name="avg_check" id="avg_check" /> */}
                                         </div>
                                     </div>
 
@@ -340,7 +369,14 @@ class Corpor4Form extends Component {
                                             <label htmlFor="type_check" className="col-form-label">เวลาสิ้นสุดให้เคลื่อนย้าย</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="datetime-local" className="form-control bg-blue-lv3 w-50" value={this.state.end_remove_car} onChange={this.handleEndRomoveCarChange} name="avg_check" id="avg_check" />
+                                            <DatePicker 
+                                                selected={this.state.end_remove_car} 
+                                                onChange={this.handleEndRomoveCarChange} 
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
+                                                locale="th"
+                                                name="avg_check" 
+                                                id="avg_check" />
+                                            {/* <input type="datetime-local" className="form-control bg-blue-lv3 w-50" value={this.state.end_remove_car} onChange={this.handleEndRomoveCarChange} name="avg_check" id="avg_check" /> */}
                                         </div>
                                     </div>
                                 </div>

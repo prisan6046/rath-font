@@ -5,6 +5,24 @@ import Corpor5Form from '../components/form/Corpor5Form';
 import Corpor6Form from '../components/form/Corpor6Form';
 
 class Add extends Component {
+
+    constructor(){
+        super()
+        this.state = {
+            project_id : ''
+        }
+
+    }
+
+    componentDidMount(){
+        this.setState({ 
+           project_id  : localStorage.getItem('project_id')}
+        )
+        console.log(" project_id " ,this.state.project_id)
+    }
+
+
+
     render() {
         return(
             <div className="Add">
@@ -17,21 +35,35 @@ class Add extends Component {
                                     <div className="row mb-2">
                                         <div className="col-lg-12">
                                             <ul className="nav nav-tabs">
-                                                <li className="nav-item">
+                                                { this.state.project_id == null ? 
+                                                 <li className="nav-item">
                                                     <a className="nav-link active" id="corpor3-tab" data-toggle="tab" href="#corpor3" role="tab" aria-controls="corpor3" aria-selected="true">ฟอร์ม คพ.3</a>
-                                                </li>
-                                                <li className="nav-item">
+                                                </li>: <div></div>
+                                                }
+                                                {
+                                                    this.state.project_id != null ? 
+                                                    <div>
+                                                    <li className="nav-item">
                                                     <a className="nav-link" id="corpor4-tab" data-toggle="tab" href="#corpor4" role="tab" aria-controls="corpor3" aria-selected="true">ฟอร์ม คพ.4</a>
-                                                </li>
-                                                <li className="nav-item">
-                                                    <a className="nav-link" id="corpor5-tab" data-toggle="tab" href="#corpor5" role="tab" aria-controls="corpor3" aria-selected="true">ฟอร์ม คพ.5</a>
-                                                </li>
-                                                <li className="nav-item">
-                                                    <a className="nav-link" id="corpor6-tab" data-toggle="tab" href="#corpor6" role="tab" aria-controls="corpor3" aria-selected="true">ฟอร์ม คพ.6</a>
-                                                </li>
+                                                    </li>
+                                                    <li className="nav-item">
+                                                        <a className="nav-link" id="corpor5-tab" data-toggle="tab" href="#corpor5" role="tab" aria-controls="corpor3" aria-selected="true">ฟอร์ม คพ.5</a>
+                                                    </li>
+                                                    <li className="nav-item">
+                                                        <a className="nav-link" id="corpor6-tab" data-toggle="tab" href="#corpor6" role="tab" aria-controls="corpor3" aria-selected="true">ฟอร์ม คพ.6</a>
+                                                    </li>
+                                                    </div>
+                                                    :
+                                                <div></div>
+
+                                                }
+                                               
+
+                                                
                                             </ul>
 
                                             <div className="tab-content" id="myTabContent">
+
                                                 <div className="tab-pane fade show active" id="corpor3" role="tabpanel" aria-labelledby="corpor3-tab">
                                                     <Corpor3Form />
                                                 </div>

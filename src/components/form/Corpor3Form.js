@@ -64,7 +64,8 @@ class Corpor3Form extends Component {
             home_subdistrict: '',
             home_province: '',
             home_tel: '',
-
+            time : '',
+            check_button : false ,
             data: [],
             loading: false,
 
@@ -133,7 +134,6 @@ class Corpor3Form extends Component {
             date_check: full_date_th,
             date_show: moment(full_date_th).format('YYYY-MM-DD')
         });
-        // console.log("date_show....", this.state.date_check);
     }
 
 
@@ -173,8 +173,19 @@ class Corpor3Form extends Component {
         const date_format_en = moment(date).format('YYYY-MM-DD');
 
         this.setState({
-            date_not_allow : date_format_en,
             date_show: moment(date_format_en).format('YYYY-MM-DD')
+        });
+        // console.log("date_show....", this.state.date_check);
+    }
+
+    handleDateTimeNotAllowChange = (date) => {        
+        moment.locale('en');
+        const year_th = YearThai(moment(date).format('YYYY'))
+        const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+        const date_format_en = moment(date).format('YYYY-MM-DD');
+
+        this.setState({
+            date_not_allow : date_format_en,
         });
         // console.log("date_show....", this.state.date_check);
     }
@@ -417,7 +428,7 @@ class Corpor3Form extends Component {
                                                 id="date_check" />
                                                 <br/>
                                                 
-                                                <DatePicker 
+                                                {/* <DatePicker 
                                                 selected={this.state.date_show} 
                                                 dateFormat="วันที่ d MMMM พ.ศ.YYYY"
                                                 locale="th"
@@ -425,7 +436,7 @@ class Corpor3Form extends Component {
                                                 id=""
                                                 showTimeSelect
                                                 dateFormat="MMMM d, yyyy h:mm aa"
-                                                timeFormat="HH:mm"/>
+                                                timeFormat="HH:mm"/> */}
                                             </div>
                                         </div>
 
@@ -521,7 +532,7 @@ class Corpor3Form extends Component {
                                             <div className="col-lg-8">
                                             <DatePicker 
                                                 selected={this.state.date_not_allow} 
-                                                onChange={this.handleDateNotAllowChange} 
+                                                onChange={this.handleDateTimeNotAllowChange} 
                                                 dateFormat="วันที่ d MMMM พ.ศ.YYYY"
                                                 locale="th"
                                                 name="date_check" 

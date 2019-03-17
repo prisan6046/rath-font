@@ -28,6 +28,7 @@ class Home extends Component {
         if (this.state.token == null) {
             this.props.history.push("/")
         }
+        localStorage.removeItem('project_id');
         this.setState({ token: this.state.token })
 
     }
