@@ -22,8 +22,6 @@ class ShowHome extends Component {
 
 
     componentDidMount() {
-        // console.log("token ... >> " , this.props.token)
-
         fetch(url + '/get_sum_order?token=' + this.props.token)
             .then((Response) => Response.json())
             .then((res) => {
@@ -51,7 +49,6 @@ class ShowHome extends Component {
                 localStorage.removeItem('token');
                 window.location.href = '/';
             });
-
     }
 
     render() {

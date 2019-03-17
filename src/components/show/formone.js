@@ -10,8 +10,10 @@ class ShowData extends Component {
         this.state = {
             token: '',
             data: [],
+            id : '',
             loading: false
         }
+
     }
 
     componentDidMount() {
@@ -27,6 +29,10 @@ class ShowData extends Component {
             })
     }
 
+    handleAvgGetIdEdit(id) {
+        console.log(id)
+    }
+
 
 
     render() {
@@ -35,7 +41,7 @@ class ShowData extends Component {
         let list_formdetail = []
         this.state.data.map((val, i) => {
             return list_formdetail.push(
-                <div className="row">
+                <div key={i} className="row">
                     <div className="col-lg-12">
                         <div className="CarForm">
                             <div className="card">
@@ -288,6 +294,7 @@ class ShowData extends Component {
         let urlform4 = '/PDF4/'  + this.props.match.params.id
         let urlform5 = '/PDF5/'  + this.props.match.params.id
         let urlform6 = '/PDF6/'  + this.props.match.params.id
+        let getIdedit = '/Edit/' + this.props.match.params.id
 
         return (
             <div className="Add">
@@ -299,19 +306,27 @@ class ShowData extends Component {
                                 <div className="card-body">
                                     <div className="row mb-2">
                                         <div className="col-lg-12">
-                                        <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
 
-                                            <li className="nav-item dropdown">
-                                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">พิมพ์เอกสาร</a>
-                                                <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                                    <a className="dropdown-item" href={urlform3}>เอกสาร ฟอร์ม คพ.3</a>
-                                                    <a className="dropdown-item" href={urlform4}>เอกสาร ฟอร์ม คพ.4</a>
-                                                    <a className="dropdown-item" href={urlform5}>เอกสาร ฟอร์ม คพ.5</a>
-                                                    <a className="dropdown-item" href={urlform6}>เอกสาร ฟอร์ม คพ.6</a>
+                                            <div className="row">
+                                                <div className="col-md-1">
+                                                    <a href={getIdedit}>
+                                                        <center><button className="btn btn-primary">แก้ไข</button></center>
+                                                    </a>
                                                 </div>
-                                            </li>
-                                            
-                                            </ul>
+                                                <div className="col-md-3">
+                                                    <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+                                                        <li className="nav-item dropdown">
+                                                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">พิมพ์เอกสาร</a>
+                                                            <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                                                <a className="dropdown-item" href={urlform3}>เอกสาร ฟอร์ม คพ.3</a>
+                                                                <a className="dropdown-item" href={urlform4}>เอกสาร ฟอร์ม คพ.4</a>
+                                                                <a className="dropdown-item" href={urlform5}>เอกสาร ฟอร์ม คพ.5</a>
+                                                                <a className="dropdown-item" href={urlform6}>เอกสาร ฟอร์ม คพ.6</a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                             <br />
 
                                             <ul className="nav nav-tabs">

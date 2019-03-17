@@ -94,7 +94,7 @@ class Home extends Component {
                                     </div>
                                     : this.state.button_check == 2 ?
                                         <div>
-                                           <ShowChart />
+                                           <ShowChart token={this.state.token} />
                                         </div>
                                     : this.state.button_check == 3 ?
                                         <div>                                            

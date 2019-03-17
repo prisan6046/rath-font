@@ -1,9 +1,8 @@
-import React, { Component } from 'react'
-import CarForm from './CarForm';
+import React , { Component }from 'react';
 import axios from 'axios';
 import { url } from '../../parameter/index'
 
-class Corpor4Form extends Component {
+class EditFormFour extends Component{
 
     componentDidMount(){
         this.state.token = localStorage.getItem('token');
@@ -14,39 +13,6 @@ class Corpor4Form extends Component {
                     data_user: res
                 })
             })
-
-        // fetch(url+'/get_doc_id?id=' + this.props.id + "&token=" + this.state.token)
-        //     .then((Response) => Response.json())
-        //     .then((res) => {
-        //         this.setState({
-        //             book_no: res['0']['book_no'],
-        //             order_no: res['0']['order_no'],
-        //             date_check: res['0']['date_check'],
-        //             location_check: res['0']['location_check'],
-        //             staff_check: res['0']['staff_check'],
-        //             staff_check_id: res['0']['staff_check_id'],
-        //             type_check: res['0']['type_check'],
-        //             val_check: res['0']['val_check'],
-        //             res_check: res['0']['res_check'],
-        //             date_not_allow: res['0']['date_not_allow'],
-        //             avg_type_car: res['0']['avg_type_car'],
-        //             avg_car_number: res['0']['avg_car_number'],
-        //             avg_car_brand: res['0']['avg_car_brand'],
-        //             avg_car_province: res['0']['avg_car_province'],
-        //             avg_car_color: res['0']['avg_car_color'],
-        //             avg_car_engine: res['0']['avg_car_engine'],
-        //             avg_car_type_engine: res['0']['avg_car_type_engine'],
-        //             avg_car_type_fuel: res['0']['avg_car_type_fuel'],
-        //             driver_title: res['0']['driver_title'],
-        //             driver_name: res['0']['driver_name'],
-        //             home_number: res['0']['home_number'],
-        //             home_code: res['0']['home_code'],
-        //             home_district: res['0']['home_district'],
-        //             home_subdistrict: res['0']['home_subdistrict'],
-        //             home_province: res['0']['home_province'],
-        //             home_tel: res['0']['home_tel'],
-        //     })
-        // })
     }
 
     constructor() {
@@ -169,7 +135,7 @@ class Corpor4Form extends Component {
         formData.append('end_remove_car', this.state.end_remove_car);
         
 
-        axios.post(url+'/carForm_two', formData, {
+        axios.post(url+'/updatecarForm_two', formData, {
             onUploadProgress: ProgressEvent => {
                 this.setState({ loaded: 'upload'})
             },
@@ -216,7 +182,7 @@ class Corpor4Form extends Component {
 
         return (
             <div className="Corpor4Form">
-            <br />
+                <br />
                 <form onSubmit={this.handleSubmit} >
                     <div className="row">
                         <div className="col-lg-6">
@@ -350,7 +316,7 @@ class Corpor4Form extends Component {
                     <hr />
                     <div className="row">
                         <div className="col-lg-12">
-                            <CarForm />
+                            
                         </div>
                     </div>
                     <br />
@@ -361,6 +327,7 @@ class Corpor4Form extends Component {
             </div>
         )
     }
+
 }
 
-export default Corpor4Form;
+export default EditFormFour

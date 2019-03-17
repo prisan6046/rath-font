@@ -2,8 +2,51 @@ import React, { Component } from 'react'
 import { Chart } from "react-charts";
 import ChartConfig from '../libraries/ChartConfig';
 import ReactEcharts from "echarts-for-react";
+import { url } from '../../parameter/index';
 
 class ShowChart extends Component {
+
+
+    constructor() {
+        super()
+        this.state = {
+            list_doc: [],
+            status: false,
+            sum1: '',
+            sum2: '',
+            sum3: '',
+            sum4: '',
+            sum5: '',
+            sum6: '',
+            sum7: '',
+        }
+    }
+
+
+
+    componentDidMount() {
+
+        fetch(url + '/get_sum_order?token=' + this.props.token)
+            .then((Response) => Response.json())
+            .then((res) => {
+                this.setState({
+                    sum1: res.sumone,
+                    sum2: res.sumtwo,
+                    sum3: res.sumthree,
+                    sum4: res.sumfour,
+                    sum5: res.sumfive,
+                    sum6: res.sumsix,
+                    sum7: res.sumseven
+                })
+            }).catch(function () {
+                localStorage.removeItem('token');
+                window.location.href = '/';
+            });
+
+    }
+
+
+
 
     getOption = (req = []) => {        
         let titles = req.map(val => {
@@ -80,35 +123,19 @@ class ShowChart extends Component {
     render() {
 
         let data_req = [
-            {title: 'ห้ามใช้ชั่วคราว', value: 1.00},
-            {title: 'ห้ามใช้ชั่วคราวแต่ใกล้ครบกำหนดเวลา', value: 1.00},
-            {title: 'ยกเลิกคำสั่งห้ามใช้ชั่วคราว', value:  9.00},
-            {title: 'ห้ามใช้ชั่วคราวและเกินกำหนดเวลา 30 วัน', value: 21.00},
-            {title: 'ห้ามใช้เด็ดขาด', value: 2.00},
-            {title: 'ห้ามใช้ชั่วคราวและกำลังปรับปรุง', value: 2.00},
-            {title: 'ยกเลิกคำสั่งห้ามใช้เด็ดขาด', value: 2.00}
+            {title: 'ห้ามใช้ชั่วคราว', value: this.state.sum1 != '' ? this.state.sum1 : 0 },
+            {title: 'ห้ามใช้ชั่วคราวแต่ใกล้ครบกำหนดเวลา', value: this.state.sum2 != '' ? this.state.sum2 : 0 },
+            {title: 'ยกเลิกคำสั่งห้ามใช้ชั่วคราว', value:  this.state.sum3 != '' ? this.state.sum3 : 0 },
+            {title: 'ห้ามใช้ชั่วคราวและเกินกำหนดเวลา 30 วัน', value: this.state.sum4 != '' ? this.state.sum4 : 0 },
+            {title: 'ห้ามใช้เด็ดขาด', value: this.state.sum5 != '' ? this.state.sum5 : 0 },
+            {title: 'ห้ามใช้ชั่วคราวและกำลังปรับปรุง', value: this.state.sum6 != '' ? this.state.sum6 : 0 },
+            {title: 'ยกเลิกคำสั่งห้ามใช้เด็ดขาด', value: this.state.sum7 != '' ? this.state.sum7 : 0 }
         ];
 
         return (
             <div>
                 <div className="col-lg-12" style={{height: '495px'}}>
                     <ReactEcharts option={this.getOption(data_req)} className="h-100" />
-                    {/* <ChartConfig dataType="ordinal">
-                        {({ data }) => (
-                            <Chart
-                                data={data}
-                                series={{ type: 'bar' }}
-                                axes={[
-                                    { primary: true, type: 'ordinal', position: 'bottom' },
-                                    { position: 'left', type: 'linear', stacked: true },
-                                ]}
-                                primaryCursor
-                                secondaryCursor
-
-                            />
-                        )}
-                    </ChartConfig> */}
-
                 </div>
 
             </div>

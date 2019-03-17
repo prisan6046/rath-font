@@ -1,10 +1,8 @@
-import React, { Component } from 'react'
-import CarForm from './CarForm';
+import React , { Component }from 'react'
 import axios from 'axios';
 import { url } from '../../parameter/index'
 
-
-class Corpor5Form extends Component {
+class ShowFormFive extends Component{
 
     componentDidMount() {
         this.state.token = localStorage.getItem('token');
@@ -171,7 +169,7 @@ class Corpor5Form extends Component {
         formData.append('staff_check_appvore_id', this.state.staff_check_appvore_id)
 
 
-        axios.post(url+'/carForm_three', formData, {
+        axios.post(url+'/updatecarForm_three', formData, {
             onUploadProgress: ProgressEvent => {
                 this.setState({ loaded: 'upload' })
             },
@@ -221,7 +219,7 @@ class Corpor5Form extends Component {
 
         return (
             <div className="Corpor5Form">
-              <br />
+                <br />
                 <form onSubmit={this.handleSubmit} >
                     <div className="row">
                         <div className="col">
@@ -408,7 +406,7 @@ class Corpor5Form extends Component {
                     <hr />
                     <div className="row">
                         <div className="col-lg-12">
-                            <CarForm />
+
                         </div>
                     </div>
                     <br />
@@ -419,6 +417,7 @@ class Corpor5Form extends Component {
             </div>
         )
     }
+
 }
 
-export default Corpor5Form;
+export default ShowFormFive

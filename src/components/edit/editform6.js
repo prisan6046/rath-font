@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
-import CarForm from './CarForm';
+import React , { Component }  from 'react';
 import axios from 'axios';
 import { url } from '../../parameter/index'
 
-class Corpor6Form extends Component {
+
+class ShowFormSix extends Component{
 
     constructor(){
         super()
@@ -231,7 +231,7 @@ class Corpor6Form extends Component {
                     <hr/>
                     <div className="row">
                         <div className="col-lg-12">                                            
-                            <CarForm />
+                     
                         </div>
                     </div>
                     <br />
@@ -242,6 +242,8 @@ class Corpor6Form extends Component {
             </div>            
         )
     }
+
+
 }
 
-export default Corpor6Form;
+export default ShowFormSix

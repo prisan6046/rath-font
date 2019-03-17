@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
+import React , { Component }from 'react';
 import axios from 'axios';
-import store from '../../store/index';
 import { url } from '../../parameter/index';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
@@ -9,11 +8,12 @@ import { DateThai, YearThai } from '../libraries/DateThai';
 import 'moment/locale/th';
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import th from 'date-fns/locale/th';
-registerLocale('th', th);
 
-class Corpor3Form extends Component {
+
+class EditformThree extends Component{
 
     componentDidMount() {
+
         this.state.token = localStorage.getItem('token');
         axios.get(url+'/province').then(res => {
             this.setState({ data_province: res.data })
@@ -25,10 +25,40 @@ class Corpor3Form extends Component {
                 this.setState({
                     data_user: res
                 })
-            }).catch(function () {
-                localStorage.removeItem('token');
-                window.location.href = '/';
-            });
+        })
+
+        fetch(url+'/get_doc_id?id=' + this.props.id + "&token=" + this.state.token)
+            .then((Response) => Response.json())
+            .then((res) => {
+                this.setState({
+                    book_no: res['0']['book_no'],
+                    order_no: res['0']['order_no'],
+                    date_check: res['0']['date_check'],
+                    location_check: res['0']['location_check'],
+                    staff_check: res['0']['staff_check'],
+                    staff_check_id: res['0']['staff_check_id'],
+                    type_check: res['0']['type_check'],
+                    val_check: res['0']['val_check'],
+                    res_check: res['0']['res_check'],
+                    date_not_allow: res['0']['date_not_allow'],
+                    avg_type_car: res['0']['avg_type_car'],
+                    avg_car_number: res['0']['avg_car_number'],
+                    avg_car_brand: res['0']['avg_car_brand'],
+                    avg_car_province: res['0']['avg_car_province'],
+                    avg_car_color: res['0']['avg_car_color'],
+                    avg_car_engine: res['0']['avg_car_engine'],
+                    avg_car_type_engine: res['0']['avg_car_type_engine'],
+                    avg_car_type_fuel: res['0']['avg_car_type_fuel'],
+                    driver_title: res['0']['driver_title'],
+                    driver_name: res['0']['driver_name'],
+                    home_number: res['0']['home_number'],
+                    home_code: res['0']['home_code'],
+                    home_district: res['0']['home_district'],
+                    home_subdistrict: res['0']['home_subdistrict'],
+                    home_province: res['0']['home_province'],
+                    home_tel: res['0']['home_tel'],
+            })
+        })
 
     }
 
@@ -36,6 +66,7 @@ class Corpor3Form extends Component {
         super()
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
+            data : [],
             data_user: [],
             data_province: [],
             book_no: '',
@@ -320,7 +351,7 @@ class Corpor3Form extends Component {
         formData.append('home_province', this.state.home_province);
         formData.append('home_tel', this.state.home_tel);
 
-        axios.post(url+'/carForm_one', formData, {
+        axios.post(url+'/updatecarForm_one', formData, {
             onUploadProgress: ProgressEvent => {
                 this.setState({ loaded: 'upload' })
             },
@@ -376,8 +407,9 @@ class Corpor3Form extends Component {
 
         return (
             <div>
+                <br />
                 <div className="Corpor3Form">
-                    <br />
+                  
                     <form onSubmit={this.handleSubmit} >
                         <div className="row">
                             <div className="col-lg-6">
@@ -705,4 +737,4 @@ class Corpor3Form extends Component {
     }
 }
 
-export default Corpor3Form;
+export default EditformThree

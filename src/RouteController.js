@@ -17,6 +17,7 @@ import PDF from './components/form/craetePDF';
 import PDF4 from './components/form/createPDF4';
 import PDF5 from './components/form/createPDF5';
 import PDF6 from './components/form/createPDF6';
+import Edit from './components/edit/editdata';
 
 
 const NotFoundPage = () => <div>
@@ -70,7 +71,8 @@ class RouteController extends Component{
                             <Route path="/PDF3/:id" component={PDF} />
                             <Route path="/PDF4/:id" component={PDF4} />  
                             <Route path="/PDF5/:id" component={PDF5} />  
-                            <Route path="/PDF6/:id" component={PDF6} />                                                                
+                            <Route path="/PDF6/:id" component={PDF6} />    
+                            <Route path="/Edit/:id" component={Edit} />                                                     
                         </Switch>                
                     </DefaultLayout>    
                     <Route component={NotFoundPage} />      
