@@ -97,8 +97,7 @@ class Home extends Component {
                                            <ShowChart />
                                         </div>
                                     : this.state.button_check == 3 ?
-                                        <div>
-                                        
+                                        <div>                                            
                                         </div>
                                     : this.state.button_check == 4 ?
                                         <div>
