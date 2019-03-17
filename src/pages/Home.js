@@ -4,6 +4,7 @@ import { url } from '../parameter/index';
 import ShowChart from '../components/home/showchart';
 import ShowTable from '../components/home/showtable';
 import ShowHome from '../components/home/showhome';
+import ShowCalendar from '../components/home/ShowCalendar';
 
 
 class Home extends Component {
@@ -98,7 +99,8 @@ class Home extends Component {
                                            <ShowChart token={this.state.token} />
                                         </div>
                                     : this.state.button_check == 3 ?
-                                        <div>                                            
+                                        <div>          
+                                            <ShowCalendar />                                  
                                         </div>
                                     : this.state.button_check == 4 ?
                                         <div>
