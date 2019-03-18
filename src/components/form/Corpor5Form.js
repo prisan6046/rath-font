@@ -285,7 +285,7 @@ class Corpor5Form extends Component {
                                         </div>
                                         <div className="col-lg-8">
                                             <DatePicker 
-                                                selected={this.state.garage_in_date} 
+                                                selected={this.state.req_data_check} 
                                                 onChange={this.handleDataCheckChange} 
                                                 dateFormat="วันที่ d MMMM พ.ศ.YYYY"
                                                 locale="th"

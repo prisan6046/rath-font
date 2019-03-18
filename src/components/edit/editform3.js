@@ -30,10 +30,11 @@ class EditformThree extends Component{
         fetch(url+'/get_doc_id?id=' + this.props.id + "&token=" + this.state.token)
             .then((Response) => Response.json())
             .then((res) => {
+                console.log(res)
                 this.setState({
                     book_no: res['0']['book_no'],
                     order_no: res['0']['order_no'],
-                    date_check: res['0']['date_check'],
+                    date_show : res['0']['date_check'],
                     location_check: res['0']['location_check'],
                     staff_check: res['0']['staff_check'],
                     staff_check_id: res['0']['staff_check_id'],
@@ -58,7 +59,18 @@ class EditformThree extends Component{
                     home_province: res['0']['home_province'],
                     home_tel: res['0']['home_tel'],
             })
+            fetch(url+'/get_user_one?id=' + this.state.staff_check_id)
+            .then((Response) => Response.json())
+            .then((res) => {
+               
+                this.setState({
+                    check_check_id : res['0']['point'],
+                    res_check_id : res['0']['support']
+                    // loading: true
+                })
+            })
         })
+        
 
     }
 
@@ -71,10 +83,12 @@ class EditformThree extends Component{
             data_province: [],
             book_no: '',
             order_no: '',
-            date_check: '',
+            date_show: '',
             location_check: '',
             staff_check: '',
             staff_check_id: '',
+            check_check_id : '',
+            res_check_id : '',
             type_check: '',
             val_check: '',
             res_check: '',
@@ -351,15 +365,13 @@ class EditformThree extends Component{
         formData.append('home_province', this.state.home_province);
         formData.append('home_tel', this.state.home_tel);
 
-        axios.post(url+'/updatecarForm_one', formData, {
-            onUploadProgress: ProgressEvent => {
-                this.setState({ loaded: 'upload' })
-            },
-        }).then(res => {
+        axios.post(url+'/updata_carForm_one', formData ).then(res => {
             localStorage.setItem('project_id', res.data.res_id);
             alert("บันทึกสำเร็จ")
             window.location.reload();
 
+        }).catch((e)=>{
+            alert("error" + e)
         })
     }
 
@@ -368,43 +380,34 @@ class EditformThree extends Component{
     render() {
         let list_province = []
         this.state.data_province.map((val, i) => {
-            return list_province.push(
-                <option key={i} value={val.name_province}>{val.name_province}</option>
-            )
+            if(val.name_province == this.state.avg_car_province){
+                return list_province.push(
+                    <option key={i} value={val.name_province} selected>{val.name_province}</option>
+                )
+            }else{
+                return list_province.push(
+                    <option key={i} value={val.name_province}>{val.name_province}</option>
+                )
+
+            }
+            
         })
 
         let list_user = []
         this.state.data_user.map((val, i) => {
-            return list_user.push(
-                <option key={i} value={val._id.$oid}>{val.name}</option>
-            )
+            if(val._id.$oid == this.state.staff_check_id){
+                return list_user.push(
+                    <option key={i} value={val._id.$oid} selected>{val.name}</option>
+                )
+            }else{
+                return list_user.push(
+                    <option key={i} value={val._id.$oid}>{val.name}</option>
+                )
+            }
+            
         })
 
-        let set_user_list = []
-        this.state.data.map((val, i) => {
-            return set_user_list.push(
-                <div key={i}>
-                    <div className="row mb-2">
-                        <div className="col-lg-4 border-right">
-                            <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
-                        </div>
-                        <div className="col-lg-8">
-                            <input type="text" className="form-control bg-blue-lv3" name="position" defaultValue={val.point} id="position" />
-                        </div>
-                    </div>
-
-                    <div className="row mb-2">
-                        <div className="col-lg-4 border-right">
-                            <label htmlFor="under" className="col-form-label">สังกัด</label>
-                        </div>
-                        <div className="col-lg-8">
-                            <input type="text" className="form-control bg-blue-lv3" name="under" defaultValue={val.support} id="under" />
-                        </div>
-                    </div>
-                </div>
-            )
-        })
-
+        
         return (
             <div>
                 <br />
@@ -449,15 +452,6 @@ class EditformThree extends Component{
                                                 id="date_check" />
                                                 <br/>
                                                 
-                                                <DatePicker 
-                                                selected={this.state.date_show} 
-                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
-                                                locale="th"
-                                                name="" 
-                                                id=""
-                                                showTimeSelect
-                                                dateFormat="MMMM d, yyyy h:mm aa"
-                                                timeFormat="HH:mm"/>
                                             </div>
                                         </div>
 
@@ -483,16 +477,13 @@ class EditformThree extends Component{
                                             </div>
                                         </div>
 
-
-                                        {
-                                            this.state.loading == true ? set_user_list :
                                             <div>
                                                 <div className="row mb-2">
                                                     <div className="col-lg-4 border-right">
                                                         <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
                                                     </div>
                                                     <div className="col-lg-8">
-                                                        <input type="text" className="form-control bg-blue-lv3" name="position" id="position" />
+                                                        <input type="text" className="form-control bg-blue-lv3" name="position" id="position"  value={this.state.check_check_id}/>
                                                     </div>
                                                 </div>
 
@@ -501,11 +492,11 @@ class EditformThree extends Component{
                                                         <label htmlFor="under" className="col-form-label">สังกัด</label>
                                                     </div>
                                                     <div className="col-lg-8">
-                                                        <input type="text" className="form-control bg-blue-lv3" name="under" id="under" />
+                                                        <input type="text" className="form-control bg-blue-lv3" name="under" id="under" value={this.state.res_check_id} />
                                                     </div>
                                                 </div>
                                             </div>
-                                        }
+                                        
 
                                     </div>
                                 </div>
@@ -520,10 +511,10 @@ class EditformThree extends Component{
                                                 <label htmlFor="type_check" className="col-form-label">ประเภทการตรวจ</label>
                                             </div>
                                             <div className="col-lg-8">
-                                                <input type="radio" name="type_check" value="ควันดำ" defaultChecked={this.state.type_check === 'ควันดำ'} onChange={this.handleTypeCheckChange} /> <label className="mb-0" htmlFor="1">ควันดำ</label> <br />
-                                                <input type="radio" name="type_check" value="เสียงดัง" defaultChecked={this.state.type_check === 'เสียงดัง'} onChange={this.handleTypeCheckChange} /> <label className="mb-0" htmlFor="2">เสียงดัง</label> <br />
-                                                <input type="radio" name="type_check" value="ไฮโดรคาร์บอน" defaultChecked={this.state.type_check === 'ไฮโดรคาร์บอน'} onChange={this.handleTypeCheckChange} /> <label className="mb-0" htmlFor="3">ไฮโดรคาร์บอน</label> <br />
-                                                <input type="radio" name="type_check" value="คาร์บอนไดออกไซด์" defaultChecked={this.state.type_check === 'คาร์บอนไดออกไซด์'} onChange={this.handleTypeCheckChange} /> <label className="mb-0" htmlFor="4">คาร์บอนไดออกไซด์</label>
+                                                <input type="radio" name="type_check" value="ควันดำ" defaultChecked={this.state.type_check == 'ควันดำ'} onChange={this.handleTypeCheckChange}  checked={this.state.type_check === "ควันดำ"} /> <label className="mb-0" htmlFor="1">ควันดำ</label> <br />
+                                                <input type="radio" name="type_check" value="เสียงดัง" defaultChecked={this.state.type_check == 'เสียงดัง'} onChange={this.handleTypeCheckChange} checked={this.state.type_check === "เสียงดัง"} /> <label className="mb-0" htmlFor="2">เสียงดัง</label> <br />
+                                                <input type="radio" name="type_check" value="ไฮโดรคาร์บอน" defaultChecked={this.state.type_check == 'ไฮโดรคาร์บอน'} onChange={this.handleTypeCheckChange} checked={this.state.type_check === "ไฮโดรคาร์บอน"} /> <label className="mb-0" htmlFor="3">ไฮโดรคาร์บอน</label> <br />
+                                                <input type="radio" name="type_check" value="คาร์บอนไดออกไซด์" defaultChecked={this.state.type_check == 'คาร์บอนไดออกไซด์'} onChange={this.handleTypeCheckChange} checked={this.state.type_check === "คาร์บอนไดออกไซด์"} /> <label className="mb-0" htmlFor="4">คาร์บอนไดออกไซด์</label>
                                             </div>
                                         </div>
 
@@ -541,8 +532,8 @@ class EditformThree extends Component{
                                                 <label htmlFor="type_check" className="col-form-label">ผลการตรวจสอบ</label>
                                             </div>
                                             <div className="col-lg-8">
-                                                <input type="radio" name="type_check1" value="ห้ามใช้ยานพาหนะชั่วคราว" defaultChecked={this.state.res_check === 'ห้ามใช้ยานพาหนะชั่วคราว'} onChange={this.handleResCheckChange} /> <label className="mb-0" htmlFor="1">ห้ามใช้ยานพาหนะชั่วคราว</label> <br />
-                                                <input type="radio" name="type_check1" value="ห้ามใช้ยานพาหนะเด็ดขาด" defaultChecked={this.state.res_check === 'ห้ามใช้ยานพาหนะเด็ดขาด'} onChange={this.handleResCheckChange} /> <label className="mb-0" htmlFor="2">ห้ามใช้ยานพาหนะเด็ดขาด</label>
+                                                <input type="radio" name="type_check1" value="ห้ามใช้ยานพาหนะชั่วคราว" defaultChecked={this.state.res_check === 'ห้ามใช้ยานพาหนะชั่วคราว'} onChange={this.handleResCheckChange} checked={this.state.res_check === "ห้ามใช้ยานพาหนะชั่วคราว"}/> <label className="mb-0" htmlFor="1">ห้ามใช้ยานพาหนะชั่วคราว</label> <br />
+                                                <input type="radio" name="type_check1" value="ห้ามใช้ยานพาหนะเด็ดขาด" defaultChecked={this.state.res_check === 'ห้ามใช้ยานพาหนะเด็ดขาด'} onChange={this.handleResCheckChange} checked={this.state.res_check === "ห้ามใช้ยานพาหนะเด็ดขาด"}/> <label className="mb-0" htmlFor="2">ห้ามใช้ยานพาหนะเด็ดขาด</label>
                                             </div>
                                         </div>
 
@@ -577,10 +568,10 @@ class EditformThree extends Component{
                                                     <label htmlFor="type_check" className="col-form-label">ประเภทยานพาหนะ</label>
                                                 </div>
                                                 <div className="col-lg-9">
-                                                    <input type="radio" name="type_check2" id="1" value="รถยนต์" defaultChecked={this.state.type_car === 'รถยนต์'} onChange={this.handleTypeCarChange} /> <label className="mb-0" htmlFor="1">รถยนต์</label> <br />
-                                                    <input type="radio" name="type_check2" id="2" value="รถยนต์สามล้อใช้งาน" defaultChecked={this.state.type_car === 'รถยนต์สามล้อใช้งาน'} onChange={this.handleTypeCarChange} /> <label className="mb-0" htmlFor="2">รถยนต์สามล้อใช้งาน</label> <br />
-                                                    <input type="radio" name="type_check2" id="3" value="รถจักรยานยนต์" defaultChecked={this.state.type_car === 'รถจักรยานยนต์'} onChange={this.handleTypeCarChange} /> <label className="mb-0" htmlFor="3">รถจักรยานยนต์</label> <br />
-                                                    <input type="radio" name="type_check2" id="4" value="เรือ" defaultChecked={this.state.type_car === 'เรือ'} onChange={this.handleTypeCarChange} /> <label className="mb-0" htmlFor="4">เรือ</label>
+                                                    <input type="radio" name="type_check2" id="1" value="รถยนต์" defaultChecked={this.state.avg_type_car === 'รถยนต์'} onChange={this.handleTypeCarChange} checked={this.state.avg_type_car === "รถยนต์"} /> <label className="mb-0" htmlFor="1">รถยนต์</label> <br />
+                                                    <input type="radio" name="type_check2" id="2" value="รถยนต์สามล้อใช้งาน" defaultChecked={this.state.avg_type_car === 'รถยนต์สามล้อใช้งาน'} onChange={this.handleTypeCarChange} checked={this.state.avg_type_car === "รถยนต์สามล้อใช้งาน"} /> <label className="mb-0" htmlFor="2">รถยนต์สามล้อใช้งาน</label> <br />
+                                                    <input type="radio" name="type_check2" id="3" value="รถจักรยานยนต์" defaultChecked={this.state.avg_type_car === 'รถจักรยานยนต์'} onChange={this.handleTypeCarChange} checked={this.state.avg_type_car === "รถจักรยานยนต์"} /> <label className="mb-0" htmlFor="3">รถจักรยานยนต์</label> <br />
+                                                    <input type="radio" name="type_check2" id="4" value="เรือ" defaultChecked={this.state.avg_type_car === 'เรือ'} onChange={this.handleTypeCarChange} checked={this.state.avg_type_car === "เรือ"} /> <label className="mb-0" htmlFor="4">เรือ</label>
                                                 </div>
                                             </div>
 
@@ -614,16 +605,16 @@ class EditformThree extends Component{
                                                 <div className="col-lg-9">
                                                     <select className="form-control bg-blue-lv3 w-50" onChange={this.handleAvgCarBandChange} name="avg_check" id="avg_check">
                                                         <option value=""></option>
-                                                        <option value="Honda">Honda</option>
-                                                        <option value="Toyota">Toyota</option>
-                                                        <option value="Misubishi">Misubishi</option>
-                                                        <option value="Nissan">Nissan</option>
-                                                        <option value="Mazda">Mazda</option>
-                                                        <option value="Chevtolet">Chevtolet</option>
-                                                        <option value="Bmw">Bmw</option>
-                                                        <option value="Benz">Benz</option>
-                                                        <option value="Ford">Ford</option>
-                                                        <option value="Volvo Band">Volvo Band</option>
+                                                        <option value="Honda" selected={this.state.avg_car_brand == 'Honda'}>Honda</option>
+                                                        <option value="Toyota" selected={this.state.avg_car_brand == 'Toyota'}>Toyota</option>
+                                                        <option value="Misubishi" selected={this.state.avg_car_brand == 'Misubishi'}>Misubishi</option>
+                                                        <option value="Nissan" selected={this.state.avg_car_brand == 'Nissan'}>Nissan</option>
+                                                        <option value="Mazda" selected={this.state.avg_car_brand == 'Mazda'}>Mazda</option>
+                                                        <option value="Chevtolet" selected={this.state.avg_car_brand == 'Chevtolet'}>Chevtolet</option>
+                                                        <option value="Bmw" selected={this.state.avg_car_brand == 'Bmw'}>Bmw</option>
+                                                        <option value="Benz" selected={this.state.avg_car_brand == 'Benz'}>Benz</option>
+                                                        <option value="Ford" selected={this.state.avg_car_brand == 'Ford'}>Ford</option>
+                                                        <option value="Volvo Band" selected={this.state.avg_car_brand == 'Volvo Band'}>Volvo Band</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -644,16 +635,16 @@ class EditformThree extends Component{
                                                 <div className="col-lg-9">
                                                     <select className="form-control bg-blue-lv3 w-50" onChange={this.handleAvgCarEngineChange} name="avg_check" id="avg_check">
                                                         <option value=""></option>
-                                                        <option value="Honda">Honda</option>
-                                                        <option value="Toyota">Toyota</option>
-                                                        <option value="Misubishi">Misubishi</option>
-                                                        <option value="Nissan">Nissan</option>
-                                                        <option value="Mazda">Mazda</option>
-                                                        <option value="Chevtolet">Chevtolet</option>
-                                                        <option value="Bmw">Bmw</option>
-                                                        <option value="Benz">Benz</option>
-                                                        <option value="Ford">Ford</option>
-                                                        <option value="Volvo Band">Volvo Band</option>
+                                                        <option value="Honda" selected={this.state.avg_car_engine == 'Honda'} >Honda</option>
+                                                        <option value="Toyota" selected={this.state.avg_car_engine == 'Toyota'}>Toyota</option>
+                                                        <option value="Misubishi" selected={this.state.avg_car_engine == 'Misubishi'} >Misubishi</option>
+                                                        <option value="Nissan"selected={this.state.avg_car_engine == 'Nissan'}>Nissan</option>
+                                                        <option value="Mazda" selected={this.state.avg_car_engine == 'Mazda'}>Mazda</option>
+                                                        <option value="Chevtolet" selected={this.state.avg_car_engine == 'Chevtolet'}>Chevtolet</option>
+                                                        <option value="Bmw" selected={this.state.avg_car_engine == 'Bmw'}>Bmw</option>
+                                                        <option value="Benz" selected={this.state.avg_car_engine == 'Benz'}>Benz</option>
+                                                        <option value="Ford" selected={this.state.avg_car_engine == 'Ford'}>Ford</option>
+                                                        <option value="Volvo Band" selected={this.state.avg_car_engine == 'Volvo Band'}>Volvo Band</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -663,10 +654,10 @@ class EditformThree extends Component{
                                                     <label htmlFor="type_check" className="col-form-label">ประเภทเครื่องยนต์</label>
                                                 </div>
                                                 <div className="col-lg-9">
-                                                    <input type="radio" name="type_check3" id="1" value="น้ำมันดีเซล" defaultChecked={this.state.avg_car_type_engine === 'น้ำมันดีเซล'} onChange={this.handleTypeCarEngineChange} /> <label className="mb-0" htmlFor="1">น้ำมันดีเซล</label> <br />
-                                                    <input type="radio" name="type_check3" id="2" value="น้ำมันเบนซิน" defaultChecked={this.state.avg_car_type_engine === 'น้ำมันเบนซิน'} onChange={this.handleTypeCarEngineChange} /> <label className="mb-0" htmlFor="2">น้ำมันเบนซิน</label> <br />
-                                                    <input type="radio" name="type_check3" id="3" value="ไฟฟ้า" defaultChecked={this.state.avg_car_type_engine === 'ไฟฟ้า'} onChange={this.handleTypeCarEngineChange} /> <label className="mb-0" htmlFor="3">ไฟฟ้า</label> <br />
-                                                    <input type="radio" name="type_check3" id="4" value="ไฮบริด" defaultChecked={this.state.avg_car_type_engine === 'ไฮบริด'} onChange={this.handleTypeCarEngineChange} /> <label className="mb-0" htmlFor="4">ไฮบริด</label>
+                                                    <input type="radio" name="type_check3" id="1" value="น้ำมันดีเซล" defaultChecked={this.state.avg_car_type_engine === 'น้ำมันดีเซล'} onChange={this.handleTypeCarEngineChange} checked={this.state.avg_car_type_engine === "น้ำมันดีเซล"} /> <label className="mb-0" htmlFor="1">น้ำมันดีเซล</label> <br />
+                                                    <input type="radio" name="type_check3" id="2" value="น้ำมันเบนซิน" defaultChecked={this.state.avg_car_type_engine === 'น้ำมันเบนซิน'} onChange={this.handleTypeCarEngineChange} checked={this.state.avg_car_type_engine === "น้ำมันเบนซิน"} /> <label className="mb-0" htmlFor="2">น้ำมันเบนซิน</label> <br />
+                                                    <input type="radio" name="type_check3" id="3" value="ไฟฟ้า" defaultChecked={this.state.avg_car_type_engine === 'ไฟฟ้า'} onChange={this.handleTypeCarEngineChange} checked={this.state.avg_car_type_engine === "ไฟฟ้า"} /> <label className="mb-0" htmlFor="3">ไฟฟ้า</label> <br />
+                                                    <input type="radio" name="type_check3" id="4" value="ไฮบริด" defaultChecked={this.state.avg_car_type_engine === 'ไฮบริด'} onChange={this.handleTypeCarEngineChange} checked={this.state.avg_car_type_engine === "ไฮบริด"} /> <label className="mb-0" htmlFor="4">ไฮบริด</label>
                                                 </div>
                                             </div>
 
@@ -675,11 +666,11 @@ class EditformThree extends Component{
                                                     <label htmlFor="type_check" className="col-form-label">ประเภทเชื้อเพลิง</label>
                                                 </div>
                                                 <div className="col-lg-9">
-                                                    <input type="radio" name="type_check4" id="1" value="น้ำมันดีเซล" defaultChecked={this.state.avg_car_type_fuel === 'น้ำมันดีเซล'} onChange={this.handleTypeCarFuelChange} /> <label className="mb-0" htmlFor="1">น้ำมันดีเซล</label> <br />
-                                                    <input type="radio" name="type_check4" id="2" value="น้ำมันเบนซิน" defaultChecked={this.state.avg_car_type_fuel === 'น้ำมันเบนซิน'} onChange={this.handleTypeCarFuelChange} /> <label className="mb-0" htmlFor="2">น้ำมันเบนซิน</label> <br />
-                                                    <input type="radio" name="type_check4" id="2" value="ก๊าซธรรมชาติ" defaultChecked={this.state.avg_car_type_fuel === 'ก๊าซธรรมชาติ'} onChange={this.handleTypeCarFuelChange} /> <label className="mb-0" htmlFor="2">ก๊าซธรรมชาติ</label> <br />
-                                                    <input type="radio" name="type_check4" id="3" value="ไฟฟ้า" defaultChecked={this.state.avg_car_type_fuel === 'ไฟฟ้า'} onChange={this.handleTypeCarFuelChange} /> <label className="mb-0" htmlFor="3">ไฟฟ้า</label> <br />
-                                                    <input type="radio" name="type_check4" id="4" value="ไฮบริด" defaultChecked={this.state.avg_car_type_fuel === 'ไฮบริด'} onChange={this.handleTypeCarFuelChange} /> <label className="mb-0" htmlFor="4">ไฮบริด</label>
+                                                    <input type="radio" name="type_check4" id="1" value="น้ำมันดีเซล" defaultChecked={this.state.avg_car_type_fuel === 'น้ำมันดีเซล'} onChange={this.handleTypeCarFuelChange} checked={this.state.avg_car_type_fuel === "น้ำมันดีเซล"} /> <label className="mb-0" htmlFor="1">น้ำมันดีเซล</label> <br />
+                                                    <input type="radio" name="type_check4" id="2" value="น้ำมันเบนซิน" defaultChecked={this.state.avg_car_type_fuel === 'น้ำมันเบนซิน'} onChange={this.handleTypeCarFuelChange} checked={this.state.avg_car_type_fuel === "น้ำมันเบนซิน"} /> <label className="mb-0" htmlFor="2">น้ำมันเบนซิน</label> <br />
+                                                    <input type="radio" name="type_check4" id="2" value="ก๊าซธรรมชาติ" defaultChecked={this.state.avg_car_type_fuel === 'ก๊าซธรรมชาติ'} onChange={this.handleTypeCarFuelChange} checked={this.state.avg_car_type_fuel === "ก๊าซธรรมชาติ"} /> <label className="mb-0" htmlFor="2">ก๊าซธรรมชาติ</label> <br />
+                                                    <input type="radio" name="type_check4" id="3" value="ไฟฟ้า" defaultChecked={this.state.avg_car_type_fuel === 'ไฟฟ้า'} onChange={this.handleTypeCarFuelChange} checked={this.state.avg_car_type_fuel === "ไฟฟ้า"} /> <label className="mb-0" htmlFor="3">ไฟฟ้า</label> <br />
+                                                    <input type="radio" name="type_check4" id="4" value="ไฮบริด" defaultChecked={this.state.avg_car_type_fuel === 'ไฮบริด'} onChange={this.handleTypeCarFuelChange} checked={this.state.avg_car_type_fuel === "ไฮบริด"} /> <label className="mb-0" htmlFor="4">ไฮบริด</label>
                                                 </div>
                                             </div>
 
