@@ -3,6 +3,7 @@ import moment from 'moment'
 import Calendar from 'rc-calendar';
 import FullCalendar from 'fullcalendar-reactwrapper';
 import 'fullcalendar-reactwrapper/dist/css/fullcalendar.min.css';
+import 'moment/locale/th';
  
 class ShowCalendar extends Component {
     constructor(props) {
@@ -56,18 +57,19 @@ class ShowCalendar extends Component {
             <div className="ShowCalendar bg-white">
                 <div className="p-2">
                     <FullCalendar
+                        themeSystem="bootstrap4"
                         id = "your-custom-ID"
                         header = {{
-                            left: 'prev,next today myCustomButton',
+                            left: 'prev,today,next',
                             center: 'title',
                             right: 'month,basicWeek,basicDay'
-                        }}
-                        // defaultDate={'2017-09-12'}
+                        }}                        
                         navLinks= {true} // can click day/week names to navigate views
                         editable= {true}
                         eventLimit= {true} // allow "more" link when too many events
                         events = {this.state.events}	
-                        weekNumbers={true}
+                        weekNumbers={true}                        
+                        locale="th"
                     />
                 </div>                
             </div>
