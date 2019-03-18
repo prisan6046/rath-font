@@ -16,9 +16,24 @@ registerLocale('th', th);
 
 class Corpor6Form extends Component {
 
+    componentDidMount() {
+        this.state.token = localStorage.getItem('token');
+        fetch(url+'/get_all_user?token=' + this.state.token)
+            .then((Response) => Response.json())
+            .then((res) => {
+                this.setState({
+                    data_user: res
+                })
+            })
+    
+    }
+
     constructor(){
         super()
         this.state = {
+            data_user : [],
+            loading : false,
+            data : [],
             book_no : '',
             order_no : '',
             date_out : '',
@@ -98,10 +113,25 @@ class Corpor6Form extends Component {
             date_now : full_date_th
         });
     }
+   
+
     handleStaffIdChange(e){
         this.setState({
-            staff_id : e.target.value
+            staff_id : e.target.value,
         })
+
+        if (e.target.value != '') {
+            fetch(url+'/get_user_one?id=' + e.target.value)
+                .then((Response) => Response.json())
+                .then((res) => {
+                    console.log(res)
+                    this.setState({
+                        data : res,
+                        loading: true
+                    })
+                })
+        }
+
     }
 
 
@@ -131,6 +161,40 @@ class Corpor6Form extends Component {
     }
 
     render() {
+
+        let list_user = []
+        this.state.data_user.map((val, i) => {
+            return list_user.push(
+                <option key={i} value={val._id.$oid}>{val.name}</option>
+            )
+        })
+
+        let set_user_list = []
+        this.state.data.map((val, i) => {
+            return set_user_list.push(
+                <div key={i}>
+                    <div className="row mb-2">
+                        <div className="col-lg-4 border-right">
+                            <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
+                        </div>
+                        <div className="col-lg-8">
+                            <input type="text" className="form-control bg-blue-lv3" name="position" defaultValue={val.point} id="position" />
+                        </div>
+                    </div>
+
+                    <div className="row mb-2">
+                        <div className="col-lg-4 border-right">
+                            <label htmlFor="under" className="col-form-label">สังกัด</label>
+                        </div>
+                        <div className="col-lg-8">
+                            <input type="text" className="form-control bg-blue-lv3" name="under" defaultValue={val.support} id="under" />
+                        </div>
+                    </div>
+
+                </div>
+            )
+        })
+
         return(
             <div className="Corpor6Form">   
                <br />
@@ -189,30 +253,37 @@ class Corpor6Form extends Component {
                                         </div>
                                         <div className="col-lg-8">
                                             <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" value={this.state.staff_out} onChange={this.handleStaffOutChange}  id="staff_check" placeholder="นาย, นาง, นางสาว, ยศ"/>
-                                            <select name="select_staff_check" id="select_staff_check" onClick={this.handleStaffChange} className="form-control bg-blue-lv3">
+                                            <select name="select_staff_check" id="select_staff_check" onChange={this.handleStaffIdChange} className="form-control bg-blue-lv3">
                                                 <option value=""></option>
-                                                <option value="">จ.ส.ต.ธนา ขันอุไร</option>
+                                                {
+                                                    list_user
+                                                }
                                             </select>
                                         </div>
                                     </div>
 
-                                    <div className="row mb-2">
-                                        <div className="col-lg-4 border-right">
-                                            <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
-                                        </div>
-                                        <div className="col-lg-8">
-                                            <input type="text" className="form-control bg-blue-lv3" name="position" id="position"/>
-                                        </div>
-                                    </div>
+                                    {
+                                        this.state.loading == true ? set_user_list :
+                                            <div>
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        <input type="text" className="form-control bg-blue-lv3" name="position" id="position" />
+                                                    </div>
+                                                </div>
 
-                                    <div className="row mb-2">
-                                        <div className="col-lg-4 border-right">
-                                            <label htmlFor="under" className="col-form-label">สังกัด</label>
-                                        </div>
-                                        <div className="col-lg-8">
-                                            <input type="text" className="form-control bg-blue-lv3" name="under" id="under"/>
-                                        </div>
-                                    </div>
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="under" className="col-form-label">สังกัด</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        <input type="text" className="form-control bg-blue-lv3" name="under" id="under" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    }
                                 </div>
                             </div>                                            
                         </div>
@@ -226,10 +297,10 @@ class Corpor6Form extends Component {
                                             <label htmlFor="type_check" className="col-form-label">ประเภทการตรวจ</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="radio" name="type_check" id="1" defaultChecked={this.state.type_check === '1'} onChange={this.handleTypeCheckChange} /> <label className="mb-0" htmlFor="1">ควันดำ</label> <br/>
-                                            <input type="radio" name="type_check" id="2" defaultChecked={this.state.type_check === '2'} onChange={this.handleTypeCheckChange} /> <label className="mb-0" htmlFor="2">เสียงดัง</label> <br/>
-                                            <input type="radio" name="type_check" id="3" defaultChecked={this.state.type_check === '3'} onChange={this.handleTypeCheckChange} /> <label className="mb-0" htmlFor="3">ไฮโดรคาร์บอน</label> <br/>
-                                            <input type="radio" name="type_check" id="4" defaultChecked={this.state.type_check === '4'} onChange={this.handleTypeCheckChange} /> <label className="mb-0" htmlFor="4">คาร์บอนไดออกไซด์</label>
+                                            <input type="radio" name="type_check" id="1" value="ควันดำ" defaultChecked={this.state.type_check === 'ควันดำ'} onChange={this.handleTypeCheckChange} /> <label className="mb-0" htmlFor="1">ควันดำ</label> <br/>
+                                            <input type="radio" name="type_check" id="2" value="เสียงดัง" defaultChecked={this.state.type_check === 'เสียงดัง'} onChange={this.handleTypeCheckChange} /> <label className="mb-0" htmlFor="2">เสียงดัง</label> <br/>
+                                            <input type="radio" name="type_check" id="3" value="ไฮโดรคาร์บอน" defaultChecked={this.state.type_check === 'ไฮโดรคาร์บอน'} onChange={this.handleTypeCheckChange} /> <label className="mb-0" htmlFor="3">ไฮโดรคาร์บอน</label> <br/>
+                                            <input type="radio" name="type_check" id="4" value="คาร์บอนไดออกไซด์" defaultChecked={this.state.type_check === 'คาร์บอนไดออกไซด์'} onChange={this.handleTypeCheckChange} /> <label className="mb-0" htmlFor="4">คาร์บอนไดออกไซด์</label>
                                         </div>
                                     </div>
 
@@ -264,7 +335,7 @@ class Corpor6Form extends Component {
                     <hr/>
                     <div className="row">
                         <div className="col-lg-12">                                            
-                            <CarForm />
+                           
                         </div>
                     </div>
                     <br />

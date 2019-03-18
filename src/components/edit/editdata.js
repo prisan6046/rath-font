@@ -3,9 +3,34 @@ import EditformThree from '../edit/editform3';
 import EditFormFour from '../edit/editform4';
 import EditFormFive from '../edit/editform5';
 import EditFormSix from '../edit/editform6';
+import { url } from '../../parameter/index'
 
 
 class EditData extends Component{
+
+    constructor(){
+        super()
+        this.state = {
+            token : '',
+            id : '',
+            load : false
+        }
+
+    }
+
+    componentDidMount(){
+        this.state.token = localStorage.getItem('token');
+        fetch(url+'/get_project_id?id=' + this.props.match.params.id+ "&token=" + this.state.token)
+            .then((Response) => Response.json())
+            .then((res) => {
+                
+                this.setState({
+                    id: res['0']['id'],
+                    load : true
+                })
+            })
+    }
+
 
     render(){
         return(
@@ -37,13 +62,22 @@ class EditData extends Component{
                                                     <EditformThree id={this.props.match.params.id} />
                                                 </div>
                                                 <div className="tab-pane fade" id="corpor4" role="tabpanel" aria-labelledby="corpor4-tab">
-                                                   <EditFormFour id={this.props.match.params.id} />
+                                                   {
+                                                       this.state.load == true? <EditFormFour id={ this.state.id } />: <div></div>
+                                                   }
                                                 </div>
                                                 <div className="tab-pane fade" id="corpor5" role="tabpanel" aria-labelledby="corpor5-tab">
-                                                   <EditFormFive id={this.props.match.params.id} />
+                                                   
+                                                {
+                                                       this.state.load == true? <EditFormFive id={this.state.id } /> : <div></div>
+                                                   }
+                                                   
                                                 </div>
                                                 <div className="tab-pane fade" id="corpor6" role="tabpanel" aria-labelledby="corpor6-tab">
-                                                <EditFormSix id={this.props.match.params.id} />
+                                                
+                                                {
+                                                       this.state.load == true? <EditFormSix id={this.state.id } /> : <div></div>
+                                                   }
                                                 </div>
                                             </div>
                                         </div>                                        

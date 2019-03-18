@@ -25,6 +25,15 @@ class Corpor4Form extends Component {
                 })
             })
 
+        fetch(url+'/get_service?token=' + this.state.token)
+            .then((Response) => Response.json())
+            .then((res) => {
+                this.setState({
+                    data_servicecar : res,
+                    loading : true
+                })
+            })
+
        
     }
 
@@ -46,7 +55,8 @@ class Corpor4Form extends Component {
             garage_name: '',
             garage_in_date: '',
             garage_out_date: '',
-            end_remove_car: ''
+            end_remove_car: '',
+            data_servicecar : []
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleGarageNameChange = this.handleGarageNameChange.bind(this);
@@ -66,7 +76,7 @@ class Corpor4Form extends Component {
 
     handleGarageNameChange(e) {
         this.setState({
-            garage_name: e.target.value
+            garage_name : e.target.value
         })
     }
 
@@ -150,16 +160,14 @@ class Corpor4Form extends Component {
         event.preventDefault();
         this.state.project_id = localStorage.getItem('project_id');
         var formData = new FormData();
+        console.log(this.state.garage_name)
         formData.append('project_id', this.state.project_id);
         formData.append('book_no', this.state.book_no);
         formData.append('order_no', this.state.order_no);
         formData.append('date_allow', this.state.date_allow);
-        formData.append('staff_check', this.state.staff_check);
         formData.append('location_allow', this.state.location_allow);
         formData.append('staff_allow', this.state.staff_allow);
         formData.append('staff_allow_id' , this.state.staff_allow_id )
-
-        
         formData.append('garage_name', this.state.garage_name);
         formData.append('garage_in_date', this.state.garage_in_date);
         formData.append('garage_out_date', this.state.garage_out_date);
@@ -222,6 +230,12 @@ class Corpor4Form extends Component {
             )
         })
 
+        let list_service = []
+        this.state.data_servicecar.map((val, i) => {
+            return list_service.push(
+                <option key={i} value={val.name_service}>{val.name_service}</option>
+            )
+        })
         return (
             <div className="Corpor4Form">
             <br />
@@ -281,7 +295,7 @@ class Corpor4Form extends Component {
                                         </div>
                                         <div className="col-lg-8">
                                             <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" value={this.state.staff_allow} onChange={this.handleStaffAllowChange} id="staff_check" placeholder="นาย, นาง, นางสาว, ยศ" />
-                                            <select name="select_staff_check" id="select_staff_check" onClick={this.handleStaffAllowIdChange} className="form-control bg-blue-lv3">
+                                            <select name="select_staff_check" id="select_staff_check" onChange={this.handleStaffAllowIdChange} className="form-control bg-blue-lv3">
                                                 <option value=""></option>
                                                 {
                                                     list_user
@@ -326,8 +340,11 @@ class Corpor4Form extends Component {
                                             <label htmlFor="type_check" className="col-form-label">อู่รถ</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <select name="select_staff_check" id="select_staff_check" onClick={this.handleGarageNameChange} className="form-control bg-blue-lv3">
+                                            <select name="select_staff_check" id="select_staff_check" onChange={this.handleGarageNameChange} className="form-control bg-blue-lv3">
                                                 <option value=""></option>
+                                                {
+                                                    list_service
+                                                }
                                             </select>
                                         </div>
                                     </div>
@@ -386,7 +403,7 @@ class Corpor4Form extends Component {
                     <hr />
                     <div className="row">
                         <div className="col-lg-12">
-                            <CarForm />
+                            
                         </div>
                     </div>
                     <br />

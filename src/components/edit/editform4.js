@@ -1,6 +1,13 @@
 import React , { Component }from 'react';
 import axios from 'axios';
-import { url } from '../../parameter/index'
+import { url } from '../../parameter/index';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import moment from 'moment';
+import { DateThai, YearThai } from '../libraries/DateThai';
+import 'moment/locale/th';
+import { registerLocale, setDefaultLocale } from 'react-datepicker';
+import th from 'date-fns/locale/th';
 
 class EditFormFour extends Component{
 
@@ -13,6 +20,36 @@ class EditFormFour extends Component{
                     data_user: res
                 })
             })
+
+        fetch(url+'/get_doc_two_id?id=' + this.props.id + "&token=" + this.state.token)
+            .then((Response) => Response.json())
+            .then((res) => {
+               this.setState({
+                project_id : res['0']['project_id'],
+                data_province: res['0']['project_id'],
+                book_no: res['0']['book_no'],
+                order_no: res['0']['order_no'],
+                date_allow: res['0']['date_allow'],
+                location_allow: res['0']['location_allow'],
+                staff_allow: res['0']['staff_allow'],
+                staff_allow_id : res['0']['staff_allow_id'],
+                garage_name: res['0']['garage_name'],
+                garage_in_date: res['0']['garage_in_date'],
+                garage_out_date: res['0']['garage_out_date'],
+                end_remove_car: res['0']['end_remove_car']
+            })
+        })
+
+        fetch(url+'/get_service?token=' + this.state.token)
+            .then((Response) => Response.json())
+            .then((res) => {
+                this.setState({
+                    data_servicecar : res,
+                    loading : true
+                })
+            })
+
+       
     }
 
     constructor() {
@@ -33,7 +70,8 @@ class EditFormFour extends Component{
             garage_name: '',
             garage_in_date: '',
             garage_out_date: '',
-            end_remove_car: ''
+            end_remove_car: '',
+            data_servicecar : []
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleGarageNameChange = this.handleGarageNameChange.bind(this);
@@ -53,23 +91,41 @@ class EditFormFour extends Component{
 
     handleGarageNameChange(e) {
         this.setState({
-            garage_name: e.target.value
+            garage_name : e.target.value
         })
     }
-    handleGarageInDateChange(e) {
+
+    handleGarageInDateChange = (date) => {
+        moment.locale('en');
+        const year_th = YearThai(moment(date).format('YYYY'))
+        const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+        const date_format_en = moment(date).format('YYYY-MM-DD');
+
         this.setState({
-            garage_in_date: e.target.value
-        })
+            garage_in_date: full_date_th
+        });
     }
-    handleGarageOutDateChange(e) {
+    handleGarageOutDateChange = (date)=> {
+        moment.locale('en');
+        const year_th = YearThai(moment(date).format('YYYY'))
+        const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+        const date_format_en = moment(date).format('YYYY-MM-DD');
+
         this.setState({
-            garage_out_date: e.target.value
-        })
+            garage_out_date: full_date_th
+        });
     }
-    handleEndRomoveCarChange(e) {
+
+    handleEndRomoveCarChange = (date) => {
+        moment.locale('en');
+        const year_th = YearThai(moment(date).format('YYYY'))
+        const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+        const date_format_en = moment(date).format('YYYY-MM-DD');
+
         this.setState({
-            end_remove_car: e.target.value
-        })
+            end_remove_car: full_date_th
+        });
+       
     }
     handleBookOnChange(e) {
         this.setState({
@@ -117,25 +173,21 @@ class EditFormFour extends Component{
 
     handleSubmit(event) {
         event.preventDefault();
-        this.state.project_id = localStorage.getItem('project_id');
         var formData = new FormData();
-        formData.append('project_id', this.state.project_id);
+        formData.append('project_id', this.props.id);
         formData.append('book_no', this.state.book_no);
         formData.append('order_no', this.state.order_no);
         formData.append('date_allow', this.state.date_allow);
-        formData.append('staff_check', this.state.staff_check);
         formData.append('location_allow', this.state.location_allow);
         formData.append('staff_allow', this.state.staff_allow);
         formData.append('staff_allow_id' , this.state.staff_allow_id )
-
-        
         formData.append('garage_name', this.state.garage_name);
         formData.append('garage_in_date', this.state.garage_in_date);
         formData.append('garage_out_date', this.state.garage_out_date);
         formData.append('end_remove_car', this.state.end_remove_car);
         
 
-        axios.post(url+'/update_carForm_two', formData, {
+        axios.post(url+'/carForm_two', formData, {
             onUploadProgress: ProgressEvent => {
                 this.setState({ loaded: 'upload'})
             },
@@ -145,6 +197,17 @@ class EditFormFour extends Component{
         })
     }
 
+    handleDateNotAllowChange = (date) => {        
+        moment.locale('en');
+        const year_th = YearThai(moment(date).format('YYYY'))
+        const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+        const date_format_en = moment(date).format('YYYY-MM-DD');
+
+        this.setState({
+            date_allow: full_date_th
+        });
+        // console.log("date_show....", this.state.date_check);
+    }
 
     render() {
 
@@ -175,14 +238,35 @@ class EditFormFour extends Component{
 
         let list_user = []
         this.state.data_user.map((val, i) => {
-            return list_user.push(
-                <option key={i} value={val._id.$oid}>{val.name}</option>
-            )
+            if(val._id.$oid == this.state.staff_allow_id){
+                return list_user.push(
+                    <option key={i} value={val._id.$oid} selected>{val.name}</option>
+                )
+            }else{
+                return list_user.push(
+                    <option key={i} value={val._id.$oid}>{val.name}</option>
+                )
+            }
+           
         })
 
+        let list_service = []
+        this.state.data_servicecar.map((val, i) => {
+            if(val.name_service == this.state.garage_name){
+                return list_service.push(
+                    <option key={i} value={val.name_service} selected>{val.name_service}</option>
+                )
+            }else{
+                return list_service.push(
+                    <option key={i} value={val.name_service}>{val.name_service}</option>
+                )
+            }
+
+           
+        })
         return (
             <div className="Corpor4Form">
-                <br />
+            <br />
                 <form onSubmit={this.handleSubmit} >
                     <div className="row">
                         <div className="col-lg-6">
@@ -213,7 +297,14 @@ class EditFormFour extends Component{
                                             <label htmlFor="date_check" className="col-form-label">วันที่ออกใบอนุญาต</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="date" className="form-control bg-blue-lv3" value={this.state.date_allow} onChange={this.handleDateAllowChange} name="date_check" id="date_check" />
+                                            <DatePicker 
+                                                selected={this.state.date_allow} 
+                                                onChange={this.handleDateNotAllowChange} 
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
+                                                locale="th"
+                                                name="date_check" 
+                                                id="date_check" />
+                                            {/* <input type="date" className="form-control bg-blue-lv3" value={this.state.date_allow} onChange={this.handleDateAllowChange} name="date_check" id="date_check" /> */}
                                         </div>
                                     </div>
 
@@ -232,7 +323,7 @@ class EditFormFour extends Component{
                                         </div>
                                         <div className="col-lg-8">
                                             <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" value={this.state.staff_allow} onChange={this.handleStaffAllowChange} id="staff_check" placeholder="นาย, นาง, นางสาว, ยศ" />
-                                            <select name="select_staff_check" id="select_staff_check" onClick={this.handleStaffAllowIdChange} className="form-control bg-blue-lv3">
+                                            <select name="select_staff_check" id="select_staff_check" onChange={this.handleStaffAllowIdChange} className="form-control bg-blue-lv3">
                                                 <option value=""></option>
                                                 {
                                                     list_user
@@ -277,8 +368,11 @@ class EditFormFour extends Component{
                                             <label htmlFor="type_check" className="col-form-label">อู่รถ</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <select name="select_staff_check" id="select_staff_check" onClick={this.handleGarageNameChange} className="form-control bg-blue-lv3">
+                                            <select name="select_staff_check" id="select_staff_check" onChange={this.handleGarageNameChange} className="form-control bg-blue-lv3">
                                                 <option value=""></option>
+                                                {
+                                                    list_service
+                                                }
                                             </select>
                                         </div>
                                     </div>
@@ -288,7 +382,14 @@ class EditFormFour extends Component{
                                             <label htmlFor="type_check" className="col-form-label">วัน/เวลาที่รถเข้าอู่</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="datetime-local" className="form-control bg-blue-lv3 w-50" value={this.state.garage_in_date} onChange={this.handleGarageInDateChange} name="avg_check" id="avg_check" />
+                                            <DatePicker 
+                                                selected={this.state.garage_in_date} 
+                                                onChange={this.handleGarageInDateChange} 
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
+                                                locale="th"
+                                                name="avg_check" 
+                                                id="avg_check" />
+                                            {/* <input type="datetime-local" className="form-control bg-blue-lv3 w-50" value={this.state.garage_in_date} onChange={this.handleGarageInDateChange} name="avg_check" id="avg_check" /> */}
                                         </div>
                                     </div>
 
@@ -297,7 +398,14 @@ class EditFormFour extends Component{
                                             <label htmlFor="type_check" className="col-form-label">วัน/เวลาที่รถออกจากอู่</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="datetime-local" className="form-control bg-blue-lv3 w-50" value={this.state.garage_out_date} onChange={this.handleGarageOutDateChange} name="avg_check" id="avg_check" />
+                                            <DatePicker 
+                                                selected={this.state.garage_out_date} 
+                                                onChange={this.handleGarageOutDateChange} 
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
+                                                locale="th"
+                                                name="avg_check" 
+                                                id="avg_check" />
+                                            {/* <input type="datetime-local" className="form-control bg-blue-lv3 w-50" value={this.state.garage_out_date} onChange={this.handleGarageOutDateChange} name="avg_check" id="avg_check" /> */}
                                         </div>
                                     </div>
 
@@ -306,7 +414,14 @@ class EditFormFour extends Component{
                                             <label htmlFor="type_check" className="col-form-label">เวลาสิ้นสุดให้เคลื่อนย้าย</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="datetime-local" className="form-control bg-blue-lv3 w-50" value={this.state.end_remove_car} onChange={this.handleEndRomoveCarChange} name="avg_check" id="avg_check" />
+                                            <DatePicker 
+                                                selected={this.state.end_remove_car} 
+                                                onChange={this.handleEndRomoveCarChange} 
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
+                                                locale="th"
+                                                name="avg_check" 
+                                                id="avg_check" />
+                                            {/* <input type="datetime-local" className="form-control bg-blue-lv3 w-50" value={this.state.end_remove_car} onChange={this.handleEndRomoveCarChange} name="avg_check" id="avg_check" /> */}
                                         </div>
                                     </div>
                                 </div>
@@ -327,7 +442,6 @@ class EditFormFour extends Component{
             </div>
         )
     }
-
 }
 
 export default EditFormFour

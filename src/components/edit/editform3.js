@@ -30,7 +30,6 @@ class EditformThree extends Component{
         fetch(url+'/get_doc_id?id=' + this.props.id + "&token=" + this.state.token)
             .then((Response) => Response.json())
             .then((res) => {
-                console.log(res)
                 this.setState({
                     book_no: res['0']['book_no'],
                     order_no: res['0']['order_no'],

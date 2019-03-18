@@ -25,15 +25,25 @@ class Corpor5Form extends Component {
                     data_user: res
                 })
             })
+        fetch(url+'/get_location?token=' + this.state.token)
+            .then((Response) => Response.json())
+            .then((res) => {
+                this.setState({
+                    data_location : res,
+                    loading : true
+                })
+            })
     }
 
     constructor() {
         super()
         this.state = {
             data_user: [],
+            data_location : [],
             loading_one: false,
             loading_two: false,
             data : [],
+            data_app : [],
 
             project_id: '',
             book_no: '',
@@ -82,8 +92,10 @@ class Corpor5Form extends Component {
         this.setState({
             data_check_appvore : full_date_th
         });
+    }
 
-      
+    handleLocationChange(){
+
     }
 
     handleLocationCheckAppvoreChange(e) {
@@ -148,9 +160,7 @@ class Corpor5Form extends Component {
         this.setState({
             req_data_check : full_date_th
         });
-        // this.setState({
-        //     req_data_check: e.target.value
-        // })
+    
     }
 
     handleReqLocationChange(e) {
@@ -170,7 +180,7 @@ class Corpor5Form extends Component {
                 .then((Response) => Response.json())
                 .then((res) => {
                     this.setState({
-                        data: res,
+                        data : res,
                         loading: true
                     })
                 })
@@ -178,8 +188,21 @@ class Corpor5Form extends Component {
     }
     handleStaffCheckAppvoreIdChange(e) {
         this.setState({
-            staff_check_appvore_id: e.target.value
+            staff_check_appvore_id : e.target.value,
+            loading_one: true
         })
+
+        if (e.target.value != '') {
+            fetch(url+'/get_user_one?id=' + e.target.value)
+                .then((Response) => Response.json())
+                .then((res) => {
+                    this.setState({
+                        data_app : res,
+                        loading: true
+                    })
+                })
+        }
+
     }
 
 
@@ -198,7 +221,8 @@ class Corpor5Form extends Component {
         formData.append('req_date_garage', this.state.req_date_garage);
         formData.append('staff_req', this.state.staff_req);
         formData.append('staff_support', this.state.staff_support);
-
+        formData.append('staff_support_id' , this.state.staff_support_id );
+        
         formData.append('data_check_appvore', this.state.data_check_appvore);
         formData.append('location_check_appvore', this.state.location_check_appvore);
         formData.append('staff_check_appvore', this.state.staff_check_appvore);
@@ -226,7 +250,33 @@ class Corpor5Form extends Component {
                             <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
                         </div>
                         <div className="col-lg-8">
-                            <input type="text" className="form-control bg-blue-lv3" name="position" efaultValue={val.point} id="position" />
+                            <input type="text" className="form-control bg-blue-lv3" name="position" defaultValue={val.point} id="position" />
+                        </div>
+                    </div>
+
+                    <div className="row mb-2">
+                        <div className="col-lg-4 border-right">
+                            <label htmlFor="under" className="col-form-label">สังกัด</label>
+                        </div>
+                        <div className="col-lg-8">
+                            <input type="text" className="form-control bg-blue-lv3" name="under" defaultValue={val.support} id="under" />
+                        </div>
+                    </div>
+
+                </div>
+            )
+        })
+
+        let set_user_list_app = []
+        this.state.data_app.map((val, i) => {
+            return set_user_list_app.push(
+                <div key={i}>
+                    <div className="row mb-2">
+                        <div className="col-lg-4 border-right">
+                            <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
+                        </div>
+                        <div className="col-lg-8">
+                            <input type="text" className="form-control bg-blue-lv3" name="position" defaultValue={val.point} id="position" />
                         </div>
                     </div>
 
@@ -251,6 +301,14 @@ class Corpor5Form extends Component {
             )
         })
 
+        let list_location = []
+        this.state.data_location.map((val, i) => {
+            return list_location.push(
+                <option key={i} value={val.name_location}>{val.name_location}</option>
+            )
+        })
+
+        
 
         return (
             <div className="Corpor5Form">
@@ -300,8 +358,11 @@ class Corpor5Form extends Component {
                                             <label htmlFor="location_check" className="col-form-label">สถานที่รับเรื่อง</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <select name="select_staff_check" id="select_staff_check" onClick={this.handleLocationChange} className="form-control bg-blue-lv3">
+                                            <select name="select_staff_check" id="select_staff_check" onChange={this.handleReqLocationChange} className="form-control bg-blue-lv3">
                                                 <option value=""></option>
+                                                {
+                                                    list_location
+                                                }
                                             </select>
                                         </div>
                                     </div>
@@ -350,8 +411,8 @@ class Corpor5Form extends Component {
                                             <label htmlFor="type_check" className="col-form-label">การแจ้งผู้ร้อง</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="radio" name="type_check" id="1" defaultChecked={this.state.staff_req === '1'} onChange={this.handleStaffReqChange} /> <label className="mb-0" htmlFor="1">แจ้งให้ผู้ร้องทราบในวันนั้น</label> <br />
-                                            <input type="radio" name="type_check" id="2" defaultChecked={this.state.staff_req === '2'} onChange={this.handleStaffReqChange} /> <label className="mb-0" htmlFor="2">ผู้ร้องไม่อยู่รอฟังคำสั่ง</label>
+                                            <input type="radio" name="type_check" id="1" value="แจ้งให้ผู้ร้องทราบในวันนั้น" defaultChecked={this.state.staff_req === '1'} onChange={this.handleStaffReqChange} /> <label className="mb-0" htmlFor="1">แจ้งให้ผู้ร้องทราบในวันนั้น</label> <br />
+                                            <input type="radio" name="type_check" id="2" value="ผู้ร้องไม่อยู่รอฟังคำสั่ง" defaultChecked={this.state.staff_req === '2'} onChange={this.handleStaffReqChange} /> <label className="mb-0" htmlFor="2">ผู้ร้องไม่อยู่รอฟังคำสั่ง</label>
                                         </div>
                                     </div>
 
@@ -361,7 +422,7 @@ class Corpor5Form extends Component {
                                         </div>
                                         <div className="col-lg-8">
                                             <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" id="staff_check" value={this.state.staff_support} onChange={this.handleStaffSupportChange} placeholder="นาย, นาง, นางสาว, ยศ" />
-                                            <select name="select_staff_check" id="select_staff_check" onClick={this.handleStaffSupportIdChange} className="form-control bg-blue-lv3">
+                                            <select name="select_staff_check" id="select_staff_check" onChange={this.handleStaffSupportIdChange} className="form-control bg-blue-lv3">
                                                 <option value=""></option>
                                                 {
                                                     list_user
@@ -424,8 +485,11 @@ class Corpor5Form extends Component {
                                             <label htmlFor="date_check" className="col-form-label">สถานที่นัดเพื่อตรวจสอบ</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <select name="select_staff_check" id="select_staff_check" onClick={this.handleLocationCheckAppvoreChange} className="form-control bg-blue-lv3">
+                                            <select name="select_staff_check" id="select_staff_check" onChange={this.handleLocationCheckAppvoreChange} className="form-control bg-blue-lv3">
                                                 <option value=""></option>
+                                                {
+                                                    list_location
+                                                }
                                             </select>
                                         </div>
                                     </div>
@@ -436,30 +500,37 @@ class Corpor5Form extends Component {
                                         </div>
                                         <div className="col-lg-8">
                                             <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" value={this.state.staff_check_appvore} onChange={this.handleStaffCheckAppvoreChange} id="staff_check" placeholder="นาย, นาง, นางสาว, ยศ" />
-                                            <select name="select_staff_check" id="select_staff_check" onClick={this.handleStaffCheckAppvoreIdChange} className="form-control bg-blue-lv3">
+                                            <select name="select_staff_check" id="select_staff_check" onChange={this.handleStaffCheckAppvoreIdChange} className="form-control bg-blue-lv3">
                                                 <option value=""></option>
-                                                <option value="">จ.ส.ต.ธนา ขันอุไร</option>
+                                               {
+                                                   list_user
+                                               }
                                             </select>
                                         </div>
                                     </div>
 
-                                    <div className="row mb-2">
-                                        <div className="col-lg-4 border-right">
-                                            <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
-                                        </div>
-                                        <div className="col-lg-8">
-                                            <input type="text" className="form-control bg-blue-lv3" name="position" id="position" />
-                                        </div>
-                                    </div>
+                                    {
+                                        this.state.loading == true ? set_user_list_app :
+                                            <div>
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        <input type="text" className="form-control bg-blue-lv3" name="position" id="position" />
+                                                    </div>
+                                                </div>
 
-                                    <div className="row mb-2">
-                                        <div className="col-lg-4 border-right">
-                                            <label htmlFor="under" className="col-form-label">สังกัด</label>
-                                        </div>
-                                        <div className="col-lg-8">
-                                            <input type="text" className="form-control bg-blue-lv3" name="under" id="under" />
-                                        </div>
-                                    </div>
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="under" className="col-form-label">สังกัด</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        <input type="text" className="form-control bg-blue-lv3" name="under" id="under" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    }
                                 </div>
                                 {/* /.card */}
                             </div>
@@ -469,7 +540,7 @@ class Corpor5Form extends Component {
                     <hr />
                     <div className="row">
                         <div className="col-lg-12">
-                            <CarForm />
+                            
                         </div>
                     </div>
                     <br />

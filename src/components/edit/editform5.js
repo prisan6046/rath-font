@@ -2,9 +2,21 @@ import React , { Component }from 'react'
 import axios from 'axios';
 import { url } from '../../parameter/index'
 
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import moment from 'moment';
+import { DateThai, YearThai } from '../libraries/DateThai';
+import 'moment/locale/th';
+import { registerLocale, setDefaultLocale } from 'react-datepicker';
+import th from 'date-fns/locale/th';
+registerLocale('th', th);
+
 class ShowFormFive extends Component{
 
+
     componentDidMount() {
+        console.log("id 5 : "+this.props.id)
+
         this.state.token = localStorage.getItem('token');
         fetch(url+'/get_all_user?token=' + this.state.token)
             .then((Response) => Response.json())
@@ -13,15 +25,49 @@ class ShowFormFive extends Component{
                     data_user: res
                 })
             })
+
+        fetch(url+'/get_doc_three_id?id=' + this.props.id + "&token=" + this.state.token)
+            .then((Response) => Response.json())
+            .then((res) => {
+               this.setState({
+                project_id: res['0']['project_id'],
+                book_no: res['0']['book_no'],
+                order_no: res['0']['order_no'],
+                req_data_check: res['0']['req_data_check'],
+                req_location: res['0']['req_location'],
+
+                res_date_garage: res['0']['res_date_garage'],
+                req_date_garage: res['0']['req_date_garage'],
+                staff_req: res['0']['staff_req'],
+                staff_support: res['0']['staff_support'],
+                staff_support_id: res['0']['staff_support_id'],
+
+                data_check_appvore: res['0']['data_check_appvore'],
+                location_check_appvore: res['0']['location_check_appvore'],
+                staff_check_appvore: res['0']['staff_check_appvore'],
+                staff_check_appvore_id: res['0']['staff_check_appvore_id']
+            })
+        })
+
+        fetch(url+'/get_location?token=' + this.state.token)
+            .then((Response) => Response.json())
+            .then((res) => {
+                this.setState({
+                    data_location : res,
+                    loading : true
+                })
+            })
     }
 
     constructor() {
         super()
         this.state = {
             data_user: [],
+            data_location : [],
             loading_one: false,
             loading_two: false,
             data : [],
+            data_app : [],
 
             project_id: '',
             book_no: '',
@@ -61,10 +107,19 @@ class ShowFormFive extends Component{
 
     }
 
-    handleDataCheckAppvoreChange(e) {
+    handleDataCheckAppvoreChange = (date) => {
+
+        moment.locale('en');
+        const year_th = YearThai(moment(date).format('YYYY'))
+        const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+
         this.setState({
-            data_check_appvore: e.target.value
-        })
+            data_check_appvore : full_date_th
+        });
+    }
+
+    handleLocationChange(){
+
     }
 
     handleLocationCheckAppvoreChange(e) {
@@ -78,15 +133,25 @@ class ShowFormFive extends Component{
         })
     }
 
-    handleResDataGarageChange(e) {
+    handleResDataGarageChange = (date) => {
+        moment.locale('en');
+        const year_th = YearThai(moment(date).format('YYYY'))
+        const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+
         this.setState({
-            res_date_garage: e.target.value
-        })
+            res_date_garage : full_date_th
+        });
+
     }
-    handleReqDataGarageChange(e) {
+    handleReqDataGarageChange = (date) => {
+        moment.locale('en');
+        const year_th = YearThai(moment(date).format('YYYY'))
+        const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+
         this.setState({
-            req_date_garage: e.target.value
-        })
+            req_date_garage : full_date_th
+        });
+
     }
 
     handleStaffReqChange(e) {
@@ -111,10 +176,15 @@ class ShowFormFive extends Component{
             order_no: e.target.value
         })
     }
-    handleDataCheckChange(e) {
+    handleDataCheckChange =(date)=> {
+        moment.locale('en');
+        const year_th = YearThai(moment(date).format('YYYY'))
+        const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+
         this.setState({
-            req_data_check: e.target.value
-        })
+            req_data_check : full_date_th
+        });
+    
     }
 
     handleReqLocationChange(e) {
@@ -134,7 +204,7 @@ class ShowFormFive extends Component{
                 .then((Response) => Response.json())
                 .then((res) => {
                     this.setState({
-                        data: res,
+                        data : res,
                         loading: true
                     })
                 })
@@ -142,17 +212,29 @@ class ShowFormFive extends Component{
     }
     handleStaffCheckAppvoreIdChange(e) {
         this.setState({
-            staff_check_appvore_id: e.target.value
+            staff_check_appvore_id : e.target.value,
+            loading_one: true
         })
+
+        if (e.target.value != '') {
+            fetch(url+'/get_user_one?id=' + e.target.value)
+                .then((Response) => Response.json())
+                .then((res) => {
+                    this.setState({
+                        data_app : res,
+                        loading: true
+                    })
+                })
+        }
+
     }
 
 
     handleSubmit(event) {
         event.preventDefault();
-        this.state.project_id = localStorage.getItem('project_id');
         var formData = new FormData();
 
-        formData.append('project_id', this.state.project_id);
+        formData.append('project_id', this.props.id);
         formData.append('book_no', this.state.book_no);
         formData.append('order_no', this.state.order_no);
         formData.append('req_data_check', this.state.req_data_check);
@@ -162,19 +244,19 @@ class ShowFormFive extends Component{
         formData.append('req_date_garage', this.state.req_date_garage);
         formData.append('staff_req', this.state.staff_req);
         formData.append('staff_support', this.state.staff_support);
-
+        formData.append('staff_support_id' , this.state.staff_support_id );
+        
         formData.append('data_check_appvore', this.state.data_check_appvore);
         formData.append('location_check_appvore', this.state.location_check_appvore);
         formData.append('staff_check_appvore', this.state.staff_check_appvore);
         formData.append('staff_check_appvore_id', this.state.staff_check_appvore_id)
 
 
-        axios.post(url+'/updatecarForm_three', formData, {
+        axios.post(url+'/carForm_three', formData, {
             onUploadProgress: ProgressEvent => {
                 this.setState({ loaded: 'upload' })
             },
         }).then(res => {
-            console.log(res)
             alert("บันทึกสำเร็จ")
         })
     }
@@ -191,7 +273,59 @@ class ShowFormFive extends Component{
                             <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
                         </div>
                         <div className="col-lg-8">
-                            <input type="text" className="form-control bg-blue-lv3" name="position" efaultValue={val.point} id="position" />
+                            <input type="text" className="form-control bg-blue-lv3" name="position" defaultValue={val.point} id="position" />
+                        </div>
+                    </div>
+
+                    <div className="row mb-2">
+                        <div className="col-lg-4 border-right">
+                            <label htmlFor="under" className="col-form-label">สังกัด</label>
+                        </div>
+                        <div className="col-lg-8">
+                            <input type="text" className="form-control bg-blue-lv3" name="under" defaultValue={val.support} id="under" />
+                        </div>
+                    </div>
+
+                </div>
+            )
+        })
+
+        let set_user_list_app = []
+        this.state.data_app.map((val, i) => {
+            return set_user_list_app.push(
+                <div key={i}>
+                    <div className="row mb-2">
+                        <div className="col-lg-4 border-right">
+                            <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
+                        </div>
+                        <div className="col-lg-8">
+                            <input type="text" className="form-control bg-blue-lv3" name="position" defaultValue={val.point} id="position" />
+                        </div>
+                    </div>
+
+                    <div className="row mb-2">
+                        <div className="col-lg-4 border-right">
+                            <label htmlFor="under" className="col-form-label">สังกัด</label>
+                        </div>
+                        <div className="col-lg-8">
+                            <input type="text" className="form-control bg-blue-lv3" name="under" defaultValue={val.support} id="under" />
+                        </div>
+                    </div>
+
+                </div>
+            )
+        })
+
+        let set_user_list_app_two = []
+        this.state.data_app.map((val, i) => {
+            return set_user_list_app_two.push(
+                <div key={i}>
+                    <div className="row mb-2">
+                        <div className="col-lg-4 border-right">
+                            <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
+                        </div>
+                        <div className="col-lg-8">
+                            <input type="text" className="form-control bg-blue-lv3" name="position" defaultValue={val.point} id="position" />
                         </div>
                     </div>
 
@@ -211,15 +345,51 @@ class ShowFormFive extends Component{
 
         let list_user = []
         this.state.data_user.map((val, i) => {
-            return list_user.push(
-                <option key={i} value={val._id.$oid}>{val.name}</option>
-            )
+            if(val._id.$oid == this.state.staff_check_appvore_id){
+                return list_user.push(
+                    <option key={i} value={val._id.$oid} selected >{val.name}</option>
+                )
+            }else{
+                return list_user.push(
+                    <option key={i} value={val._id.$oid}>{val.name}</option>
+                )
+            }
+           
         })
 
+        let list_user_two = []
+        this.state.data_user.map((val, i) => {
+            if(val._id.$oid == this.state.staff_support_id){
+                return list_user_two.push(
+                    <option key={i} value={val._id.$oid} selected >{val.name}</option>
+                )
+            }else{
+                return list_user_two.push(
+                    <option key={i} value={val._id.$oid}>{val.name}</option>
+                )
+            }
+           
+        })
+
+        let list_location = []
+        this.state.data_location.map((val, i) => {
+            if(val.name_location == this.state.location_check_appvore){
+                return list_location.push(
+                    <option key={i} value={val.name_location} selected>{val.name_location}</option>
+                )
+            }else{
+                return list_location.push(
+                    <option key={i} value={val.name_location}>{val.name_location}</option>
+                )
+            }
+            
+        })
+
+        
 
         return (
             <div className="Corpor5Form">
-                <br />
+              <br />
                 <form onSubmit={this.handleSubmit} >
                     <div className="row">
                         <div className="col">
@@ -249,7 +419,14 @@ class ShowFormFive extends Component{
                                             <label htmlFor="date_check" className="col-form-label">วันที่ขอให้ตรวจสอบ</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="date" className="form-control bg-blue-lv3" value={this.state.req_data_check} onChange={this.handleDataCheckChange} name="date_check" id="date_check" />
+                                            <DatePicker 
+                                                selected={this.state.req_data_check} 
+                                                onChange={this.handleDataCheckChange} 
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
+                                                locale="th"
+                                                name="date_check" 
+                                                id="date_check" />
+                                            {/* <input type="date" className="form-control bg-blue-lv3" value={this.state.req_data_check} onChange={this.handleDataCheckChange} name="date_check" id="date_check" /> */}
                                         </div>
                                     </div>
 
@@ -258,8 +435,11 @@ class ShowFormFive extends Component{
                                             <label htmlFor="location_check" className="col-form-label">สถานที่รับเรื่อง</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <select name="select_staff_check" id="select_staff_check" onClick={this.handleLocationChange} className="form-control bg-blue-lv3">
+                                            <select name="select_staff_check" id="select_staff_check" onChange={this.handleReqLocationChange} className="form-control bg-blue-lv3">
                                                 <option value=""></option>
+                                                {
+                                                    list_location
+                                                }
                                             </select>
                                         </div>
                                     </div>
@@ -276,7 +456,14 @@ class ShowFormFive extends Component{
                                             <label htmlFor="date_check" className="col-form-label">วัน/เวลาที่รับคำร้อง</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="datetime-local" className="form-control bg-blue-lv3" value={this.state.res_date_garage} onChange={this.handleResDataGarageChange} name="date_check" id="date_check" />
+                                            <DatePicker 
+                                                selected={this.state.res_date_garage} 
+                                                onChange={this.handleResDataGarageChange} 
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
+                                                locale="th"
+                                                name="date_check" 
+                                                id="date_check" />
+                                            {/* <input type="datetime-local" className="form-control bg-blue-lv3" value={this.state.res_date_garage} onChange={this.handleResDataGarageChange} name="date_check" id="date_check" /> */}
                                         </div>
                                     </div>
 
@@ -285,7 +472,14 @@ class ShowFormFive extends Component{
                                             <label htmlFor="date_check" className="col-form-label">วัน/เวลาที่สั่งคำร้อง</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="datetime-local" className="form-control bg-blue-lv3" value={this.state.req_date_garage} onChange={this.handleReqDataGarageChange} name="date_check" id="date_check" />
+                                         <DatePicker 
+                                                selected={this.state.req_date_garage} 
+                                                onChange={this.handleReqDataGarageChange} 
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
+                                                locale="th"
+                                                name="date_check" 
+                                                id="date_check" />
+                                            {/* <input type="datetime-local" className="form-control bg-blue-lv3" value={this.state.req_date_garage} onChange={this.handleReqDataGarageChange} name="date_check" id="date_check" /> */}
                                         </div>
                                     </div>
 
@@ -294,8 +488,8 @@ class ShowFormFive extends Component{
                                             <label htmlFor="type_check" className="col-form-label">การแจ้งผู้ร้อง</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="radio" name="type_check" id="1" defaultChecked={this.state.staff_req === '1'} onChange={this.handleStaffReqChange} /> <label className="mb-0" htmlFor="1">แจ้งให้ผู้ร้องทราบในวันนั้น</label> <br />
-                                            <input type="radio" name="type_check" id="2" defaultChecked={this.state.staff_req === '2'} onChange={this.handleStaffReqChange} /> <label className="mb-0" htmlFor="2">ผู้ร้องไม่อยู่รอฟังคำสั่ง</label>
+                                            <input type="radio" name="type_check" id="1" value="แจ้งให้ผู้ร้องทราบในวันนั้น" checked={this.state.staff_req === "แจ้งให้ผู้ร้องทราบในวันนั้น"}  defaultChecked={this.state.staff_req === '1'} onChange={this.handleStaffReqChange} /> <label className="mb-0" htmlFor="1">แจ้งให้ผู้ร้องทราบในวันนั้น</label> <br />
+                                            <input type="radio" name="type_check" id="2" value="ผู้ร้องไม่อยู่รอฟังคำสั่ง" checked={this.state.staff_req === "ผู้ร้องไม่อยู่รอฟังคำสั่ง"}  defaultChecked={this.state.staff_req === '2'} onChange={this.handleStaffReqChange} /> <label className="mb-0" htmlFor="2">ผู้ร้องไม่อยู่รอฟังคำสั่ง</label>
                                         </div>
                                     </div>
 
@@ -305,7 +499,7 @@ class ShowFormFive extends Component{
                                         </div>
                                         <div className="col-lg-8">
                                             <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" id="staff_check" value={this.state.staff_support} onChange={this.handleStaffSupportChange} placeholder="นาย, นาง, นางสาว, ยศ" />
-                                            <select name="select_staff_check" id="select_staff_check" onClick={this.handleStaffSupportIdChange} className="form-control bg-blue-lv3">
+                                            <select name="select_staff_check" id="select_staff_check" onChange={this.handleStaffSupportIdChange} className="form-control bg-blue-lv3">
                                                 <option value=""></option>
                                                 {
                                                     list_user
@@ -352,7 +546,14 @@ class ShowFormFive extends Component{
                                             <label htmlFor="date_check" className="col-form-label">วัน/เวลาที่นัดตรวจสอบ</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="datetime-local" className="form-control bg-blue-lv3" value={this.state.data_check_appvore} onChange={this.handleDataCheckAppvoreChange} name="date_check" id="date_check" />
+                                        <DatePicker 
+                                                selected={this.state.data_check_appvore} 
+                                                onChange={this.handleDataCheckAppvoreChange} 
+                                                dateFormat="วันที่ d MMMM พ.ศ.YYYY"
+                                                locale="th"
+                                                name="date_check" 
+                                                id="date_check" />
+                                            {/* <input type="datetime-local" className="form-control bg-blue-lv3" value={this.state.data_check_appvore} onChange={this.handleDataCheckAppvoreChange} name="date_check" id="date_check" /> */}
                                         </div>
                                     </div>
 
@@ -361,8 +562,11 @@ class ShowFormFive extends Component{
                                             <label htmlFor="date_check" className="col-form-label">สถานที่นัดเพื่อตรวจสอบ</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <select name="select_staff_check" id="select_staff_check" onClick={this.handleLocationCheckAppvoreChange} className="form-control bg-blue-lv3">
+                                            <select name="select_staff_check" id="select_staff_check" onChange={this.handleLocationCheckAppvoreChange} className="form-control bg-blue-lv3">
                                                 <option value=""></option>
+                                                {
+                                                    list_location
+                                                }
                                             </select>
                                         </div>
                                     </div>
@@ -373,30 +577,37 @@ class ShowFormFive extends Component{
                                         </div>
                                         <div className="col-lg-8">
                                             <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" value={this.state.staff_check_appvore} onChange={this.handleStaffCheckAppvoreChange} id="staff_check" placeholder="นาย, นาง, นางสาว, ยศ" />
-                                            <select name="select_staff_check" id="select_staff_check" onClick={this.handleStaffCheckAppvoreIdChange} className="form-control bg-blue-lv3">
+                                            <select name="select_staff_check" id="select_staff_check" onChange={this.handleStaffCheckAppvoreIdChange} className="form-control bg-blue-lv3">
                                                 <option value=""></option>
-                                                <option value="">จ.ส.ต.ธนา ขันอุไร</option>
+                                               {
+                                                   list_user_two
+                                               }
                                             </select>
                                         </div>
                                     </div>
 
-                                    <div className="row mb-2">
-                                        <div className="col-lg-4 border-right">
-                                            <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
-                                        </div>
-                                        <div className="col-lg-8">
-                                            <input type="text" className="form-control bg-blue-lv3" name="position" id="position" />
-                                        </div>
-                                    </div>
+                                    {
+                                        this.state.loading == true ? set_user_list_app_two :
+                                            <div>
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        <input type="text" className="form-control bg-blue-lv3" name="position" id="position" />
+                                                    </div>
+                                                </div>
 
-                                    <div className="row mb-2">
-                                        <div className="col-lg-4 border-right">
-                                            <label htmlFor="under" className="col-form-label">สังกัด</label>
-                                        </div>
-                                        <div className="col-lg-8">
-                                            <input type="text" className="form-control bg-blue-lv3" name="under" id="under" />
-                                        </div>
-                                    </div>
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="under" className="col-form-label">สังกัด</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        <input type="text" className="form-control bg-blue-lv3" name="under" id="under" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    }
                                 </div>
                                 {/* /.card */}
                             </div>
@@ -406,7 +617,7 @@ class ShowFormFive extends Component{
                     <hr />
                     <div className="row">
                         <div className="col-lg-12">
-
+                            
                         </div>
                     </div>
                     <br />

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import store from '../../store/index';
+import { url } from '../../parameter/index';
 
 class ShowData extends Component {
 
@@ -10,7 +11,10 @@ class ShowData extends Component {
         this.state = {
             token: '',
             data: [],
-            id : '',
+            data_two: [],
+            data_three: [],
+            data_four: [],
+            id: '',
             loading: false
         }
 
@@ -19,14 +23,43 @@ class ShowData extends Component {
     componentDidMount() {
         this.state.token = localStorage.getItem('token');
         // console.log(this.props.match.params.id)
-        fetch('http://34.73.123.38/api/token/get_doc_id?id=' + this.props.match.params.id + "&token=" + this.state.token)
+        fetch(url + '/get_doc_id?id=' + this.props.match.params.id + "&token=" + this.state.token)
             .then((Response) => Response.json())
             .then((res) => {
+                console.log(res['0']['id'])
                 this.setState({
                     data: res,
                     loading: true
                 })
+
+                fetch(url + '/get_doc_two_id?id=' + res['0']['id'] + "&token=" + this.state.token)
+                    .then((Response) => Response.json())
+                    .then((res) => {
+                        console.log(res)
+                        this.setState({
+                            data_two: res
+                        })
+                    })
+
+                fetch(url + '/get_doc_three_id?id=' + res['0']['id'] + "&token=" + this.state.token)
+                    .then((Response) => Response.json())
+                    .then((res) => {
+                        this.setState({
+                            data_three: res
+                        })
+                    })
+
+                fetch(url + '/get_doc_four_id?id=' + res['0']['id'] + "&token=" + this.state.token)
+                    .then((Response) => Response.json())
+                    .then((res) => {
+                        this.setState({
+                            data_four: res
+                        })
+                    })
+
+
             })
+
     }
 
     handleAvgGetIdEdit(id) {
@@ -162,9 +195,8 @@ class ShowData extends Component {
 
 
 
-
-
         let list_province = []
+        
         this.state.data.map((val, i) => {
             return list_province.push(
                 <div className="row" key={i}>
@@ -290,10 +322,465 @@ class ShowData extends Component {
         })
 
 
-        let urlform3 = '/PDF3/'  + this.props.match.params.id
-        let urlform4 = '/PDF4/'  + this.props.match.params.id
-        let urlform5 = '/PDF5/'  + this.props.match.params.id
-        let urlform6 = '/PDF6/'  + this.props.match.params.id
+        let list_data_two = []
+        if(this.state.data_two != ''){
+            this.state.data_two.map((val, i) => {
+                return list_data_two.push(
+                    <div className="row" key={i}>
+                        <div className="col-lg-12">
+                            <div className="Corpor4Form">
+                                <div className="row">
+                                    <div className="col-lg-6">
+                                        <div className="card">
+    
+                                            <div className="card-header bg-primary text-white">รายละเอียดคำสั่ง (คพ.๔)</div>
+                                            <div className="card-body">
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="book_no" className="col-form-label">เล่มที่</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.book_no}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="book_no" className="col-form-label">เลขที่</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.order_no}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="date_check" className="col-form-label">วันที่ออกใบอนุญาต</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.date_allow}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="location_check" className="col-form-label">สถานที่ออกใบอนุญาต</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.location_allow}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="staff_check" className="col-form-label">ผู้ออกใบอนุญาต</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.staff_allow_id}
+                                                    </div>
+                                                </div>
+    
+                                                <div>
+                                                    <div className="row mb-2">
+                                                        <div className="col-lg-4 border-right">
+                                                            <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
+                                                        </div>
+                                                        <div className="col-lg-8">
+    
+                                                        </div>
+                                                    </div>
+    
+                                                    <div className="row mb-2">
+                                                        <div className="col-lg-4 border-right">
+                                                            <label htmlFor="under" className="col-form-label">สังกัด</label>
+                                                        </div>
+                                                        <div className="col-lg-8">
+    
+                                                        </div>
+                                                    </div>
+                                                </div>
+    
+    
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div className="col-lg-6">
+                                        <div className="card">
+                                            <div className="card-header bg-primary text-white">รายละเอียดอู่รถ</div>
+                                            <div className="card-body">
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="type_check" className="col-form-label">อู่รถ</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.garage_name}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="type_check" className="col-form-label">วัน/เวลาที่รถเข้าอู่</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.garage_in_date}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="type_check" className="col-form-label">วัน/เวลาที่รถออกจากอู่</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.garage_out_date}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="type_check" className="col-form-label">เวลาสิ้นสุดให้เคลื่อนย้าย</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.end_remove_car}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div className="row">
+                                    <div className="col-lg-12">
+                                        {list_formdetail}
+                                    </div>
+                                </div>
+    
+                            </div>
+                        </div>
+                    </div>
+    
+                )
+            })
+        }
+       
+
+
+        let list_data_three = []
+        if(this.state.data_three != ''){
+            this.state.data_three.map((val, i) => {
+                return list_data_three.push(
+                    <div className="row" key={i}>
+                        <div className="col-lg-12">
+                            <div className="Corpor5Form">
+                                <div className="row">
+                                    <div className="col">
+                                        <div className="card">
+                                            <div className="card-header bg-primary text-white">รายละเอียดคำสั่ง (คพ.๕)</div>
+                                            <div className="card-body">
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="book_no" className="col-form-label">เล่มที่</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.book_no}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="book_no" className="col-form-label">เลขที่</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.order_no}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="date_check" className="col-form-label">วันที่ขอให้ตรวจสอบ</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.data_check_appvore}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="location_check" className="col-form-label">สถานที่รับเรื่อง</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.location_check_appvore}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div className="col">
+                                        <div className="card">
+                                            <div className="card-header bg-primary text-white">รายละเอียดอู่รถ</div>
+                                            <div className="card-body">
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="date_check" className="col-form-label">วัน/เวลาที่รับคำร้อง</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.res_date_garage}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="date_check" className="col-form-label">วัน/เวลาที่สั่งคำร้อง</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.req_date_garage}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="type_check" className="col-form-label">การแจ้งผู้ร้อง</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.staff_req}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="staff_check" className="col-form-label">เจ้าหน้าที่ผู้บันทึก</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.staff_check_appvore_id}
+                                                    </div>
+                                                </div>
+    
+                                                <div>
+                                                    <div className="row mb-2">
+                                                        <div className="col-lg-4 border-right">
+                                                            <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
+                                                        </div>
+                                                        <div className="col-lg-8">
+    
+                                                        </div>
+                                                    </div>
+    
+                                                    <div className="row mb-2">
+                                                        <div className="col-lg-4 border-right">
+                                                            <label htmlFor="under" className="col-form-label">สังกัด</label>
+                                                        </div>
+                                                        <div className="col-lg-8">
+    
+                                                        </div>
+                                                    </div>
+                                                </div>
+    
+                                            </div>
+    
+                                        </div>
+                                    </div>
+    
+                                    <div className="col">
+                                        <div className="card">
+                                            <div className="card-header bg-primary text-white">รายละเอียดคำสั่ง</div>
+                                            <div className="card-body">
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="date_check" className="col-form-label">วัน/เวลาที่นัดตรวจสอบ</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.res_date_garage}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="date_check" className="col-form-label">สถานที่นัดเพื่อตรวจสอบ</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.req_location}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="staff_check" className="col-form-label">เจ้าหน้าที่ผู้ออกคำสั่ง</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.staff_support_id}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+    
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="under" className="col-form-label">สังกัด</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div className="row">
+                                    <div className="col-lg-12">
+                                        {list_formdetail}
+                                    </div>
+                                </div>
+    
+                            </div>
+                        </div>
+                    </div>
+    
+                )
+            })
+        }
+       
+
+        let list_data_four = []
+        if(this.state.data_four != ''){
+            this.state.data_four.map((val, i) => {
+                return list_data_four.push(
+                    <div className="row" key={i}>
+                        <div className="col-lg-12">
+                            <div className="Corpor6Form">
+                                <div className="row">
+                                    <div className="col-lg-6">
+                                        <div className="card">
+                                            <div className="card-header bg-primary text-white">รายละเอียดคำสั่ง (คพ.๖)</div>
+                                            <div className="card-body">
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="book_no" className="col-form-label">เล่มที่</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.book_no}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="book_no" className="col-form-label">เลขที่</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.order_no}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="date_check" className="col-form-label">วันที่ออกคำสั่งยกเลิก</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.date_out}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="location_check" className="col-form-label">สถานที่ออกคำสั่งยกเลิก</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.location_out}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="staff_check" className="col-form-label">ผู้ออกคำสั่งยกเลิก</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.staff_id}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+    
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="under" className="col-form-label">สังกัด</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div className="col-lg-6">
+                                        <div className="card">
+                                            <div className="card-header bg-primary text-white">รายละเอียดการยกเลิกคำสั่ง</div>
+                                            <div className="card-body">
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="type_check" className="col-form-label">ประเภทการตรวจ</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.type_check}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="avg_check" className="col-form-label">ค่าที่วัดได้</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.val_now}
+                                                    </div>
+                                                </div>
+    
+                                                <div className="row mb-2">
+                                                    <div className="col-lg-4 border-right">
+                                                        <label htmlFor="type_check" className="col-form-label">วัน/เวลาที่คำสั่งมีผล</label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        {val.date_now}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div className="row">
+                                    <div className="col-lg-12">
+                                        {list_formdetail}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                )
+            })
+    
+        }
+       
+
+        let urlform3 = '/PDF3/' + this.props.match.params.id
+        let urlform4 = '/PDF4/' + this.props.match.params.id
+        let urlform5 = '/PDF5/' + this.props.match.params.id
+        let urlform6 = '/PDF6/' + this.props.match.params.id
         let getIdedit = '/Edit/' + this.props.match.params.id
 
         return (
@@ -352,448 +839,21 @@ class ShowData extends Component {
                                                 </div>
                                                 <div className="tab-pane fade" id="corpor4" role="tabpanel" aria-labelledby="corpor4-tab">
                                                     <div className="container-fluid py-4">
-                                                        <div className="row">
-                                                            <div className="col-lg-12">
-                                                                <div className="Corpor4Form">
-                                                                    <div className="row">
-                                                                        <div className="col-lg-6">
-                                                                            <div className="card">
-
-                                                                                <div className="card-header bg-primary text-white">รายละเอียดคำสั่ง (คพ.๔)</div>
-                                                                                <div className="card-body">
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="book_no" className="col-form-label">เล่มที่</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="book_no" className="col-form-label">เลขที่</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="date_check" className="col-form-label">วันที่ออกใบอนุญาต</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="location_check" className="col-form-label">สถานที่ออกใบอนุญาต</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="staff_check" className="col-form-label">ผู้ออกใบอนุญาต</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div>
-                                                                                        <div className="row mb-2">
-                                                                                            <div className="col-lg-4 border-right">
-                                                                                                <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
-                                                                                            </div>
-                                                                                            <div className="col-lg-8">
-
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div className="row mb-2">
-                                                                                            <div className="col-lg-4 border-right">
-                                                                                                <label htmlFor="under" className="col-form-label">สังกัด</label>
-                                                                                            </div>
-                                                                                            <div className="col-lg-8">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-
-
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div className="col-lg-6">
-                                                                            <div className="card">
-                                                                                <div className="card-header bg-primary text-white">รายละเอียดอู่รถ</div>
-                                                                                <div className="card-body">
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="type_check" className="col-form-label">อู่รถ</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="type_check" className="col-form-label">วัน/เวลาที่รถเข้าอู่</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="type_check" className="col-form-label">วัน/เวลาที่รถออกจากอู่</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="type_check" className="col-form-label">เวลาสิ้นสุดให้เคลื่อนย้าย</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <hr />
-                                                                    <div className="row">
-                                                                        <div className="col-lg-12">
-                                                                            {list_formdetail}
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        {this.state.loading == true ? list_data_two : ''}
                                                     </div>
                                                 </div>
                                                 <div className="tab-pane fade" id="corpor5" role="tabpanel" aria-labelledby="corpor5-tab">
                                                     <div className="container-fluid py-4">
-                                                        <div className="row">
-                                                            <div className="col-lg-12">
-                                                                <div className="Corpor5Form">
-                                                                    <div className="row">
-                                                                        <div className="col">
-                                                                            <div className="card">
-                                                                                <div className="card-header bg-primary text-white">รายละเอียดคำสั่ง (คพ.๕)</div>
-                                                                                <div className="card-body">
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="book_no" className="col-form-label">เล่มที่</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="book_no" className="col-form-label">เลขที่</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="date_check" className="col-form-label">วันที่ขอให้ตรวจสอบ</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="location_check" className="col-form-label">สถานที่รับเรื่อง</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div className="col">
-                                                                            <div className="card">
-                                                                                <div className="card-header bg-primary text-white">รายละเอียดอู่รถ</div>
-                                                                                <div className="card-body">
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="date_check" className="col-form-label">วัน/เวลาที่รับคำร้อง</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="date_check" className="col-form-label">วัน/เวลาที่สั่งคำร้อง</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="type_check" className="col-form-label">การแจ้งผู้ร้อง</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="staff_check" className="col-form-label">เจ้าหน้าที่ผู้บันทึก</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div>
-                                                                                        <div className="row mb-2">
-                                                                                            <div className="col-lg-4 border-right">
-                                                                                                <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
-                                                                                            </div>
-                                                                                            <div className="col-lg-8">
-
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div className="row mb-2">
-                                                                                            <div className="col-lg-4 border-right">
-                                                                                                <label htmlFor="under" className="col-form-label">สังกัด</label>
-                                                                                            </div>
-                                                                                            <div className="col-lg-8">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-
-
-
-                                                                                </div>
-
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div className="col">
-                                                                            <div className="card">
-                                                                                <div className="card-header bg-primary text-white">รายละเอียดคำสั่ง</div>
-                                                                                <div className="card-body">
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="date_check" className="col-form-label">วัน/เวลาที่นัดตรวจสอบ</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="date_check" className="col-form-label">สถานที่นัดเพื่อตรวจสอบ</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="staff_check" className="col-form-label">เจ้าหน้าที่ผู้ออกคำสั่ง</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="under" className="col-form-label">สังกัด</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <hr />
-                                                                    <div className="row">
-                                                                        <div className="col-lg-12">
-                                                                            {list_formdetail}
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        {this.state.loading == true ? list_data_three : ''}
                                                     </div>
                                                 </div>
 
                                                 <div className="tab-pane fade" id="corpor6" role="tabpanel" aria-labelledby="corpor6-tab">
                                                     <div className="container-fluid py-4">
-                                                        <div className="row">
-                                                            <div className="col-lg-12">
-
-
-
-
-
-                                                                <div className="Corpor6Form">
-
-                                                                    <div className="row">
-                                                                        <div className="col-lg-6">
-                                                                            <div className="card">
-                                                                                <div className="card-header bg-primary text-white">รายละเอียดคำสั่ง (คพ.๖)</div>
-                                                                                <div className="card-body">
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="book_no" className="col-form-label">เล่มที่</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="book_no" className="col-form-label">เลขที่</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="date_check" className="col-form-label">วันที่ออกคำสั่งยกเลิก</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="location_check" className="col-form-label">สถานที่ออกคำสั่งยกเลิก</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="staff_check" className="col-form-label">ผู้ออกคำสั่งยกเลิก</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="under" className="col-form-label">สังกัด</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div className="col-lg-6">
-                                                                            <div className="card">
-                                                                                <div className="card-header bg-primary text-white">รายละเอียดการยกเลิกคำสั่ง</div>
-                                                                                <div className="card-body">
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="type_check" className="col-form-label">ประเภทการตรวจ</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="avg_check" className="col-form-label">ค่าที่วัดได้</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div className="row mb-2">
-                                                                                        <div className="col-lg-4 border-right">
-                                                                                            <label htmlFor="type_check" className="col-form-label">วัน/เวลาที่คำสั่งมีผล</label>
-                                                                                        </div>
-                                                                                        <div className="col-lg-8">
-
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <hr />
-                                                                    <div className="row">
-                                                                        <div className="col-lg-12">
-                                                                            {list_formdetail}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        {this.state.loading == true ? list_data_four : ''}
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
