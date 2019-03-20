@@ -10,6 +10,7 @@ WORKDIR /application
 RUN npm install --silent
 RUN npm rebuild node-sass
 RUN npm install react-scripts@1.1.1 -g --silent
+RUN npm install caniuse-lite browserslist
 
 CMD ["npm", "start"]
 

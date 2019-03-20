@@ -19,7 +19,6 @@ class Add extends Component {
             project_id: localStorage.getItem('project_id')
         }
         )
-        console.log(" project_id ", this.state.project_id)
     }
 
 

@@ -21,15 +21,6 @@ class SignIn extends Component {
         this.handlePasswordChange = this.handlePasswordChange.bind(this)
     }
 
-    // componentDidMount() {
-    //     this.state.token = localStorage.getItem('token');
-    //     if (this.state.token != null) {
-
-    //         window.location.href = '/';
-
-    //     }
-    // }
-
     handleUserChange(e) {
         this.setState({
             user: e.target.value
@@ -43,7 +34,6 @@ class SignIn extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        console.log()
         var formData = new FormData();
         formData.append('user', this.state.user);
         formData.append('pass', this.state.password);
@@ -51,10 +41,8 @@ class SignIn extends Component {
         axios.post(url+'/authLogin', formData).then(res => {
             if (res.data.status == 200) {
                 localStorage.setItem('token', res.data.token);
-                store.dispatch({ type: 'Profile', payload: res.data.name })
                 this.props.history.push("/home");
             } else {
-                alert("เข้าสู่ระบบไม่สำเร็จ " + res.data.status)
                 this.setState({ user: '' })
                 this.setState({ password: '' })
             }
