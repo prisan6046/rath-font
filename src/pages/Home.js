@@ -5,6 +5,7 @@ import ShowChart from '../components/home/showchart';
 import ShowTable from '../components/home/showtable';
 import ShowHome from '../components/home/showhome';
 import ShowCalendar from '../components/home/ShowCalendar';
+import ShowBarXaxis from '../components/home/ShowBarXaxis';
 
 
 class Home extends Component {
@@ -108,6 +109,7 @@ class Home extends Component {
                                         </div>
                                     :
                                         <div>
+                                            <ShowBarXaxis />
                                         </div>
                             }
 
