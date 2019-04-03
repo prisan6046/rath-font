@@ -1,12 +1,25 @@
 import React, { Component, PropTypes } from 'react';
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
+import { url } from '../../parameter/index';
 
 
 
 export default class Export extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      token : ''
+    }
+  }
+
+  componentDidMount(){
+    this.state.token = localStorage.getItem('token');
+    fetch(url+'/get_doc_id?id=' + this.props.match.params.id + "&token=" + this.state.token)
+            .then((Response) => Response.json())
+            .then((res) => {
+            console.log(res)   
+        })
   }
 
   printDocument() {

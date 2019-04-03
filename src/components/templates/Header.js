@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link , withRouter } from 'react-router-dom';
 import axios from 'axios'
+import { url } from '../../parameter/index';
 import { connect } from 'react-redux';
 import store from '../../store/index'
 import './Template.scss';
@@ -17,26 +18,19 @@ class Header extends Component {
     }
 
     componentDidMount(){
-        // store.dispatch(console.log("store : " , store.getState()))
         this.state.token = localStorage.getItem('token');
-        axios.get('http://34.73.123.38/api/token/getProfile?token='+this.state.token ).then(res => {
+        axios.get(url+'/getProfile?token='+this.state.token ).then(res => {
             if(res.data.status == 200){
                 this.setState({ name : res.data.name})
-            }else{
-                alert("เข้าสู่ระบบไม่สำเร็จ " + res.data.status)
             }
-            
         })   
     }
     
 
     render() {  
-        
-    
 
         return(            
             <div className="Header">
-
                 <nav className="navbar navbar-expand-lg navbar-dark bg-blue-lv1">
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
@@ -50,7 +44,6 @@ class Header extends Component {
                                 <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a className="dropdown-item" href="/home">หน้าแรก</a>
                                     <a className="dropdown-item" href="/adduser">ผู้ใช้งาน</a>
-                                    <a className="dropdown-item" href="/chart">สถิติ</a>
                                 </div>
                             </li>
                             <li className="nav-item dropdown">

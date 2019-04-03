@@ -78,9 +78,9 @@ class Home extends Component {
                                         <li className="nav-item">
                                             <a className="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" onClick={() => this.handleHomeCodeChange(4)} aria-controls="pills-contact" aria-selected="false"><i className="fas fa-table"></i></a>
                                         </li>
-                                        <li className="nav-item">
+                                        {/* <li className="nav-item">
                                             <a className="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" onClick={() => this.handleHomeCodeChange(5)} aria-controls="pills-contact" aria-selected="false"><i className="fas fa-align-left"></i></a>
-                                        </li>
+                                        </li> */}
                                     </ul>
                                 </div>
                             </div>

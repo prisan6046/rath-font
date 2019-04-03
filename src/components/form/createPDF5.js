@@ -19,7 +19,6 @@ export default class Export5 extends Component {
         pdf.save("เอกสาร_คพ_๓.pdf");
       })
       ;
-
   }
 
   render() {

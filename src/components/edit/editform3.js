@@ -61,11 +61,9 @@ class EditformThree extends Component{
             fetch(url+'/get_user_one?id=' + this.state.staff_check_id)
             .then((Response) => Response.json())
             .then((res) => {
-               
                 this.setState({
                     check_check_id : res['0']['point'],
                     res_check_id : res['0']['support']
-                    // loading: true
                 })
             })
         })
@@ -108,7 +106,6 @@ class EditformThree extends Component{
             home_subdistrict: '',
             home_province: '',
             home_tel: '',
-
             data: [],
             loading: false,
 
@@ -145,8 +142,6 @@ class EditformThree extends Component{
         this.handleDriverTitleChange = this.handleDriverTitleChange.bind(this)
         this.handleHomeCodeChange = this.handleHomeCodeChange.bind(this)
         this.handleStaffCheckIdChange = this.handleStaffCheckIdChange.bind(this)
-
-        // edit by first
         this.handleChangeDatePicker = this.handleChangeDatePicker.bind(this);
     }
 
@@ -337,6 +332,7 @@ class EditformThree extends Component{
     handleSubmit(event) {
         event.preventDefault();
         var formData = new FormData();
+        formData.append('project_id' , this.props.id)
         formData.append('book_no', this.state.book_no);
         formData.append('order_no', this.state.order_no)
         formData.append('date_check', this.state.date_check);
@@ -364,7 +360,7 @@ class EditformThree extends Component{
         formData.append('home_province', this.state.home_province);
         formData.append('home_tel', this.state.home_tel);
 
-        axios.post(url+'/updata_carForm_one', formData ).then(res => {
+        axios.post(url+'/carForm_one', formData ).then(res => {
             localStorage.setItem('project_id', res.data.res_id);
             alert("บันทึกสำเร็จ")
             window.location.reload();

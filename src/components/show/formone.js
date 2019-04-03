@@ -14,6 +14,25 @@ class ShowData extends Component {
             data_two: [],
             data_three: [],
             data_four: [],
+            check_check_id : '',
+            res_check_id : '',
+            name : '',
+
+            check_check_id2 : '',
+            res_check_id2 : '',
+            name2 : '',
+
+            check_check_id3 : '',
+            res_check_id3 : '',
+            name3 : '',
+            check_check_id4 : '',
+            res_check_id4 : '',
+            name4 : '',
+
+            check_check_id5 : '',
+            res_check_id5 : '',
+            name5 : '',
+
             id: '',
             loading: false
         }
@@ -26,18 +45,34 @@ class ShowData extends Component {
         fetch(url + '/get_doc_id?id=' + this.props.match.params.id + "&token=" + this.state.token)
             .then((Response) => Response.json())
             .then((res) => {
-                console.log(res['0']['id'])
                 this.setState({
                     data: res,
                     loading: true
                 })
+                fetch(url+'/get_user_one?id=' + res['0']['staff_check_id'])
+                    .then((Response) => Response.json())
+                    .then((res) => {
+                        this.setState({
+                            name : res['0']['name'],
+                            check_check_id : res['0']['point'],
+                            res_check_id : res['0']['support']
+                        })
+                    })
 
                 fetch(url + '/get_doc_two_id?id=' + res['0']['id'] + "&token=" + this.state.token)
                     .then((Response) => Response.json())
                     .then((res) => {
-                        console.log(res)
                         this.setState({
                             data_two: res
+                        })
+                        fetch(url+'/get_user_one?id=' + res['0']['staff_allow_id'])
+                        .then((Response) => Response.json())
+                        .then((res) => {
+                            this.setState({
+                                name2 : res['0']['name'],
+                                check_check_id2 : res['0']['point'],
+                                res_check_id2 : res['0']['support']
+                            })
                         })
                     })
 
@@ -47,6 +82,24 @@ class ShowData extends Component {
                         this.setState({
                             data_three: res
                         })
+                        fetch(url+'/get_user_one?id=' + res['0']['staff_check_appvore_id'])
+                        .then((Response) => Response.json())
+                        .then((res) => {
+                            this.setState({
+                                name3 : res['0']['name'],
+                                check_check_id3 : res['0']['point'],
+                                res_check_id3 : res['0']['support']
+                            })
+                        })
+                        fetch(url+'/get_user_one?id=' + res['0']['staff_support_id'])
+                        .then((Response) => Response.json())
+                        .then((res) => {
+                            this.setState({
+                                name4: res['0']['name'],
+                                check_check_id4 : res['0']['point'],
+                                res_check_id4 : res['0']['support']
+                            })
+                        })
                     })
 
                 fetch(url + '/get_doc_four_id?id=' + res['0']['id'] + "&token=" + this.state.token)
@@ -55,17 +108,22 @@ class ShowData extends Component {
                         this.setState({
                             data_four: res
                         })
+                        fetch(url+'/get_user_one?id=' + res['0']['staff_id'])
+                        .then((Response) => Response.json())
+                        .then((res) => {
+                            this.setState({
+                                name5 : res['0']['name'],
+                                check_check_id5 : res['0']['point'],
+                                res_check_id5 : res['0']['support']
+                            })
+                        })
                     })
 
-
+            }).catch((e)=>{
+                this.props.history.push("/");
             })
 
     }
-
-    handleAvgGetIdEdit(id) {
-        console.log(id)
-    }
-
 
 
     render() {
@@ -255,6 +313,9 @@ class ShowData extends Component {
                                                                         </div>
                                                                         <div className="col-lg-8">
                                                                             <p>{val.staff_check}</p>
+                                                                            <p>{this.state.name}</p>
+                                                                            <p>{this.state.check_check_id}</p>
+                                                                            <p>{this.state.res_check_id}</p>
                                                                         </div>
                                                                     </div>
 
@@ -376,7 +437,8 @@ class ShowData extends Component {
                                                         <label htmlFor="staff_check" className="col-form-label">ผู้ออกใบอนุญาต</label>
                                                     </div>
                                                     <div className="col-lg-8">
-                                                        {val.staff_allow_id}
+                                                    <p>{this.state.name2}</p>
+                                                                           
                                                     </div>
                                                 </div>
     
@@ -386,7 +448,7 @@ class ShowData extends Component {
                                                             <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
                                                         </div>
                                                         <div className="col-lg-8">
-    
+                                                        <p>{this.state.check_check_id2}</p>
                                                         </div>
                                                     </div>
     
@@ -395,7 +457,7 @@ class ShowData extends Component {
                                                             <label htmlFor="under" className="col-form-label">สังกัด</label>
                                                         </div>
                                                         <div className="col-lg-8">
-    
+                                                        <p>{this.state.res_check_id2}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -552,7 +614,7 @@ class ShowData extends Component {
                                                         <label htmlFor="staff_check" className="col-form-label">เจ้าหน้าที่ผู้บันทึก</label>
                                                     </div>
                                                     <div className="col-lg-8">
-                                                        {val.staff_check_appvore_id}
+                                                         <p>{this.state.name4}</p>
                                                     </div>
                                                 </div>
     
@@ -562,7 +624,7 @@ class ShowData extends Component {
                                                             <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
                                                         </div>
                                                         <div className="col-lg-8">
-    
+                                                        <p>{this.state.check_check_id4}</p>
                                                         </div>
                                                     </div>
     
@@ -571,10 +633,11 @@ class ShowData extends Component {
                                                             <label htmlFor="under" className="col-form-label">สังกัด</label>
                                                         </div>
                                                         <div className="col-lg-8">
-    
+                                                        <p>{this.state.res_check_id4}</p>
                                                         </div>
                                                     </div>
                                                 </div>
+    
     
                                             </div>
     
@@ -608,27 +671,30 @@ class ShowData extends Component {
                                                         <label htmlFor="staff_check" className="col-form-label">เจ้าหน้าที่ผู้ออกคำสั่ง</label>
                                                     </div>
                                                     <div className="col-lg-8">
-                                                        {val.staff_support_id}
+                                                        <p>{this.state.name3}</p>
                                                     </div>
                                                 </div>
     
-                                                <div className="row mb-2">
-                                                    <div className="col-lg-4 border-right">
-                                                        <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
+                                                <div>
+                                                    <div className="row mb-2">
+                                                        <div className="col-lg-4 border-right">
+                                                            <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
+                                                        </div>
+                                                        <div className="col-lg-8">
+                                                        <p>{this.state.check_check_id3}</p>
+                                                        </div>
                                                     </div>
-                                                    <div className="col-lg-8">
     
+                                                    <div className="row mb-2">
+                                                        <div className="col-lg-4 border-right">
+                                                            <label htmlFor="under" className="col-form-label">สังกัด</label>
+                                                        </div>
+                                                        <div className="col-lg-8">
+                                                        <p>{this.state.res_check_id3}</p>
+                                                        </div>
                                                     </div>
                                                 </div>
-    
-                                                <div className="row mb-2">
-                                                    <div className="col-lg-4 border-right">
-                                                        <label htmlFor="under" className="col-form-label">สังกัด</label>
-                                                    </div>
-                                                    <div className="col-lg-8">
-    
-                                                    </div>
-                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -702,25 +768,27 @@ class ShowData extends Component {
                                                         <label htmlFor="staff_check" className="col-form-label">ผู้ออกคำสั่งยกเลิก</label>
                                                     </div>
                                                     <div className="col-lg-8">
-                                                        {val.staff_id}
+                                                    <p>{this.state.name5}</p>
                                                     </div>
                                                 </div>
     
-                                                <div className="row mb-2">
-                                                    <div className="col-lg-4 border-right">
-                                                        <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
+                                                <div>
+                                                    <div className="row mb-2">
+                                                        <div className="col-lg-4 border-right">
+                                                            <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
+                                                        </div>
+                                                        <div className="col-lg-8">
+                                                        <p>{this.state.check_check_id5}</p>
+                                                        </div>
                                                     </div>
-                                                    <div className="col-lg-8">
     
-                                                    </div>
-                                                </div>
-    
-                                                <div className="row mb-2">
-                                                    <div className="col-lg-4 border-right">
-                                                        <label htmlFor="under" className="col-form-label">สังกัด</label>
-                                                    </div>
-                                                    <div className="col-lg-8">
-    
+                                                    <div className="row mb-2">
+                                                        <div className="col-lg-4 border-right">
+                                                            <label htmlFor="under" className="col-form-label">สังกัด</label>
+                                                        </div>
+                                                        <div className="col-lg-8">
+                                                        <p>{this.state.res_check_id5}</p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -805,10 +873,10 @@ class ShowData extends Component {
                                                         <li className="nav-item dropdown">
                                                             <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">พิมพ์เอกสาร</a>
                                                             <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                                                <a className="dropdown-item" href={urlform3}>เอกสาร ฟอร์ม คพ.3</a>
-                                                                <a className="dropdown-item" href={urlform4}>เอกสาร ฟอร์ม คพ.4</a>
-                                                                <a className="dropdown-item" href={urlform5}>เอกสาร ฟอร์ม คพ.5</a>
-                                                                <a className="dropdown-item" href={urlform6}>เอกสาร ฟอร์ม คพ.6</a>
+                                                                <a className="dropdown-item" href={urlform3} target="_blank">เอกสาร ฟอร์ม คพ.3</a>
+                                                                <a className="dropdown-item" href={urlform4} target="_blank">เอกสาร ฟอร์ม คพ.4</a>
+                                                                <a className="dropdown-item" href={urlform5} target="_blank">เอกสาร ฟอร์ม คพ.5</a>
+                                                                <a className="dropdown-item" href={urlform6} target="_blank">เอกสาร ฟอร์ม คพ.6</a>
                                                             </div>
                                                         </li>
                                                     </ul>

@@ -70,6 +70,8 @@ class AddUser extends Component {
         })
     }
 
+    
+
     componentDidMount() {
         this.state.token = localStorage.getItem('token');
         fetch(url+'/get_all_user?token=' + this.state.token)
@@ -92,6 +94,7 @@ class AddUser extends Component {
                     <td>{val.name}</td>
                     <td>{val.status}</td>
                     <td>{val.create}</td>
+                    <td>ลบข้อมูล</td>
                 </tr>
             )
         })
@@ -195,6 +198,7 @@ class AddUser extends Component {
                                                                                         <th>ผู้ใช้งาน</th>
                                                                                         <th>สถานะ</th>
                                                                                         <th>สร้างวันที่</th>
+                                                                                        <th></th>
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody>

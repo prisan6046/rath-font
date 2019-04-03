@@ -206,7 +206,6 @@ class EditFormFour extends Component{
         this.setState({
             date_allow: full_date_th
         });
-        // console.log("date_show....", this.state.date_check);
     }
 
     render() {

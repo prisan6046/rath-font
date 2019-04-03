@@ -11,13 +11,12 @@ class Add extends Component {
         this.state = {
             project_id: ''
         }
-
     }
 
     componentDidMount() {
-        this.setState({
-            project_id: localStorage.getItem('project_id')
-        }
+            this.setState({
+                project_id: localStorage.getItem('project_id')
+            }
         )
     }
 

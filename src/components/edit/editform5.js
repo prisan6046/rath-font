@@ -15,7 +15,6 @@ class ShowFormFive extends Component{
 
 
     componentDidMount() {
-        console.log("id 5 : "+this.props.id)
 
         this.state.token = localStorage.getItem('token');
         fetch(url+'/get_all_user?token=' + this.state.token)
