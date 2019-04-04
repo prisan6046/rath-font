@@ -11,9 +11,11 @@ class ShowData extends Component {
         this.state = {
             token: '',
             data: [],
+            
             data_two: [],
             data_three: [],
             data_four: [],
+
             check_check_id : '',
             res_check_id : '',
             name : '',
@@ -41,7 +43,6 @@ class ShowData extends Component {
 
     componentDidMount() {
         this.state.token = localStorage.getItem('token');
-        // console.log(this.props.match.params.id)
         fetch(url + '/get_doc_id?id=' + this.props.match.params.id + "&token=" + this.state.token)
             .then((Response) => Response.json())
             .then((res) => {
@@ -57,6 +58,8 @@ class ShowData extends Component {
                             check_check_id : res['0']['point'],
                             res_check_id : res['0']['support']
                         })
+                    }).catch(()=>{
+                
                     })
 
                 fetch(url + '/get_doc_two_id?id=' + res['0']['id'] + "&token=" + this.state.token)
@@ -73,7 +76,11 @@ class ShowData extends Component {
                                 check_check_id2 : res['0']['point'],
                                 res_check_id2 : res['0']['support']
                             })
+                        }).catch(()=>{
+                
                         })
+                    }).catch(()=>{
+                
                     })
 
                 fetch(url + '/get_doc_three_id?id=' + res['0']['id'] + "&token=" + this.state.token)
@@ -90,6 +97,8 @@ class ShowData extends Component {
                                 check_check_id3 : res['0']['point'],
                                 res_check_id3 : res['0']['support']
                             })
+                        }).catch(()=>{
+                
                         })
                         fetch(url+'/get_user_one?id=' + res['0']['staff_support_id'])
                         .then((Response) => Response.json())
@@ -99,7 +108,11 @@ class ShowData extends Component {
                                 check_check_id4 : res['0']['point'],
                                 res_check_id4 : res['0']['support']
                             })
+                        }).catch(()=>{
+                
                         })
+                    }).catch(()=>{
+                
                     })
 
                 fetch(url + '/get_doc_four_id?id=' + res['0']['id'] + "&token=" + this.state.token)
@@ -116,7 +129,11 @@ class ShowData extends Component {
                                 check_check_id5 : res['0']['point'],
                                 res_check_id5 : res['0']['support']
                             })
+                        }).catch(()=>{
+                
                         })
+                    }).catch(()=>{
+                
                     })
 
             }).catch((e)=>{

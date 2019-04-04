@@ -48,6 +48,8 @@ class AddService extends Component {
                     data_servicecar : res,
                     loading : true
                 })
+            }).catch(()=>{
+                
             })
     }
 

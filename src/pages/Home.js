@@ -48,16 +48,7 @@ class Home extends Component {
                                     <a href="/add"><button className="btn btn-primary">ลงข้อมูลแบบ คพ.</button></a>
                                 </div>
                                 <div className="col-lg">
-                                    {/* <select className="form-control">
-                                        <option>กรุณาเลือก</option>
-                                        <option>ห้ามใช้ชั่วคราว</option>
-                                        <option>ห้ามใช้ชั่วคราวแต่ใกล้ครบกำหนดเวลา</option>
-                                        <option>ยกเลิกคำสั่งห้ามใช้ชั่วคราว</option>
-                                        <option>ห้ามใช้ชั่วคราวและเกินกำหนดเวลา 30 วัน</option>
-                                        <option>ห้ามใช้เด็ดขาด</option>
-                                        <option>ห้ามใช้ชั่วคราวและกำลังปรับปรุง</option>
-                                        <option>ยกเลิกคำสั่งห้ามใช้เด็ดขาด</option>
-                                    </select> */}
+                                   
                                 </div>
                                 <div className="col-lg-6">
                                     <form className="form-inline my-2 my-lg-0">
@@ -78,9 +69,7 @@ class Home extends Component {
                                         <li className="nav-item">
                                             <a className="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" onClick={() => this.handleHomeCodeChange(4)} aria-controls="pills-contact" aria-selected="false"><i className="fas fa-table"></i></a>
                                         </li>
-                                        {/* <li className="nav-item">
-                                            <a className="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" onClick={() => this.handleHomeCodeChange(5)} aria-controls="pills-contact" aria-selected="false"><i className="fas fa-align-left"></i></a>
-                                        </li> */}
+                                       
                                     </ul>
                                 </div>
                             </div>
@@ -109,7 +98,7 @@ class Home extends Component {
                                         </div>
                                     :
                                         <div>
-                                            <ShowBarXaxis />
+                                           
                                         </div>
                             }
 
