@@ -32,6 +32,18 @@ const NotFoundPage = () => <div>
     </section>
 </div>
 
+const DefaultPage = () => <div>
+    <section className="main-block">
+        <div className="container">
+            <div className="row">
+                <div className="col-md-12">
+                    <center><font color="red" size="20">คลิก</font></center>
+                </div>  
+            </div>
+        </div>
+    </section>
+</div>
+
 
 class RouteController extends Component{
 
@@ -51,11 +63,13 @@ class RouteController extends Component{
                 </div>
             </div>
         );
+
+
         return(
             <div>
                 <Switch>
-                    <Route exact path="/" component={SignIn} />       
-                    <Route path="/signin" render={() => <SignIn/>} />
+                    <Route exact path="/" component={DefaultPage} />       
+                    <Route path="/signin" component={SignIn} />
                     <Route path="/signup" render={() => <SignUp/>} />  
                     <DefaultLayout>
                         <Switch wrapperComponent={Header}>             

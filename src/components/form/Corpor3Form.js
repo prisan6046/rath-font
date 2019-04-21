@@ -182,10 +182,9 @@ class Corpor3Form extends Component {
         moment.locale('en');
         const year_th = YearThai(moment(date).format('YYYY'))
         const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
-        const date_format_en = moment(date).format('YYYY-MM-DD');
 
         this.setState({
-            date_not_allow : date_format_en,
+            date_not_allow : full_date_th,
         });
         // console.log("date_show....", this.state.date_check);
     }
