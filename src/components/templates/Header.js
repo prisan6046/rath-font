@@ -12,6 +12,7 @@ class Header extends Component {
         super()
         this.state = {
             name : '',
+            status : '',
             loading :false,
             token : ''
         }   
@@ -21,7 +22,8 @@ class Header extends Component {
         this.state.token = localStorage.getItem('token');
         axios.get(url+'/getProfile?token='+this.state.token ).then(res => {
             if(res.data.status == 200){
-                this.setState({ name : res.data.name})
+                this.setState({ name : res.data.name })
+                this.setState({ status : res.data.status })
             }
         })   
     }
@@ -46,14 +48,20 @@ class Header extends Component {
                                     <a className="dropdown-item" href="/adduser">ผู้ใช้งาน</a>
                                 </div>
                             </li>
-                            <li className="nav-item dropdown">
+                            {
+                                this.state.status == 'Admin'?
+                                <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ตั้งค่าระบบ</a>
                                 <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <a className="dropdown-item" href="/adduser">เพิ่ม/ลบ ผู้ใช้งาน</a>
                                     <a className="dropdown-item" href="/addlocation">เพิ่ม/ลบ สถานที่</a>
                                     <a className="dropdown-item" href="/addservicecar">เพิ่ม/ลบ อู่</a>
                                 </div>
-                            </li>
+                                </li>
+                                :
+                                <div></div>
+                            }
+                            
                             <li className="nav-item">
                                 <a className="nav-link disabled" href="#"  aria-disabled="true"></a>
                             </li>
