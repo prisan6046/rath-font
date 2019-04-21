@@ -21,11 +21,12 @@ class Header extends Component {
     componentDidMount(){
         this.state.token = localStorage.getItem('token');
         axios.get(url+'/getProfile?token='+this.state.token ).then(res => {
+            
             if(res.data.status == 200){
-                this.setState({ name : res.data.name })
-                this.setState({ status : res.data.status })
+                this.setState({ name : res.data['name'] })
+                this.setState({ status : res.data['status_user'] })
             }
-        })   
+        })
     }
     
 

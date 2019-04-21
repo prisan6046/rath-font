@@ -1,1 +1,1 @@
-export const url = "http://34.73.123.38/api/token"
+export const url = "http://58.82.183.93/api/token"

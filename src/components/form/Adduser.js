@@ -81,6 +81,8 @@ class AddUser extends Component {
                     data_user : res,
                     loading : true
                 })
+            }).catch(()=>{
+                
             })
     }
 
