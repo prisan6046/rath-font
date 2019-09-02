@@ -24,7 +24,10 @@ class Corpor5Form extends Component {
                 this.setState({
                     data_user: res
                 })
+            }).catch(() => {
+
             })
+
         fetch(url+'/get_location?token=' + this.state.token)
             .then((Response) => Response.json())
             .then((res) => {
@@ -32,6 +35,8 @@ class Corpor5Form extends Component {
                     data_location : res,
                     loading : true
                 })
+            }).catch(() => {
+                
             })
     }
 
@@ -220,12 +225,12 @@ class Corpor5Form extends Component {
         formData.append('res_date_garage', this.state.res_date_garage);
         formData.append('req_date_garage', this.state.req_date_garage);
         formData.append('staff_req', this.state.staff_req);
-        formData.append('staff_support', this.state.staff_support);
+        formData.append('staff_support', "-");
         formData.append('staff_support_id' , this.state.staff_support_id );
         
         formData.append('data_check_appvore', this.state.data_check_appvore);
         formData.append('location_check_appvore', this.state.location_check_appvore);
-        formData.append('staff_check_appvore', this.state.staff_check_appvore);
+        formData.append('staff_check_appvore', "-");
         formData.append('staff_check_appvore_id', this.state.staff_check_appvore_id)
 
 
@@ -421,7 +426,7 @@ class Corpor5Form extends Component {
                                             <label htmlFor="staff_check" className="col-form-label">เจ้าหน้าที่ผู้บันทึก</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" id="staff_check" value={this.state.staff_support} onChange={this.handleStaffSupportChange} placeholder="นาย, นาง, นางสาว, ยศ" />
+                                            {/* <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" id="staff_check" value={this.state.staff_support} onChange={this.handleStaffSupportChange} placeholder="นาย, นาง, นางสาว, ยศ" /> */}
                                             <select name="select_staff_check" id="select_staff_check" onChange={this.handleStaffSupportIdChange} className="form-control bg-blue-lv3">
                                                 <option value=""></option>
                                                 {
@@ -499,7 +504,7 @@ class Corpor5Form extends Component {
                                             <label htmlFor="staff_check" className="col-form-label">เจ้าหน้าที่ผู้ออกคำสั่ง</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" value={this.state.staff_check_appvore} onChange={this.handleStaffCheckAppvoreChange} id="staff_check" placeholder="นาย, นาง, นางสาว, ยศ" />
+                                            {/* <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" value={this.state.staff_check_appvore} onChange={this.handleStaffCheckAppvoreChange} id="staff_check" placeholder="นาย, นาง, นางสาว, ยศ" /> */}
                                             <select name="select_staff_check" id="select_staff_check" onChange={this.handleStaffCheckAppvoreIdChange} className="form-control bg-blue-lv3">
                                                 <option value=""></option>
                                                {

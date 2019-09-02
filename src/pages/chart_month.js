@@ -1,13 +1,9 @@
 import React, { Component } from 'react'
-
-import ChartConfig from '../libraries/ChartConfig';
-import ReactEcharts from "echarts-for-react";
-import { url } from '../../parameter/index';
-import { HorizontalBarChart, VerticalBarChart, PieChart } from "../../Charts";
+import Showchart from '../components/templates/chart';
 import Chart from 'react-google-charts';
+import { url } from '../parameter/index';
 
-class ShowChart extends Component {
-
+class ChartShowMonth extends Component {
 
     constructor() {
         super()
@@ -47,7 +43,7 @@ class ShowChart extends Component {
         fetch(url + '/get_sum_year?token=' + this.props.token)
             .then((Response) => Response.json())
             .then((res) => {
-                console.log(res)
+               
                 this.setState({
                     list_year: res.data,
                     status: true
@@ -83,19 +79,11 @@ class ShowChart extends Component {
 
 
 
-    // getRandomDatum = () => Math.floor(Math.random() * 100);
-
-
-
+    printChart(){
+        window.print();
+    }
     render() {
 
-        let list_year_all = []
-        // let data = []
-        list_year_all.push(['City', 'ห้ามใช้ชั่วคราว',  'ห้ามใช้เด็ดขาด','ยกเลิกคำสั่งห้ามใช้เด็ดขาด','ยกเลิกคำสั่งห้ามใช้ชั่วคราว'])
-        this.state.list_year.map((val, i) => {
-            return list_year_all.push([val.year, val.sum, val.sum2, val.close2 , val.close])
-
-        })
 
         let full_month = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
         let list = []
@@ -116,14 +104,14 @@ class ShowChart extends Component {
                                 ]
                                 }
                                 options={{
-                                    
+                                    title: 'กราฟสถิติของแต่ละเดือน',
                                     chartArea: { width: '30%' },
                                     hAxis: {
                                         title: 'สรุปสถิติของแต่ละเดือน',
                                         minValue: 0,
                                     },
                                     vAxis: {
-                                        title: 'จำนวนคัน',
+                                        title: 'จำนวนทั้งหมด',
                                     },
                                 }}
                                 legendToggle
@@ -134,44 +122,24 @@ class ShowChart extends Component {
             })
         }
 
-        return (
-            <div>
-                <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" className="btn btn-primary" href="#home">รายปี</a></li>
-                    <li><a data-toggle="tab" href="#menu1" className="btn btn-primary">รายเดือน</a></li>
-
-                </ul>
-
-                <div class="tab-content">
-                    <div id="home" class="tab-pane fade in active">
-
-
-                        <div style={{ display: 'flex', maxWidth: 1024 }}>
-                            <Chart
-                                width={1400}
-                                height={800}
-                                chartType="ColumnChart"
-                                loader={<div>กำลังโหลดผลสถิติ</div>}
-                                data={list_year_all}
-                                options={{
-                                  
-                                    chartArea: { width: '30%' },
-                                    hAxis: {
-                                        title: 'สรุปสถิติของแต่ละปี',
-                                        minValue: 0,
-                                    },
-                                    vAxis: {
-                                        title: 'จำนวนคัน',
-                                    },
-                                }}
-                                legendToggle
-                            />
-
-
+        return(
+            <div className="Add">
+                <div className="container-fluid bg-blue-lv2 py-3 border-bottom">
+                    <div className="row">
+                        <div className="col-lg-6">
+                            <h4 className="text-secondary"><a href="#">สรุปสถิติ</a></h4>
                         </div>
+
+                        <div className="col-lg-6">
+                            
+                        </div>
+                    {/* /.row */}
                     </div>
-                    <div id="menu1" class="tab-pane fade">
-                        <div className="row">
+                {/* /.container */}
+                </div>
+
+                <div className="container-fluid py-4">
+                <div className="row">
                             <div className="col-md-3">
                                 <select className="form-control" id="sel1" onChange={this.handleStaffCheckIdChange} >
                                     <option >กรุณาเลือก</option>
@@ -203,14 +171,13 @@ class ShowChart extends Component {
                             </div>
                         </div>  
                         { list  }
-                    </div>
-                </div>
 
+               
+                <center><button type="button" class="btn btn-success" onClick={()=>{this.printChart()}}>พิมพ์กราฟ</button></center>
+            </div>
             </div>
         )
-
     }
 }
 
-
-export default ShowChart
+export default ChartShowMonth;

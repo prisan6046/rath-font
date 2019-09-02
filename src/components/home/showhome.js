@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { url } from '../../parameter/index';
 import { Link } from 'react-router-dom';
+import { Str_date } from '../libraries/DateThai';
 
 class ShowHome extends Component {
 
@@ -17,14 +18,30 @@ class ShowHome extends Component {
             sum6: '',
             sum7: '',
         }
+     
+    
     }
 
-
+   
 
     componentDidMount() {
+        
+
+        fetch(url + '/get_all_doc?token=' + this.props.token)
+            .then((Response) => Response.json())
+            .then((res) => {
+                this.setState({
+                    list_doc: res
+                })
+            }).catch(function () {
+                // localStorage.removeItem('token');
+                // window.location.href = '/';
+            });
+
         fetch(url + '/get_sum_order?token=' + this.props.token)
             .then((Response) => Response.json())
             .then((res) => {
+            
                 this.setState({
                     sum1: res.sumone,
                     sum2: res.sumtwo,
@@ -38,19 +55,15 @@ class ShowHome extends Component {
                 localStorage.removeItem('token');
                 window.location.href = '/';
             });
-
-        fetch(url + '/get_all_doc?token=' + this.props.token)
-            .then((Response) => Response.json())
-            .then((res) => {
-                this.setState({
-                    list_doc: res
-                })
-            }).catch(function () {
-                localStorage.removeItem('token');
-                window.location.href = '/';
-            });
     }
 
+
+    str_dataaa(e){
+
+        return Str_date(e)
+    }
+
+    
     render() {
 
         
@@ -60,7 +73,7 @@ class ShowHome extends Component {
             'ยกเลิกคำสั่งห้ามใช้ชั่วคราว',
             'ห้ามใช้ชั่วคราวและเกินกำหนดเวลา 30 วัน',
             'ห้ามใช้เด็ดขาด',
-            'ห้ามใช้ห้ามใช้ชั่วคราวและกำลังปรับปรุงชั่วคราว',
+            'กำลังปรับปรุง',
             'ยกเลิกคำสั่งห้ามใช้เด็ดขาด'
         ];
 
@@ -75,7 +88,7 @@ class ShowHome extends Component {
                         <thead>
                             <tr>
                                 <th className="w-25"></th>
-                                <th><input type="checkbox" name="id_car" id="id_car" className="bg-white" /> ทะเบียนรถ</th>
+                                <th> ทะเบียนรถ</th>
                                 <th>ทะเบียนจังหวัด</th>
                                 <th>ยี่ห้อยานพาหนะ</th>
                                 <th>วันที่ห้ามใช้ยานพาหนะ</th>
@@ -97,7 +110,7 @@ class ShowHome extends Component {
                             </tr>
                             {this.state.list_doc.map((val, n) => {
                                 let url = "/showdata/" + val._id.$oid
-                                if (val.res_check == "ห้ามใช้ยานพาหนะชั่วคราว") {
+                                if ( val.res_check == "ห้ามใช้ยานพาหนะชั่วคราว") {
 
                                     return (
                                         <tr key={n} className="collapse" id="collapseExample-0" style={{ backgroundColor: color_collapse[0] }}>
@@ -106,10 +119,10 @@ class ShowHome extends Component {
                                             <td className="border-0"><Link to={url} className="text-dark">{val.avg_car_number}</Link></td>
                                             <td className="border-0">{val.avg_car_province}</td>
                                             <td className="border-0">{val.avg_car_brand}</td>
-                                            <td className="border-0">{val.date_not_allow}</td>
-                                            <td className="border-0">{val.date_check}</td>
-                                            <td className="border-0">{val.date_check}</td>
-                                            <td className="border-0">{val.date_check}</td>
+                                            <td className="border-0">{this.str_dataaa(val.date_check)}</td>
+                                            <td className="border-0"></td>
+                                            <td className="border-0"></td>
+                                            <td className="border-0"></td>
                                             <td className="border-0">{car_statuses[0]}</td>
                                             {/* </div> */}
                                         </tr>
@@ -137,11 +150,44 @@ class ShowHome extends Component {
                                             <td className="border-0"><Link to={url} className="text-dark">{val.avg_car_number}</Link></td>
                                             <td className="border-0">{val.avg_car_province}</td>
                                             <td className="border-0">{val.avg_car_brand}</td>
-                                            <td className="border-0">{val.date_not_allow}</td>
-                                            <td className="border-0">{val.date_check}</td>
-                                            <td className="border-0">{val.date_check}</td>
-                                            <td className="border-0">{val.date_check}</td>
+                                            <td className="border-0">{this.str_dataaa(val.date_check)}</td>
+                                            <td className="border-0"></td>
+                                            <td className="border-0"></td>
+                                            <td className="border-0"></td>
                                             <td className="border-0">{car_statuses[1]}</td>
+                                            {/* </div> */}
+                                        </tr>
+                                    );
+                                }
+
+                            })}
+                        </tbody>
+
+                    
+
+                        <tbody>
+                            <tr>
+                                <td colSpan="9">
+                                    <div className="list-group">
+                                        <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-3" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[3]} ({this.state.sum4})</i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {this.state.list_doc.map((val, n) => {
+                                let url = "/showdata/" + val._id.$oid
+                                if (val.res_check == "ห้ามใช้ชั่วคราวและเกินกำหนดเวลา 30 วัน") {
+                                    return (
+                                        <tr key={n} className="collapse" id="collapseExample-3" style={{ backgroundColor: color_collapse[3] }}>
+                                            {/* <div className="card card-body" style={{backgroundColor: color_collapse[i]}}> */}
+                                            <td className="border-0"></td>
+                                            <td className="border-0"><Link to={url} className="text-dark">{val.avg_car_number}</Link></td>
+                                            <td className="border-0">{val.avg_car_province}</td>
+                                            <td className="border-0">{val.avg_car_brand}</td>
+                                            <td className="border-0">{this.str_dataaa(val.date_check)}</td>
+                                            <td className="border-0"></td>
+                                            <td className="border-0"></td>
+                                            <td className="border-0"></td>
+                                            <td className="border-0">{car_statuses[3]}</td>
                                             {/* </div> */}
                                         </tr>
                                     );
@@ -168,42 +214,11 @@ class ShowHome extends Component {
                                             <td className="border-0"><Link to={url} className="text-dark">{val.avg_car_number}</Link></td>
                                             <td className="border-0">{val.avg_car_province}</td>
                                             <td className="border-0">{val.avg_car_brand}</td>
-                                            <td className="border-0">{val.date_not_allow}</td>
-                                            <td className="border-0">{val.date_check}</td>
-                                            <td className="border-0">{val.date_check}</td>
-                                            <td className="border-0">{val.date_check}</td>
-                                            <td className="border-0">{car_statuses[2]}</td>
-                                            {/* </div> */}
-                                        </tr>
-                                    );
-                                }
-
-                            })}
-                        </tbody>
-
-                        <tbody>
-                            <tr>
-                                <td colSpan="9">
-                                    <div className="list-group">
-                                        <a href="#" className="list-group-item list-group-item-action border-0" data-toggle="collapse" href="#collapseExample-3" role="button" aria-expanded="false" aria-controls="collapseExample-0"><i className="fas fa-caret-right">{car_statuses[3]} ({this.state.sum4})</i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            {this.state.list_doc.map((val, n) => {
-                                let url = "/showdata/" + val._id.$oid
-                                if (val.res_check == "ห้ามใช้ชั่วคราวและเกินกำหนดเวลา 30 วัน") {
-                                    return (
-                                        <tr key={n} className="collapse" id="collapseExample-3" style={{ backgroundColor: color_collapse[3] }}>
-                                            {/* <div className="card card-body" style={{backgroundColor: color_collapse[i]}}> */}
+                                            <td className="border-0">{this.str_dataaa(val.date_check)}</td>
                                             <td className="border-0"></td>
-                                            <td className="border-0"><Link to={url} className="text-dark">{val.avg_car_number}</Link></td>
-                                            <td className="border-0">{val.avg_car_province}</td>
-                                            <td className="border-0">{val.avg_car_brand}</td>
-                                            <td className="border-0">{val.date_not_allow}</td>
-                                            <td className="border-0">{val.date_check}</td>
-                                            <td className="border-0">{val.date_check}</td>
-                                            <td className="border-0">{val.date_check}</td>
-                                            <td className="border-0">{car_statuses[3]}</td>
+                                            <td className="border-0"></td>
+                                            <td className="border-0">{this.str_dataaa(val.date_out)}</td>
+                                            <td className="border-0">{car_statuses[2]}</td>
                                             {/* </div> */}
                                         </tr>
                                     );
@@ -230,10 +245,10 @@ class ShowHome extends Component {
                                             <td className="border-0"><Link to={url} className="text-dark">{val.avg_car_number}</Link></td>
                                             <td className="border-0">{val.avg_car_province}</td>
                                             <td className="border-0">{val.avg_car_brand}</td>
-                                            <td className="border-0">{val.date_not_allow}</td>
-                                            <td className="border-0">{val.date_check}</td>
-                                            <td className="border-0">{val.date_check}</td>
-                                            <td className="border-0">{val.date_check}</td>
+                                            <td className="border-0">{this.str_dataaa(val.date_not_allow)}</td>
+                                            <td className="border-0">{this.str_dataaa(val.date_out_four)}</td>
+                                            <td className="border-0"></td>
+                                            <td className="border-0"></td>
                                             <td className="border-0">{car_statuses[4]}</td>
                                             {/* </div> */}
                                         </tr>
@@ -253,7 +268,7 @@ class ShowHome extends Component {
                             </tr>
                             {this.state.list_doc.map((val, n) => {
                                 let url = "/showdata/" + val._id.$oid
-                                if (val.res_check == "ห้ามใช้ห้ามใช้ชั่วคราวและกำลังปรับปรุงชั่วคราว") {
+                                if (val.res_check == "กำลังปรับปรุงชั่วคราว") {
                                     return (
                                         <tr key={n} className="collapse" id="collapseExample-5" style={{ backgroundColor: color_collapse[5] }}>
                                             {/* <div className="card card-body" style={{backgroundColor: color_collapse[i]}}> */}
@@ -261,10 +276,10 @@ class ShowHome extends Component {
                                             <td className="border-0"><Link to={url} className="text-dark">{val.avg_car_number}</Link></td>
                                             <td className="border-0">{val.avg_car_province}</td>
                                             <td className="border-0">{val.avg_car_brand}</td>
-                                            <td className="border-0">{val.date_not_allow}</td>
-                                            <td className="border-0">{val.date_check}</td>
-                                            <td className="border-0">{val.date_check}</td>
-                                            <td className="border-0">{val.date_check}</td>
+                                            <td className="border-0">{this.str_dataaa(val.date_not_allow)}</td>
+                                            <td className="border-0">{this.str_dataaa(val.date_out_four)}</td>
+                                            <td className="border-0">{this.str_dataaa(val.date_out_five)}</td>
+                                            <td className="border-0"></td>
                                             <td className="border-0">{car_statuses[5]}</td>
                                             {/* </div> */}
                                         </tr>
@@ -292,10 +307,10 @@ class ShowHome extends Component {
                                             <td className="border-0"><Link to={url} className="text-dark">{val.avg_car_number}</Link></td>
                                             <td className="border-0">{val.avg_car_province}</td>
                                             <td className="border-0">{val.avg_car_brand}</td>
-                                            <td className="border-0">{val.date_not_allow}</td>
-                                            <td className="border-0">{val.date_check}</td>
-                                            <td className="border-0">{val.date_check}</td>
-                                            <td className="border-0">{val.date_check}</td>
+                                            <td className="border-0">{this.str_dataaa(val.date_not_allow)}</td>
+                                            <td className="border-0"></td>
+                                            <td className="border-0"></td>
+                                            <td className="border-0">{this.str_dataaa(val.date_out)}</td>
                                             <td className="border-0">{car_statuses[6]}</td>
                                             {/* </div> */}
                                         </tr>

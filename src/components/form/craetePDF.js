@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
 import { url } from '../../parameter/index';
+import { Str_date } from '../libraries/DateThai';
 
 
 
@@ -9,7 +10,25 @@ export default class Export extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      token : ''
+      token : '',
+      order : '',
+      date : '' , 
+      avg_type_car : '',
+      avg_car_number : '',
+      avg_car_brand : '',
+      avg_car_type_engine : '',
+      avg_car_type_fuel : '',
+      driver_title : '',
+      driver_name : '',
+      home_code: '',
+      home_district: '',
+      home_number: '',
+      home_province: '',
+      home_subdistrict: '',
+      home_tel : '',
+      type_check : '',
+      val_check : '',
+      date_not_allow : ''
     }
   }
 
@@ -18,9 +37,34 @@ export default class Export extends Component {
     fetch(url+'/get_doc_id?id=' + this.props.match.params.id + "&token=" + this.state.token)
             .then((Response) => Response.json())
             .then((res) => {
-            console.log(res)   
+  
+            this.setState({
+              order : res[0]['order_no'],
+              date : res[0]['date_not_allow'],
+              avg_type_car : res[0]['avg_type_car'],
+              avg_car_number : res[0]['avg_car_number'],
+              avg_car_brand : res[0]['avg_car_brand'],
+              avg_car_type_engine : res[0]['avg_car_type_engine'],
+              avg_car_type_fuel : res[0]['avg_car_type_fuel'],
+              driver_title : res[0]['driver_title'],
+              driver_name : res[0]['driver_name'],
+              home_code:  res[0]['home_code'],
+              home_district: res[0]['home_district'],
+              home_number:  res[0]['home_number'],
+              home_province:  res[0]['home_province'],
+              home_subdistrict:  res[0]['home_subdistrict'],
+              home_tel : res[0]['home_tel'],
+              type_check : res[0]['type_check'],
+              val_check : res[0]['val_check'],
+              date_not_allow : res[0]['date_not_allow']
+
+            })  
         })
   }
+
+  str_dataaa(e){
+    return Str_date(e)
+}
 
   printDocument() {
     const input = document.getElementById('divToPrint');
@@ -47,37 +91,39 @@ export default class Export extends Component {
         <br />
         <br />
         <div id="divToPrint">
-          <div className="col-md-8">
+          <div className="col-md-6">
             <p align="right" className="mt4">แบบ คพ. ๓</p>
             <p align="center" className="mt4"><img src="/assets/img/logo.png" height="150px" /></p>
-            <p align="" className="mt4">เล่มที่ </p>
+            <p align="" className="mt4">เล่มที่ {this.state.order}</p>
             <p align="center" className="mt4">คำสั่ง ห้ามใช้ยานพาหนะชั่วคราวหรือ<u>ห้ามใช้ยานพาหนะเด็ดขาด</u> </p>
-            <p align="right" className="mt4">วันที่ ....................... </p>
+            <p align="right" className="mt4">วันที่ { this.str_dataaa(this.state.date)} </p>
             <p align="right" className="mt4">สถานที่ตรวจสอบ ....................... </p>
+            <div className="col-md-12">
             <div className="row">
               <div className="col-md-3">
-                <center>ด้วย</center>
+                <p align="right">ด้วย</p>
               </div>
-              <div className="col-md-3">
+              <div className="col-md-3 bu-top">
 
               </div>
-              <div className="col-md-3">
+              <div className="col-md-3.1">
                 <center>ตำแหน่ง</center>
               </div>
-              <div className="col-md-3">
+              <div className="col-md-3 bu-top">
 
               </div>
             </div>
-            <p></p>
+            </div>
+           
             <div className="col-md-12">
               <div className="row">
-                <div className="col-md-1">
+                <div className="col-md-1.1">
                   สังกัด
               </div>
-                <div className="col-md-4">
+                <div className="col-md-4 bu-top">
 
                 </div>
-                <div className="col-md-7">
+                <div className="col-md-7.1">
                   <center>พนักงานเจ้าหน้าที่ตามพระราชบัญญัติส่งเสริมและรักษาคุณภาพ</center>
                 </div>
               </div>
@@ -85,11 +131,11 @@ export default class Export extends Component {
             <p></p>
             <div className="col-md-12">
               <div className="row">
-                <div className="col-md-6">
+                <div className="col-md-6.1">
                   สิ่งแวดล้อมแห่งชาติ พ.ศ.๒๕๓๕ ตรวจสอบยานพาหนะ ประเภท
               </div>
-                <div className="col-md-6">
-
+                <div className="col-md-6 bu-top">
+                  <p class="textbu">{ this.state.avg_type_car }</p>
                 </div>
 
               </div>
@@ -97,17 +143,17 @@ export default class Export extends Component {
             <p></p>
             <div className="col-md-12">
               <div className="row">
-                <div className="col-md-3">
+                <div className="col-md-3.1 ">
                   หมายเลขทะเบียนรถ
               </div>
-                <div className="col-md-3">
-
+                <div className="col-md-3 bu-top">
+                <p class="textbu">{this.state.avg_car_number}</p>
                 </div>
-                <div className="col-md-3">
+                <div className="col-md-3.1">
                   ซึ่งออกให้โดย(ระบุ)
               </div>
-                <div className="col-md-3">
-
+                <div className="col-md-4 bu-top">
+                <p class="textbu">กรมการขนส่งทางบก</p>
                 </div>
               </div>
             </div>
@@ -115,22 +161,22 @@ export default class Export extends Component {
             <p></p>
             <div className="col-md-12">
               <div className="row">
-                <div className="col-md-2">
+                <div className="col-md-2.1">
                   ยี่ห้อรถ/ชื่อรถ
               </div>
-                <div className="col-md-2">
-
+                <div className="col-md-2 bu">
+                <p class="textbu">{this.state.avg_car_brand}</p>
                 </div>
-                <div className="col-md-2">
+                <div className="col-md-2.1">
                   สีของรถ/เรือ
               </div>
-                <div className="col-md-2">
+                <div className="col-md-2 bu">
 
                 </div>
-                <div className="col-md-2">
+                <div className="col-md-2.1">
                   สีของรถ/เรือ
               </div>
-                <div className="col-md-2">
+                <div className="col-md-2 bu">
 
                 </div>
               </div>
@@ -139,17 +185,17 @@ export default class Export extends Component {
             <p></p>
             <div className="col-md-12">
               <div className="row">
-                <div className="col-md-3">
+                <div className="col-md-3.1">
                   ประเภทของเครื่องยนต์
               </div>
-                <div className="col-md-3">
-
+                <div className="col-md-3 bu">
+                <p class="textbu">{this.state.avg_car_type_engine}</p>
                 </div>
-                <div className="col-md-3">
+                <div className="col-md-3.1">
                   ประเภทของเชื้อเพลิง
               </div>
-                <div className="col-md-3">
-
+                <div className="col-md-3 bu">
+                <p class="textbu">{this.state.avg_car_type_fuel}</p>
                 </div>
 
               </div>
@@ -161,14 +207,14 @@ export default class Export extends Component {
                 <div className="col-md-3">
                   โดยมี
               </div>
-                <div className="col-md-3">
-
+                <div className="col-md-3 bu">
+                <p class="textbu"> { this.state.driver_title} {this.state.driver_name}</p>
                 </div>
-                <div className="col-md-3">
+                <div className="col-md-3.1">
                   อยู่บ้านเลขที
               </div>
-                <div className="col-md-3">
-
+                <div className="col-md-3 bu ">
+                <p class="textbu">{this.state.home_number} </p>
                 </div>
 
               </div>
@@ -177,21 +223,21 @@ export default class Export extends Component {
             <p></p>
             <div className="col-md-12">
               <div className="row">
-                <div className="col-md-3">
-
+                <div className="col-md-3 bu">
+                <p class="textbu">{this.state.home_subdistrict}</p>
                 </div>
                 <div className="col-md-2.5">
                   อำเภอ/เขต
               </div>
-                <div className="col-md-3">
-
+                <div className="col-md-3 bu">
+                <p class="textbu">{this.state.home_district}</p>
                 </div>
                 <div className="col-md-2.5">
                   จังหวัด
               </div>
 
-                <div className="col-md-3">
-
+                <div className="col-md-3 bu">
+                <p class="textbu">{this.state.home_province}</p>
                 </div>
 
               </div>
@@ -203,8 +249,8 @@ export default class Export extends Component {
                 <div className="col-md-7.5">
                   โทรศัพท์หรือโทรสารที่ สามารถติดต่อได้หมายเลข
               </div>
-                <div className="col-md-3">
-
+                <div className="col-md-3 bu">
+                <p class="textbu">{this.state.home_tel}</p>
                 </div>
                 <div className="col-md-4">
                   เป็นเจ้าของหรือผู้ครอบครองยานพาหนะ
@@ -218,8 +264,8 @@ export default class Export extends Component {
                 <div className="col-md-7.5">
                   ซึ่งพนักงานเจ้าหน้าที่ ได้ตรวจสอบยานพาหนะดังกล่าวแล้ว พบว่ามีค่า
               </div>
-                <div className="col-md-5">
-
+                <div className="col-md-5 bu">
+                <p class="textbu">{this.state.type_check} เท่ากับ {this.state.val_check}</p>
                 </div>
 
               </div>
@@ -265,14 +311,14 @@ export default class Export extends Component {
                 <div className="col-md-4.5">
                   อาศัยอำนาจตามความในมาตรา
               </div>
-                <div className="col-md-2">
-                  <center>๖๕</center>
+                <div className="col-md-2 bu">
+                <p class="textbu">๖๕</p>
                 </div>
                 <div className="col-md-3.5">
                   และมาตรา
               </div>
-                <div className="col-md-2">
-                  <center>๖๖</center>
+                <div className="col-md-1 bu">
+                <p class="textbu">๖๖</p>
                 </div>
                 <div className="col-md-4">
                   แห่งพระราชบัญญัติส่งเสริมและรักษา
@@ -286,8 +332,8 @@ export default class Export extends Component {
                 <div className="col-md-4.5">
                   คุณภาพสิ่งแวดล้อมแห่งชาติ
               </div>
-                <div className="col-md-3">
-                  <center>พ.ศ. ๒๕๓๕</center>
+                <div className="col-md-2 bu">
+                <p class="textbu">พ.ศ. ๒๕๓๕</p>
                 </div>
                 <div className="col-md-3.5">
                   พนักงานเจ้าหน้าที่จึง ออกคำสั่งและทำเครื่องหมายห้ามใช้ยานพาหนะ
@@ -301,11 +347,11 @@ export default class Export extends Component {
                 <div className="col-md-4.5">
                   ชั่วคราว/ห้ามใช้ยานพาหนะเด็ดขาด
               </div>
-                <div className="col-md-3">
-                  <center>ตั้งแต่วันที่ </center>
+                <div className="col-md-2">
+                <center>ตั้งแต่วันที่</center>
                 </div>
-                <div className="col-md-4">
-
+                <div className="col-md-4 bu">
+                <p class="textbu">{ this.str_dataaa(this.state.date_not_allow) }</p>
                 </div>
                 <div className="col-md-3.5">
                   นาฬิกา เป็นต้นไป
@@ -436,14 +482,14 @@ export default class Export extends Component {
                 <div className="col-md-3.5">
                   ตำบล/แขวง 
               </div>
-                <div className="col-md-4">
+                <div className="col-md-4 bu">
                   
                 </div>
                 <div className="col-md-4.5">
                   อำเภอ/เขต
                 </div>
 
-                <div className="col-md-3.5">
+                <div className="col-md-5 bu">
                   
                 </div>
               </div>
@@ -456,20 +502,19 @@ export default class Export extends Component {
                 <div className="col-md-3.5">
                 จังหวัด
               </div>
-                <div className="col-md-3">
+                <div className="col-md-2 bu">
                   
                 </div>
                 <div className="col-md-4.5">
                 รหัสไปรษณีย์ 
                 </div>
-                <div className="col-md-3">
+                <div className="col-md-2 bu">
                   
                 </div>
-
                 <div className="col-md-4.5">
                 หมายเลขโทรศัพท์/โทรสาร 
                 </div>
-                <div className="col-md-3.5">
+                <div className="col-md-2 bu">
                   
                 </div>
               </div>

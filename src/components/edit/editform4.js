@@ -174,12 +174,13 @@ class EditFormFour extends Component{
     handleSubmit(event) {
         event.preventDefault();
         var formData = new FormData();
+        if(window.confirm("คุณต้องการที่จะบันทึกหรือไม่")){
         formData.append('project_id', this.props.id);
         formData.append('book_no', this.state.book_no);
         formData.append('order_no', this.state.order_no);
         formData.append('date_allow', this.state.date_allow);
         formData.append('location_allow', this.state.location_allow);
-        formData.append('staff_allow', this.state.staff_allow);
+        formData.append('staff_allow', "-");
         formData.append('staff_allow_id' , this.state.staff_allow_id )
         formData.append('garage_name', this.state.garage_name);
         formData.append('garage_in_date', this.state.garage_in_date);
@@ -190,11 +191,14 @@ class EditFormFour extends Component{
         axios.post(url+'/carForm_two', formData, {
             onUploadProgress: ProgressEvent => {
                 this.setState({ loaded: 'upload'})
+                
             },
         }).then(res => {
             console.log(res)
             alert("บันทึกสำเร็จ")
+            window.location.reload();
         })
+    }
     }
 
     handleDateNotAllowChange = (date) => {        
@@ -321,7 +325,7 @@ class EditFormFour extends Component{
                                             <label htmlFor="staff_check" className="col-form-label">ผู้ออกใบอนุญาต</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" value={this.state.staff_allow} onChange={this.handleStaffAllowChange} id="staff_check" placeholder="นาย, นาง, นางสาว, ยศ" />
+                                            {/* <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" value={this.state.staff_allow} onChange={this.handleStaffAllowChange} id="staff_check" placeholder="นาย, นาง, นางสาว, ยศ" /> */}
                                             <select name="select_staff_check" id="select_staff_check" onChange={this.handleStaffAllowIdChange} className="form-control bg-blue-lv3">
                                                 <option value=""></option>
                                                 {

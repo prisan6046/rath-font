@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import store from '../../store/index';
 import { url } from '../../parameter/index';
+import { Str_date } from '../libraries/DateThai';
 
 class ShowData extends Component {
 
@@ -36,18 +37,35 @@ class ShowData extends Component {
             name5 : '',
 
             id: '',
-            loading: false
+            loading: false,
+            project_id : '',
+
+            status : ''
         }
 
     }
 
+    deletedata(id){
+        if(window.confirm("คุณต้องการจะลบข้อมูลทั้งหมดหรือไม่")){
+            // console.log("ok : "+ this.state.project_id)
+            fetch(url + '/delete_doc_id?id='+this.state.project_id)
+            .then((Response) => Response.json())
+            .then((res) => {
+                alert("ลบข้อมูลเรียบร้อย")
+                window.location.href = "/home";
+            })
+        }
+    }
+
     componentDidMount() {
         this.state.token = localStorage.getItem('token');
+        this.state.status = localStorage.getItem('status');
         fetch(url + '/get_doc_id?id=' + this.props.match.params.id + "&token=" + this.state.token)
             .then((Response) => Response.json())
             .then((res) => {
                 this.setState({
                     data: res,
+                    project_id : res['0']['id'],
                     loading: true
                 })
                 fetch(url+'/get_user_one?id=' + res['0']['staff_check_id'])
@@ -140,6 +158,10 @@ class ShowData extends Component {
                 this.props.history.push("/");
             })
 
+    }
+
+    str_dataaa(e){
+        return Str_date(e)
     }
 
 
@@ -311,7 +333,7 @@ class ShowData extends Component {
                                                                             <label htmlFor="date_check" className="col-form-label">วันที่ตรวจสอบ</label>
                                                                         </div>
                                                                         <div className="col-lg-8">
-                                                                            <p>{val.date_check}</p>
+                                                                            <p>{val.date_check != '' ? this.str_dataaa(val.date_check):''} </p>
                                                                         </div>
                                                                     </div>
 
@@ -376,7 +398,7 @@ class ShowData extends Component {
                                                                             <label htmlFor="date_check" className="col-form-label">วันที่ห้ามใช้ยานพาหนะ</label>
                                                                         </div>
                                                                         <div className="col-lg-8">
-                                                                            <p>{val.date_not_allow}</p>
+                                                                            <p>{val.date_not_allow != '' ? this.str_dataaa(val.date_not_allow) : ''}</p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -436,7 +458,7 @@ class ShowData extends Component {
                                                         <label htmlFor="date_check" className="col-form-label">วันที่ออกใบอนุญาต</label>
                                                     </div>
                                                     <div className="col-lg-8">
-                                                        {val.date_allow}
+                                                        {val.date_allow != '' ? this.str_dataaa(val.date_allow) : '' }
                                                     </div>
                                                 </div>
     
@@ -502,7 +524,7 @@ class ShowData extends Component {
                                                         <label htmlFor="type_check" className="col-form-label">วัน/เวลาที่รถเข้าอู่</label>
                                                     </div>
                                                     <div className="col-lg-8">
-                                                        {val.garage_in_date}
+                                                        { val.garage_in_date != '' ? this.str_dataaa(val.garage_in_date) : ''}
                                                     </div>
                                                 </div>
     
@@ -511,7 +533,7 @@ class ShowData extends Component {
                                                         <label htmlFor="type_check" className="col-form-label">วัน/เวลาที่รถออกจากอู่</label>
                                                     </div>
                                                     <div className="col-lg-8">
-                                                        {val.garage_out_date}
+                                                        {val.garage_out_date != '' ? this.str_dataaa(val.garage_out_date) : ''}
                                                     </div>
                                                 </div>
     
@@ -520,7 +542,7 @@ class ShowData extends Component {
                                                         <label htmlFor="type_check" className="col-form-label">เวลาสิ้นสุดให้เคลื่อนย้าย</label>
                                                     </div>
                                                     <div className="col-lg-8">
-                                                        {val.end_remove_car}
+                                                        {val.end_remove_car != '' ? this.str_dataaa(val.end_remove_car) : ''}
                                                     </div>
                                                 </div>
                                             </div>
@@ -579,7 +601,7 @@ class ShowData extends Component {
                                                         <label htmlFor="date_check" className="col-form-label">วันที่ขอให้ตรวจสอบ</label>
                                                     </div>
                                                     <div className="col-lg-8">
-                                                        {val.data_check_appvore}
+                                                        {val.data_check_appvore != '' ? this.str_dataaa(val.data_check_appvore) : ''}
                                                     </div>
                                                 </div>
     
@@ -604,7 +626,7 @@ class ShowData extends Component {
                                                         <label htmlFor="date_check" className="col-form-label">วัน/เวลาที่รับคำร้อง</label>
                                                     </div>
                                                     <div className="col-lg-8">
-                                                        {val.res_date_garage}
+                                                        {val.res_date_garage != '' ?  this.str_dataaa(val.res_date_garage): ''}
                                                     </div>
                                                 </div>
     
@@ -613,7 +635,7 @@ class ShowData extends Component {
                                                         <label htmlFor="date_check" className="col-form-label">วัน/เวลาที่สั่งคำร้อง</label>
                                                     </div>
                                                     <div className="col-lg-8">
-                                                        {val.req_date_garage}
+                                                        {val.req_date_garage != '' ? this.str_dataaa(val.req_date_garage):''}
                                                     </div>
                                                 </div>
     
@@ -670,7 +692,7 @@ class ShowData extends Component {
                                                         <label htmlFor="date_check" className="col-form-label">วัน/เวลาที่นัดตรวจสอบ</label>
                                                     </div>
                                                     <div className="col-lg-8">
-                                                        {val.res_date_garage}
+                                                        {val.res_date_garage != ''? this.str_dataaa(val.res_date_garage) : ''}
                                                     </div>
                                                 </div>
     
@@ -767,7 +789,7 @@ class ShowData extends Component {
                                                         <label htmlFor="date_check" className="col-form-label">วันที่ออกคำสั่งยกเลิก</label>
                                                     </div>
                                                     <div className="col-lg-8">
-                                                        {val.date_out}
+                                                        { val.date_out != '' ? this.str_dataaa(val.date_out) : ''}
                                                     </div>
                                                 </div>
     
@@ -839,7 +861,7 @@ class ShowData extends Component {
                                                         <label htmlFor="type_check" className="col-form-label">วัน/เวลาที่คำสั่งมีผล</label>
                                                     </div>
                                                     <div className="col-lg-8">
-                                                        {val.date_now}
+                                                        {  val.date_now != '' ? this.str_dataaa(val.date_now) : ''}
                                                     </div>
                                                 </div>
                                             </div>
@@ -861,11 +883,10 @@ class ShowData extends Component {
     
         }
        
-
-        let urlform3 = '/PDF3/' + this.props.match.params.id
-        let urlform4 = '/PDF4/' + this.props.match.params.id
-        let urlform5 = '/PDF5/' + this.props.match.params.id
-        let urlform6 = '/PDF6/' + this.props.match.params.id
+        let urlform3 = 'http://58.82.183.93/pdf/korpor3.php?id=' + this.props.match.params.id
+        let urlform4 = 'http://58.82.183.93/pdf/korpor4.php?id=' + this.props.match.params.id
+        let urlform5 = 'http://58.82.183.93/pdf/korpor5.php?id=' + this.props.match.params.id
+        let urlform6 = 'http://58.82.183.93/pdf/korpor6.php?id=' + this.props.match.params.id
         let getIdedit = '/Edit/' + this.props.match.params.id
 
         return (
@@ -884,7 +905,19 @@ class ShowData extends Component {
                                                     <a href={getIdedit}>
                                                         <center><button className="btn btn-primary">แก้ไข</button></center>
                                                     </a>
+                                                   
+                                                   
                                                 </div>
+                                                {
+                                                    this.state.status == 'Admin'?
+                                                    <div className="col-md-1">
+                                                  
+                                                    <button onClick={()=>{this.deletedata( this.props.match.params.id)}} type="button" class="btn btn-danger">ลบข้อมูลออก</button>
+                                                   
+                                                </div>
+                                                :''
+                                                }
+                                                
                                                 <div className="col-md-3">
                                                     <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
                                                         <li className="nav-item dropdown">

@@ -52,6 +52,19 @@ class AddService extends Component {
             })
     }
 
+    deluserChange(e, user){
+        if (window.confirm("คุณต้องการที่จะลบชื่อ "+ user + " หรือไม่")) {
+            fetch(url+'/del_location?id=' + e)
+            .then((Response) => Response.json())
+            .then((res) => {
+                window.location.reload(); 
+            }).catch((e)=>{
+                alert("ผิดพลาดในการลบข้อมูลกรุณาติดต่อผู้พัฒนาระบบ")
+            })
+          } 
+        
+    }
+
     render() {
 
         let list_data_user = []
@@ -61,6 +74,7 @@ class AddService extends Component {
                     <td>{ i+1 }</td>
                     <td>{val.name_location}</td>
                     <td>{val.create_time}</td>
+                    <td><button className="btn btn-primary" onClick={() => this.deluserChange(val._id.$oid , val.name_location)}>ลบข้อมูล</button></td>
                 </tr>
             )
         })

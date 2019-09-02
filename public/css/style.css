@@ -1,0 +1,31 @@
+.colorBGText{
+    background-color: yellow;
+  }
+
+  .colorBGTextRd{
+    background-color: red;
+    color: white;
+  }
+
+  .bu{
+    float: left;
+    height: 2px;
+    margin: 16px;
+    background-color: #0c0c0c;
+  }
+
+  .bu-top{
+    float: left;
+    height: 2px;
+    margin: 13px;
+    background-color: #0c0c0c;
+  }
+
+  .textbu{
+    margin-top: -24px;
+    text-align: center;
+  }
+  .b {
+    position: absolute;
+    right: 0;
+  } 

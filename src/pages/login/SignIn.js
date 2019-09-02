@@ -41,8 +41,9 @@ class SignIn extends Component {
         axios.post(url+'/authLogin', formData).then(res => {
             if (res.data.status == 200) {
                 localStorage.setItem('token', res.data.token);
-                this.props.history.push("/home");
+                window.location.href = "/home";
             } else {
+                alert("ขอ อภัยเนื่องจาก "+this.state.user+" ยังไม่ได้รับการยืนยันจากผู้ดูแลหรือรหัสผ่านผิด กรุณาลองใหม่หรือติดต่อผู้ดูแล")
                 this.setState({ user: '' })
                 this.setState({ password: '' })
             }
@@ -64,7 +65,7 @@ class SignIn extends Component {
                                     </div>
                                     <form onSubmit={this.handleSubmit} >
                                         <div className="form-group text-center">
-                                            <label htmlFor="">Email</label>
+                                            <label htmlFor="">Username</label>
                                             <input type="text" value={this.state.user} onChange={this.handleUserChange} className="form-control" name="name" />
                                         </div>
                                         <div className="form-group text-center">
@@ -74,7 +75,15 @@ class SignIn extends Component {
                                         <div className="form-group form-inline">
                                             <div className="mx-auto">
                                                 <button to="" className="btn btn-primary mr-2">เข้าสู่ระบบ</button>
-                                                <Link to="/signup" className="btn btn-default">ลงทะเบียน</Link>
+                                                <Link to="/signup" className="btn btn-default"><font color="blue"><u>ลงทะเบียน</u></font></Link>
+
+                                            </div>
+                                        </div>
+                                        <div className="form-group form-inline">
+                                            <div className="mx-auto">
+                                               
+                                                <Link to="/resetpassword" className="btn btn-default"><font color="blue"><u>ลืมรหัสผ่าน</u></font></Link>
+
                                             </div>
                                         </div>
                                     </form>

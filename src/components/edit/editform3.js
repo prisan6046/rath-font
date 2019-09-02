@@ -31,6 +31,7 @@ class EditformThree extends Component{
             .then((Response) => Response.json())
             .then((res) => {
                 this.setState({
+                    id :  res['0']['id'],
                     book_no: res['0']['book_no'],
                     order_no: res['0']['order_no'],
                     date_show : res['0']['date_check'],
@@ -66,7 +67,18 @@ class EditformThree extends Component{
                     res_check_id : res['0']['support']
                 })
             })
+            fetch(url+'/get_car?token=' + this.state.token)
+            .then((Response) => Response.json())
+            .then((res) => {
+                console.log(res)
+                this.setState({
+                    data_car : res,
+                    loading : true
+                })
+            })
         })
+
+        
         
 
     }
@@ -77,7 +89,9 @@ class EditformThree extends Component{
         this.state = {
             data : [],
             data_user: [],
+            data_car : [],
             data_province: [],
+            id : '',
             book_no: '',
             order_no: '',
             date_show: '',
@@ -170,6 +184,7 @@ class EditformThree extends Component{
         const date_format_en = moment(date).format('YYYY-MM-DD');
         this.setState({
             date_check: full_date_th,
+            date_not_allow  : full_date_th ,
             date_show: moment(full_date_th).format('YYYY-MM-DD')
         });
         // console.log("date_show....", this.state.date_check);
@@ -189,7 +204,8 @@ class EditformThree extends Component{
 
     handleTypeCheckChange(e) {
         this.setState({
-            type_check: e.target.value
+            type_check: e.target.value ,
+            val_check : ""
         });
     }
 
@@ -330,12 +346,15 @@ class EditformThree extends Component{
     }
 
     handleSubmit(event) {
+
         event.preventDefault();
         var formData = new FormData();
-        formData.append('project_id' , this.props.id)
+        if(window.confirm("คุณต้องการที่จะบันทึกหรือไม่")){
+        formData.append('_id' , this.props.id)
+        formData.append('id' , this.state.id)
         formData.append('book_no', this.state.book_no);
         formData.append('order_no', this.state.order_no)
-        formData.append('date_check', this.state.date_check);
+        formData.append('date_check', this.state.date_show);
         formData.append('location_check', this.state.location_check);
         formData.append('staff_check', this.state.staff_check);
         formData.append('staff_check_id', this.state.staff_check_id);
@@ -360,7 +379,7 @@ class EditformThree extends Component{
         formData.append('home_province', this.state.home_province);
         formData.append('home_tel', this.state.home_tel);
 
-        axios.post(url+'/carForm_one', formData ).then(res => {
+        axios.post(url+'/updata_carForm_one', formData ).then(res => {
             localStorage.setItem('project_id', res.data.res_id);
             alert("บันทึกสำเร็จ")
             window.location.reload();
@@ -369,6 +388,7 @@ class EditformThree extends Component{
             alert("error" + e)
         })
     }
+}
 
 
 
@@ -384,6 +404,49 @@ class EditformThree extends Component{
                     <option key={i} value={val.name_province}>{val.name_province}</option>
                 )
 
+            }
+            
+        })
+
+        let list_province_location = []
+        this.state.data_province.map((val, i) => {
+            if(val.name_province == this.state.staff_check){
+                return list_province_location.push(
+                    <option key={i} value={val.name_province} selected>{val.name_province}</option>
+                )
+            }else{
+                return list_province_location.push(
+                    <option key={i} value={val.name_province}>{val.name_province}</option>
+                )
+
+            }
+            
+        })
+
+        let list_car = []
+        this.state.data_car.map((val, i) => {
+            if(val.name_car == this.state.avg_car_brand){
+                return list_car.push(
+                    <option key={i} value={val._id.$oid} selected>{val.name_car}</option>
+                )
+            }else{
+                return list_car.push(
+                    <option key={i} value={val._id.$oid}>{val.name_car}</option>
+                )
+            }
+            
+        })
+
+        let list_engine = []
+        this.state.data_car.map((val, i) => {
+            if(val.name_car == this.state.avg_car_engine){
+                return list_engine.push(
+                    <option key={i} value={val._id.$oid} selected>{val.name_car}</option>
+                )
+            }else{
+                return list_engine.push(
+                    <option key={i} value={val._id.$oid}>{val.name_car}</option>
+                )
             }
             
         })
@@ -461,10 +524,25 @@ class EditformThree extends Component{
 
                                         <div className="row mb-2">
                                             <div className="col-lg-4 border-right">
+                                                <label htmlFor="staff_check" className="col-form-label">จังหวัดที่ตรวจสอบ</label>
+                                            </div>
+                                            <div className="col-lg-8">
+                                                {/* <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" id="staff_check" value={this.state.staff_check} onChange={this.handleStaffCheckChange} placeholder="นาย, นาง, นางสาว, ยศ" /> */}
+                                                <select className="form-control bg-blue-lv3" onChange={this.handleStaffCheckChange} name="avg_check" id="avg_check">
+                                                        <option value=""></option>
+                                                        {
+                                                            list_province_location
+                                                        }
+                                                    </select>
+                                            </div>
+                                        </div>
+
+                                        <div className="row mb-2">
+                                            <div className="col-lg-4 border-right">
                                                 <label htmlFor="staff_check" className="col-form-label">เจ้าหน้าที่ผู้ตรวจสอบ</label>
                                             </div>
                                             <div className="col-lg-8">
-                                                <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" id="staff_check" value={this.state.staff_check} onChange={this.handleStaffCheckChange} placeholder="นาย, นาง, นางสาว, ยศ" />
+                                                {/* <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" id="staff_check" value={this.state.staff_check} onChange={this.handleStaffCheckChange} placeholder="นาย, นาง, นางสาว, ยศ" /> */}
                                                 <select name="select_staff_check" id="select_staff_check" onChange={this.handleStaffCheckIdChange} className="form-control bg-blue-lv3">
                                                     <option value=""></option>
                                                     {list_user}
@@ -527,8 +605,8 @@ class EditformThree extends Component{
                                                 <label htmlFor="type_check" className="col-form-label">ผลการตรวจสอบ</label>
                                             </div>
                                             <div className="col-lg-8">
-                                                <input type="radio" name="type_check1" value="ห้ามใช้ยานพาหนะชั่วคราว" defaultChecked={this.state.res_check === 'ห้ามใช้ยานพาหนะชั่วคราว'} onChange={this.handleResCheckChange} checked={this.state.res_check === "ห้ามใช้ยานพาหนะชั่วคราว"}/> <label className="mb-0" htmlFor="1">ห้ามใช้ยานพาหนะชั่วคราว</label> <br />
-                                                <input type="radio" name="type_check1" value="ห้ามใช้ยานพาหนะเด็ดขาด" defaultChecked={this.state.res_check === 'ห้ามใช้ยานพาหนะเด็ดขาด'} onChange={this.handleResCheckChange} checked={this.state.res_check === "ห้ามใช้ยานพาหนะเด็ดขาด"}/> <label className="mb-0" htmlFor="2">ห้ามใช้ยานพาหนะเด็ดขาด</label>
+                                                <input type="radio" name="type_check1" value="ห้ามใช้ยานพาหนะชั่วคราว" defaultChecked={this.state.res_check === 'ห้ามใช้ยานพาหนะชั่วคราว'} onChange={this.handleResCheckChange} checked={this.state.res_check === "ห้ามใช้ยานพาหนะชั่วคราว"}/> <label className="mb-0 colorBGText" htmlFor="1">ห้ามใช้ยานพาหนะชั่วคราว</label> <br />
+                                                <input type="radio" name="type_check1" value="ห้ามใช้ยานพาหนะเด็ดขาด" defaultChecked={this.state.res_check === 'ห้ามใช้ยานพาหนะเด็ดขาด'} onChange={this.handleResCheckChange} checked={this.state.res_check === "ห้ามใช้ยานพาหนะเด็ดขาด"}/> <label className="mb-0 colorBGTextRd" htmlFor="2">ห้ามใช้ยานพาหนะเด็ดขาด</label>
                                             </div>
                                         </div>
 
@@ -600,16 +678,9 @@ class EditformThree extends Component{
                                                 <div className="col-lg-9">
                                                     <select className="form-control bg-blue-lv3 w-50" onChange={this.handleAvgCarBandChange} name="avg_check" id="avg_check">
                                                         <option value=""></option>
-                                                        <option value="Honda" selected={this.state.avg_car_brand == 'Honda'}>Honda</option>
-                                                        <option value="Toyota" selected={this.state.avg_car_brand == 'Toyota'}>Toyota</option>
-                                                        <option value="Misubishi" selected={this.state.avg_car_brand == 'Misubishi'}>Misubishi</option>
-                                                        <option value="Nissan" selected={this.state.avg_car_brand == 'Nissan'}>Nissan</option>
-                                                        <option value="Mazda" selected={this.state.avg_car_brand == 'Mazda'}>Mazda</option>
-                                                        <option value="Chevtolet" selected={this.state.avg_car_brand == 'Chevtolet'}>Chevtolet</option>
-                                                        <option value="Bmw" selected={this.state.avg_car_brand == 'Bmw'}>Bmw</option>
-                                                        <option value="Benz" selected={this.state.avg_car_brand == 'Benz'}>Benz</option>
-                                                        <option value="Ford" selected={this.state.avg_car_brand == 'Ford'}>Ford</option>
-                                                        <option value="Volvo Band" selected={this.state.avg_car_brand == 'Volvo Band'}>Volvo Band</option>
+                                                        {
+                                                            list_car
+                                                        }
                                                     </select>
                                                 </div>
                                             </div>
@@ -630,16 +701,9 @@ class EditformThree extends Component{
                                                 <div className="col-lg-9">
                                                     <select className="form-control bg-blue-lv3 w-50" onChange={this.handleAvgCarEngineChange} name="avg_check" id="avg_check">
                                                         <option value=""></option>
-                                                        <option value="Honda" selected={this.state.avg_car_engine == 'Honda'} >Honda</option>
-                                                        <option value="Toyota" selected={this.state.avg_car_engine == 'Toyota'}>Toyota</option>
-                                                        <option value="Misubishi" selected={this.state.avg_car_engine == 'Misubishi'} >Misubishi</option>
-                                                        <option value="Nissan"selected={this.state.avg_car_engine == 'Nissan'}>Nissan</option>
-                                                        <option value="Mazda" selected={this.state.avg_car_engine == 'Mazda'}>Mazda</option>
-                                                        <option value="Chevtolet" selected={this.state.avg_car_engine == 'Chevtolet'}>Chevtolet</option>
-                                                        <option value="Bmw" selected={this.state.avg_car_engine == 'Bmw'}>Bmw</option>
-                                                        <option value="Benz" selected={this.state.avg_car_engine == 'Benz'}>Benz</option>
-                                                        <option value="Ford" selected={this.state.avg_car_engine == 'Ford'}>Ford</option>
-                                                        <option value="Volvo Band" selected={this.state.avg_car_engine == 'Volvo Band'}>Volvo Band</option>
+                                                       {
+                                                           list_engine
+                                                       }
                                                     </select>
                                                 </div>
                                             </div>
@@ -674,7 +738,7 @@ class EditformThree extends Component{
                                                     <label htmlFor="staff_check" className="col-form-label">ผู้ขับ</label>
                                                 </div>
                                                 <div className="col-lg-9">
-                                                    <input type="text" className="form-control bg-blue-lv3 mb-1 w-50" name="driver_title" value={this.state.driver_title} onChange={this.handleDriverTitleChange} id="staff_check" placeholder="นาย, นาง, นางสาว, ยศ" />
+                                                    {/* <input type="text" className="form-control bg-blue-lv3 mb-1 w-50" name="driver_title" value={this.state.driver_title} onChange={this.handleDriverTitleChange} id="staff_check" placeholder="นาย, นาง, นางสาว, ยศ" /> */}
                                                     <input type="text" className="form-control bg-blue-lv3 mb-1 w-50" name="driver_name" value={this.state.driver_name} onChange={this.handleDriverNameChange} id="staff_check" placeholder="ชื่อและนามสกุล" />
                                                 </div>
                                             </div>
@@ -687,7 +751,7 @@ class EditformThree extends Component{
                                                     <input type="text" className="form-control bg-blue-lv3 mb-1 w-50" name="home_number" value={this.state.home_number} onChange={this.handleHomeNumberChange} id="staff_check" placeholder="บ้านเลขที่/หมู่" />
                                                     <input type="text" className="form-control bg-blue-lv3 mb-1 w-50" name="home_subdistrict" value={this.state.home_subdistrict} onChange={this.handleHomeSubdisChange} id="staff_check" placeholder="แขวง/ตำบล" />
                                                     <input type="text" className="form-control bg-blue-lv3 mb-1 w-50" name="home_district" value={this.state.home_district} onChange={this.handleHomeDistrictChange} id="staff_check" placeholder="เขต/อำเภอ" />
-                                                    <input type="text" className="form-control bg-blue-lv3 mb-1 w-50" name="home_code" value={this.state.home_code} onChange={this.handleHomeCodeChange} id="staff_check" placeholder="รหัสไปรษณีย์" />
+                                                    {/* <input type="text" className="form-control bg-blue-lv3 mb-1 w-50" name="home_code" value={this.state.home_code} onChange={this.handleHomeCodeChange} id="staff_check" placeholder="รหัสไปรษณีย์" /> */}
                                                     <select name="select_staff_check" id="select_staff_check" onChange={this.handleHomeProvinceChange} className="form-control bg-blue-lv3 w-50">
                                                     <option value=""></option>
                                                         {

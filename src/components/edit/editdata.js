@@ -28,7 +28,10 @@ class EditData extends Component{
                     id: res['0']['id'],
                     load : true
                 })
+            }).catch(function(){
+                
             })
+
     }
 
 

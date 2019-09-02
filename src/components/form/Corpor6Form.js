@@ -24,7 +24,9 @@ class Corpor6Form extends Component {
                 this.setState({
                     data_user: res
                 })
-            })
+            }).catch(function (error) {
+                console.log(error)
+            });
     
     }
 
@@ -139,12 +141,15 @@ class Corpor6Form extends Component {
         event.preventDefault();
         this.state.project_id = localStorage.getItem('project_id');
         var formData = new FormData();
+
+        if (this.state.book_no === '') { alert("กรุณากรอกข้อมูลให่ครบ"); return; }
+        
         formData.append('project_id', this.state.project_id);
         formData.append('book_no', this.state.book_no);
         formData.append('order_no' , this.state.order_no)
         formData.append('date_out', this.state.date_out);
         formData.append('location_out', this.state.location_out);
-        formData.append('staff_out', this.state.staff_out);
+        formData.append('staff_out', "-");
         formData.append('type_check', this.state.type_check);
         formData.append('val_now', this.state.val_now);
         formData.append('date_now', this.state.date_now);
@@ -155,7 +160,7 @@ class Corpor6Form extends Component {
                 this.setState({ loaded: 'upload'})
             },
         }).then(res => {
-            console.log(res)
+           
             alert("บันทึกสำเร็จ")
         })
     }
@@ -252,7 +257,7 @@ class Corpor6Form extends Component {
                                             <label htmlFor="staff_check" className="col-form-label">ผู้ออกคำสั่งยกเลิก</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" value={this.state.staff_out} onChange={this.handleStaffOutChange}  id="staff_check" placeholder="นาย, นาง, นางสาว, ยศ"/>
+                                            {/* <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" value={this.state.staff_out} onChange={this.handleStaffOutChange}  id="staff_check" placeholder="นาย, นาง, นางสาว, ยศ"/> */}
                                             <select name="select_staff_check" id="select_staff_check" onChange={this.handleStaffIdChange} className="form-control bg-blue-lv3">
                                                 <option value=""></option>
                                                 {

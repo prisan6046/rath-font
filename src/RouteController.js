@@ -3,13 +3,19 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './pages/Home';
 import Add from './pages/Add';
-import Chart from './pages/chart';
+import ChartShow from './pages/chart';
+import ChartShowMonth from './pages/chart_month';
 import SignIn from './pages/login/SignIn';
 import SignUp from './pages/login/SignUp';
+import ResetPassword from './pages/login/repass'
 import Logout from './pages/login/logout';
 import Adduser from './components/form/Adduser';
 import Addservice from './components/form/AddService';
 import AddLocation from './components/form/Addlocation'
+import AddCar from './components/form/Addcar';
+import AddProvince from './components/form/Addprovince';
+import AddUserStatus from './components/form/adduser_status'
+import AddUnder from './components/form/addunder';
 import ShowData from './components/show/formone'
 import Header from './components/templates/Header';
 import Side from './components/templates/Side';
@@ -41,7 +47,7 @@ class RouteController extends Component{
                 <Header/>
                 <div className="container-fluid">
                     <div className="row">
-                        <div className="col-lg-2 bg-black px-0">
+                        <div className="bg-black px-0">
                             <Side />
                         </div>
                         <div className="col-lg px-0">
@@ -56,13 +62,20 @@ class RouteController extends Component{
                 <Switch>
                     <Route exact path="/" component={SignIn} />       
                     <Route path="/signin" render={() => <SignIn/>} />
-                    <Route path="/signup" render={() => <SignUp/>} />  
+                    <Route path="/signup" render={() => <SignUp/>} /> 
+                    <Route path="/resetpassword" render={() => <ResetPassword />} />
+                    <Route path="/chart" component={ChartShow} /> 
+                    <Route path="/chart_month" component={ChartShowMonth} />
                     <DefaultLayout>
                         <Switch wrapperComponent={Header}>             
                             <Route path="/home" component={Home} />
                             <Route path="/add" component={Add} />   
-                            <Route path="/chart" component={Chart} />
+                            
                             <Route path="/adduser" component={Adduser} />
+                            <Route path="/adduserstatus" component={AddUserStatus} />
+                            <Route path="/addUnder" component={AddUnder} />
+                            <Route path="/addcar" component={AddCar} />
+                            <Route path="/addprovince" component={AddProvince} />
                             <Route path="/addservicecar" component={Addservice} />
                             <Route path="/addlocation" component={AddLocation} />
                             <Route path="/showdata/:id" component={ShowData} />

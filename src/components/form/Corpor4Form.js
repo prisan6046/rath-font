@@ -23,7 +23,10 @@ class Corpor4Form extends Component {
                 this.setState({
                     data_user: res
                 })
-            })
+            }).catch(function (error) {
+                console.log(error)
+            });
+            
 
         fetch(url+'/get_service?token=' + this.state.token)
             .then((Response) => Response.json())
@@ -32,7 +35,9 @@ class Corpor4Form extends Component {
                     data_servicecar : res,
                     loading : true
                 })
-            })
+            }).catch(function (error) {
+                console.log(error)
+            });
 
        
     }
@@ -161,12 +166,30 @@ class Corpor4Form extends Component {
         this.state.project_id = localStorage.getItem('project_id');
         var formData = new FormData();
         console.log(this.state.garage_name)
+
+
+
+
+        if (this.state.book_no === '') { alert("กรุณากรอกข้อมูลให่ครบ"); return; }
+        if (this.state.order_no === '') { alert("กรุณากรอกข้อมูลให่ครบ"); return; }
+        if (this.state.date_allow === '') { alert("กรุณากรอกข้อมูลให่ครบ"); return; }
+        if (this.state.location_allow === '') { alert("กรุณากรอกข้อมูลให่ครบ"); return; }
+        // if (this.state.staff_allow === '') { alert("กรุณากรอกข้อมูลให่ครบ"); return; }
+        if (this.state.staff_allow_id === '') { alert("กรุณากรอกข้อมูลให่ครบ"); return; }
+        if (this.state.garage_name === '') { alert("กรุณากรอกข้อมูลให่ครบ"); return; }
+        if (this.state.garage_in_date === '') { alert("กรุณากรอกข้อมูลให่ครบ"); return; }
+        if (this.state.garage_out_date === '') { alert("กรุณากรอกข้อมูลให่ครบ"); return; }
+        if (this.state.end_remove_car === '') { alert("กรุณากรอกข้อมูลให่ครบ"); return; }
+
+
+
+        if(window.confirm("คุณต้องการที่จะบันทึกหรือไม่")){
         formData.append('project_id', this.state.project_id);
         formData.append('book_no', this.state.book_no);
         formData.append('order_no', this.state.order_no);
         formData.append('date_allow', this.state.date_allow);
         formData.append('location_allow', this.state.location_allow);
-        formData.append('staff_allow', this.state.staff_allow);
+        formData.append('staff_allow', "-");
         formData.append('staff_allow_id' , this.state.staff_allow_id )
         formData.append('garage_name', this.state.garage_name);
         formData.append('garage_in_date', this.state.garage_in_date);
@@ -183,6 +206,7 @@ class Corpor4Form extends Component {
             alert("บันทึกสำเร็จ")
         })
     }
+}
 
     handleDateNotAllowChange = (date) => {        
         moment.locale('en');
@@ -294,7 +318,7 @@ class Corpor4Form extends Component {
                                             <label htmlFor="staff_check" className="col-form-label">ผู้ออกใบอนุญาต</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" value={this.state.staff_allow} onChange={this.handleStaffAllowChange} id="staff_check" placeholder="นาย, นาง, นางสาว, ยศ" />
+                                            {/* <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" value={this.state.staff_allow} onChange={this.handleStaffAllowChange} id="staff_check" placeholder="นาย, นาง, นางสาว, ยศ" /> */}
                                             <select name="select_staff_check" id="select_staff_check" onChange={this.handleStaffAllowIdChange} className="form-control bg-blue-lv3">
                                                 <option value=""></option>
                                                 {

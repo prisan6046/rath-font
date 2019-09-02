@@ -25,6 +25,7 @@ class Header extends Component {
             if(res.data.status == 200){
                 this.setState({ name : res.data['name'] })
                 this.setState({ status : res.data['status_user'] })
+                localStorage.setItem('status', res.data['status_user']);
             }
         })
     }
@@ -42,26 +43,36 @@ class Header extends Component {
                         <Link className="navbar-brand" to="/">ข้อมูลการตรวจสอบยานพาหนะ</Link>
                         <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
 
-                            <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">หน้าหลัก</a>
-                                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a className="dropdown-item" href="/home">หน้าแรก</a>
-                                    <a className="dropdown-item" href="/adduser">ผู้ใช้งาน</a>
-                                </div>
+                            <li className="nav-item">
+                                <a className="nav-link" href="/home" id="navbarDropdown" role="button" >หน้าหลัก</a>
+        
                             </li>
-                            {
-                                this.state.status == 'Admin'?
+                                
                                 <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ตั้งค่าระบบ</a>
                                 <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a className="dropdown-item" href="/adduser">เพิ่ม/ลบ ผู้ใช้งาน</a>
+                                    { 
+                                        this.state.status == 'User' ?<div>
+                                    {/* <a className="dropdown-item" href="/adduserstatus">เพิ่ม/ลบ ผู้ออกคำสั่ง</a> */}
+                                    <a className="dropdown-item" href="/addcar">เพิ่ม/ลบ ยี่ห้อ</a>
+                                    <a className="dropdown-item" href="/addservicecar">เพิ่ม/ลบ อู่</a>
+                                    </div>
+                                    :
+                                        this.state.status == 'Admin' ?<div>
+                                    <a className="dropdown-item" href="/adduser">เพิ่ม/ลบ ผู้ลงข้อมูล</a>
+                                    <a className="dropdown-item" href="/adduserstatus">เพิ่ม/ลบ ผู้ออกคำสั่ง</a>
                                     <a className="dropdown-item" href="/addlocation">เพิ่ม/ลบ สถานที่</a>
                                     <a className="dropdown-item" href="/addservicecar">เพิ่ม/ลบ อู่</a>
+                                    <a className="dropdown-item" href="/addUnder">เพิ่ม/ลบ สังกัด</a>
+                                    <a className="dropdown-item" href="/addcar">เพิ่ม/ลบ ยี่ห้อรถ</a>
+                                    <a className="dropdown-item" href="/addprovince">เพิ่ม/ลบ จังหวัด</a>
+                                    </div>
+                                    :
+                                    ''}
+                                    
                                 </div>
                                 </li>
-                                :
-                                <div></div>
-                            }
+                               
                             
                             <li className="nav-item">
                                 <a className="nav-link disabled" href="#"  aria-disabled="true"></a>
@@ -69,12 +80,12 @@ class Header extends Component {
                         </ul>
 
                         <ul className="navbar-nav my-2 my-lg-0">
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <a className="nav-link" href="#"><i className="fas fa-at"></i> <span className="sr-only">(current)</span></a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="#"><i className="fas fa-comments"></i></a>
-                            </li>
+                            </li> */}
                             
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{this.state.name}</a>

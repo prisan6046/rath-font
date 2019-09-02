@@ -91,7 +91,9 @@ class ShowFormSix extends Component{
         const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
 
         this.setState({
-            date_out : full_date_th
+            date_out : full_date_th,
+            date_now : full_date_th
+
         });
     }
 
@@ -138,7 +140,6 @@ class ShowFormSix extends Component{
             fetch(url+'/get_user_one?id=' + e.target.value)
                 .then((Response) => Response.json())
                 .then((res) => {
-                    console.log(res)
                     this.setState({
                         data : res,
                         loading: true
@@ -152,12 +153,17 @@ class ShowFormSix extends Component{
     handleSubmit(event) {
         event.preventDefault();
         var formData = new FormData();
+
+
+        if (this.state.book_no === '') { alert("กรุณากรอกข้อมูลให่ครบ"); return; }
+
+        if(window.confirm("คุณต้องการที่จะบันทึกหรือไม่")){
         formData.append('project_id', this.props.id);
         formData.append('book_no', this.state.book_no);
         formData.append('order_no' , this.state.order_no)
         formData.append('date_out', this.state.date_out);
         formData.append('location_out', this.state.location_out);
-        formData.append('staff_out', this.state.staff_out);
+        formData.append('staff_out', "-");
         formData.append('type_check', this.state.type_check);
         formData.append('val_now', this.state.val_now);
         formData.append('date_now', this.state.date_now);
@@ -168,9 +174,10 @@ class ShowFormSix extends Component{
                 this.setState({ loaded: 'upload'})
             },
         }).then(res => {
-            console.log(res)
+            window.location.reload(); 
             alert("บันทึกสำเร็จ")
         })
+    }
     }
 
     render() {
@@ -273,7 +280,7 @@ class ShowFormSix extends Component{
                                             <label htmlFor="staff_check" className="col-form-label">ผู้ออกคำสั่งยกเลิก</label>
                                         </div>
                                         <div className="col-lg-8">
-                                            <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" value={this.state.staff_out} onChange={this.handleStaffOutChange}  id="staff_check" placeholder="นาย, นาง, นางสาว, ยศ"/>
+                                            {/* <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" value={this.state.staff_out} onChange={this.handleStaffOutChange}  id="staff_check" placeholder="นาย, นาง, นางสาว, ยศ"/> */}
                                             <select name="select_staff_check" id="select_staff_check" onChange={this.handleStaffIdChange} className="form-control bg-blue-lv3">
                                                 <option value=""></option>
                                                 {
@@ -325,7 +332,7 @@ class ShowFormSix extends Component{
                                         <div className="col-lg-8">
                                             <DatePicker 
                                                 selected={this.state.date_now} 
-                                                onChange={this.handleDateNowChange} 
+                                                onChange={this.handleDateOutChange} 
                                                 dateFormat="วันที่ d MMMM พ.ศ.YYYY"
                                                 locale="th"
                                                 name="date_check" 
