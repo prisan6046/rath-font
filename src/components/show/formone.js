@@ -883,10 +883,10 @@ class ShowData extends Component {
     
         }
        
-        let urlform3 = 'http://58.82.183.93/pdf/korpor3.php?id=' + this.props.match.params.id
-        let urlform4 = 'http://58.82.183.93/pdf/korpor4.php?id=' + this.props.match.params.id
-        let urlform5 = 'http://58.82.183.93/pdf/korpor5.php?id=' + this.props.match.params.id
-        let urlform6 = 'http://58.82.183.93/pdf/korpor6.php?id=' + this.props.match.params.id
+        let urlform3 = url+'/_php/korpor3.php?id=' + this.props.match.params.id
+        let urlform4 = url+'/_php/korpor4.php?id=' + this.props.match.params.id
+        let urlform5 = url+'/_php/korpor5.php?id=' + this.props.match.params.id
+        let urlform6 = url+'/_php/korpor6.php?id=' + this.props.match.params.id
         let getIdedit = '/Edit/' + this.props.match.params.id
 
         return (
