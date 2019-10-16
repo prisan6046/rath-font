@@ -9,7 +9,8 @@ class ChartShow extends Component {
             super(props)
             this.state = {
                 data : [],
-                token : ''
+                token : '' , 
+                load : false
             }
     }
 
@@ -21,6 +22,7 @@ class ChartShow extends Component {
        
             this.setState({
                 data : res.data,
+                load : true
              
             })
         }).catch(function (error) {
@@ -34,16 +36,17 @@ class ChartShow extends Component {
         window.print();
     }
     render() {
-
-
         let list_year_all = []
-        list_year_all.push(['ห้ามใช้ชั่วคราว',  'ห้ามใช้เด็ดขาด','ยกเลิกคำสั่งห้ามใช้เด็ดขาด','ยกเลิกคำสั่งห้ามใช้ชั่วคราว'])
-        this.state.data.map((val , i)=>{
-            return list_year_all.push(
-                [val.year, val.sum, val.sum2, val.close2 , val.close]
-            )
+        if(this.state.load == true){
+            list_year_all.push(['','ห้ามใช้ชั่วคราว',  'ห้ามใช้เด็ดขาด','ยกเลิกคำสั่งห้ามใช้เด็ดขาด','ยกเลิกคำสั่งห้ามใช้ชั่วคราว'])
+            this.state.data.map((val , i)=>{
+                return list_year_all.push(
+                    [val.year, val.sum, val.sum2, val.close2 , val.close]
+                )
 
-        })
+            })
+        }
+        
         return(
             <div className="Add">
                 <div className="container-fluid bg-blue-lv2 py-3 border-bottom">
@@ -62,8 +65,9 @@ class ChartShow extends Component {
 
                 <div className="container-fluid py-4">
 
-
-                <div style={{ display: 'flex', maxWidth: 1024 }}>
+                {ห
+                    this.state.load == true ?
+                    <div style={{ display: 'flex', maxWidth: 1024 }}>
                         <Chart
                             width={1400}
                             height={800}
@@ -86,7 +90,10 @@ class ChartShow extends Component {
                         
                 
                 </div>
+                :<div><center>กำลังโหลดผลสถิติ</center></div>
+                }
                 <center><button type="button" class="btn btn-success" onClick={()=>{this.printChart()}}>พิมพ์กราฟ</button></center>
+                
             </div>
             </div>
         )
