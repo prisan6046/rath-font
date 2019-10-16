@@ -65,7 +65,7 @@ class ChartShow extends Component {
 
                 <div className="container-fluid py-4">
 
-                {ห
+                {
                     this.state.load == true ?
                     <div style={{ display: 'flex', maxWidth: 1024 }}>
                         <Chart
