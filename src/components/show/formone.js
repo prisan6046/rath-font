@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import store from '../../store/index';
-import { url } from '../../parameter/index';
+import { url , urlpdf } from '../../parameter/index';
 import { Str_date } from '../libraries/DateThai';
 
 class ShowData extends Component {
@@ -883,10 +883,10 @@ class ShowData extends Component {
     
         }
        
-        let urlform3 = url+'/_php/korpor3.php?id=' + this.props.match.params.id
-        let urlform4 = url+'/_php/korpor4.php?id=' + this.props.match.params.id
-        let urlform5 = url+'/_php/korpor5.php?id=' + this.props.match.params.id
-        let urlform6 = url+'/_php/korpor6.php?id=' + this.props.match.params.id
+        let urlform3 = urlpdf+'/_php/korpor3.php?id=' + this.props.match.params.id
+        let urlform4 = urlpdf+'/_php/korpor4.php?id=' + this.props.match.params.id
+        let urlform5 = urlpdf+'/_php/korpor5.php?id=' + this.props.match.params.id
+        let urlform6 = urlpdf+'/_php/korpor6.php?id=' + this.props.match.params.id
         let getIdedit = '/Edit/' + this.props.match.params.id
 
         return (
