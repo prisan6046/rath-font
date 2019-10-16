@@ -126,7 +126,7 @@ class AddUser extends Component {
         formData.append('phone', this.state.tel);
         formData.append('id', this.state.id);
 
-        if(this.edit == false){
+        if(this.state.edit == false){
             if(this.state.password != this.state.confpassword){
                 alert("รหัสผ่านไม่ตรงกัน กรุณาใส่ใหม่");
                 return ;
@@ -141,28 +141,16 @@ class AddUser extends Component {
                     alert("เนื่องจาก  "+this.state.username +" มีอยู่ในระบบ กรุณาแก้ไขใหม่")
                     return ;
                 }else{
-                    // alert("ท่านได้ลงทะเบียนสำเร็จแล้ว กรุณารอการยืนยันจากผู้ดูแลระบบ เพื่อใช้งานอย่างถูกต้อง")
                     alert("บันทึกสำเร็จ")
-               
                     window.location.reload();
                 }
-    
             })
         }else{
             axios.post(url+'/edit_user_id', formData).then(res => {
-            
-               
-                    // alert("ท่านได้ลงทะเบียนสำเร็จแล้ว กรุณารอการยืนยันจากผู้ดูแลระบบ เพื่อใช้งานอย่างถูกต้อง")
                     alert("บันทึกสำเร็จ")
-                   
-               
                     window.location.reload();
-                
-    
             })
         }
-        
-        
     }
 
     
@@ -172,7 +160,6 @@ class AddUser extends Component {
         fetch(url+'/get_all_user?token=' + this.state.token+ '&admin=admin')
             .then((Response) => Response.json())
             .then((res) => {
-                // console.log(res)
                 this.setState({
                     data_user : res,
                     loading : true
