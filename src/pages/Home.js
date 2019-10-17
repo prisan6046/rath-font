@@ -22,6 +22,7 @@ class Home extends Component {
             status: '',
             list_doc: [],
             options: [],
+            options_all: [],
             data: [],
             searching: '',
             searching_data: [],
@@ -67,41 +68,44 @@ class Home extends Component {
                     list_doc: res,
                     status_load: true
                 })
+                
             }).catch(function () {
                 alert("มีข้อผิดพลาดมีผู้อื่นเข้าใช้ user ของคุณ กรุณาเข้าใหม่อีกครั้ง")
-                // localStorage.removeItem('token');
-                // window.location.href = '/';
             });
 
     }
 
     onChange(e) {
-        // current array of options
+      
         const options = this.state.options
         let index
 
-        console.log(e.target.value)
-        // check if the check box is checked or unchecked
         if (e.target.checked) {
-            // add the numerical value of the checkbox to options array
+           
             options.push(e.target.value)
         } else {
-            // or remove the value from the unchecked checkbox from the array
+         
             index = options.indexOf(e.target.value)
             options.splice(index, 1)
         }
 
-        // update the state with the new array of options
         this.setState({ options: options })
     }
 
 
-    showdata() {
+    showdata(id) {
         var formData = new FormData();
-        formData.append('listcar', this.state.options);
-
-
-        if (this.state.options.length === 0) { alert("กรุณาเลือกข้อมูล"); return; }
+        if(id == 0){
+           
+            if (this.state.options.length === 0) { alert("กรุณาเลือกข้อมูล"); return; }
+            formData.append('listcar', this.state.options);
+        }
+        if(id == 1){
+            // console.log(this.state.options_all);
+            // return ;
+            formData.append('listcar', this.state.options_all);
+        }
+        
 
         axios({
             url: url + '/export_car',
@@ -112,7 +116,7 @@ class Home extends Component {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'pandas_simple.xlsx');
+            link.setAttribute('download', 'data_car.xlsx');
             document.body.appendChild(link);
             link.click();
             this.setState({ options : ''})
@@ -124,7 +128,6 @@ class Home extends Component {
 
     finddata() {
         this.setState({
-
             status_load: false
         })
         fetch(url + '/get_doc_res?token=' + this.state.token + '&getExport=' + this.state.getExport)
@@ -135,6 +138,15 @@ class Home extends Component {
                     list_doc: res,
                     status_load: true
                 })
+
+                let get = []
+                this.state.list_doc.map((val, i) => {
+                    return get.push(val.avg_car_number)
+                })
+                this.setState({
+                    options_all : get
+                })
+
             }).catch(function (error) {
 
             });
@@ -154,22 +166,20 @@ class Home extends Component {
         fetch(url + '/searching?token=' + this.state.token + '&searching=' + this.state.searching)
             .then((Response) => Response.json())
             .then((res) => {
-                console.log(res)
-                // window.location.href = "http://58.82.183.93:5000/showdata/"+res._id.$oid;
+           
                 this.setState({
                     searching_data : res,
                     status_searching : true
                 })
             }).catch(function (error) {
                 alert("ไม่พบข้อมูลที่ค้นหา")
-                //    console.log(error)
+           
             });
 
     }
 
 
     str_dataaa(e) {
-
         return Str_date(e)
     }
 
@@ -352,7 +362,8 @@ class Home extends Component {
                                             </div>
                                             <div className="modal-footer">
                                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">ปิด</button>
-                                                <button type="button" data-toggle="modal" data-target="#exampleModal" onClick={() => { this.showdata() }} className="btn btn-primary">นำข้อมูลออก</button>
+                                                <button type="button" data-toggle="modal" data-target="#exampleModal" onClick={() => { this.showdata(1) }} className="btn btn-primary">นำข้อมูลออกทั้งหมด</button>
+                                                <button type="button" data-toggle="modal" data-target="#exampleModal" onClick={() => { this.showdata(2) }} className="btn btn-primary">นำข้อมูลออกตามที่เลือก</button>
                                             </div>
                                         </div>
                                     </div>
