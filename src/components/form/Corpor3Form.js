@@ -102,6 +102,7 @@ class Corpor3Form extends Component {
         super()
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
+            check_btn : false,
             data_user: [],
             under_name: '',
             under_point: '',
@@ -192,7 +193,7 @@ class Corpor3Form extends Component {
         });
     }
     handleOrderChange(e) {
-        console.log(e.target.value)
+       
         if ((parseInt(e.target.value) > 0) && (parseInt(e.target.value) <= 100)) {
             this.setState({
                 order_no: e.target.value
@@ -581,7 +582,9 @@ class Corpor3Form extends Component {
         if (window.confirm("คุณต้องการที่จะบันทึกหรือไม่")) {
 
 
-
+            this.setState({
+                check_btn : true
+            })
 
             formData.append('book_no', this.state.book_no);
             formData.append('order_no', this.state.order_no)
@@ -615,11 +618,12 @@ class Corpor3Form extends Component {
                     this.setState({ loaded: 'upload' })
                 },
             }).then(res => {
-                console.log(res)
-
                 
             if(res.data.status == 403){
                     alert("เนื่องจาก  "+this.state.avg_car_number +" มีอยู่ในระบบ กรุณาแก้ไขใหม่")
+                    this.setState({
+                        check_btn : false
+                    })
                     return ;
                 }else{
                     // alert("ท่านได้ลงทะเบียนสำเร็จแล้ว กรุณารอการยืนยันจากผู้ดูแลระบบ เพื่อใช้งานอย่างถูกต้อง")
@@ -694,6 +698,10 @@ class Corpor3Form extends Component {
 
         return (
             <div>
+                {
+                    this.state.check_btn == true?  '' :
+
+                
                 <div className="Corpor3Form">
                     <br />
                     <form onSubmit={this.handleSubmit} >
@@ -727,6 +735,7 @@ class Corpor3Form extends Component {
                                             <div className="col-lg-8">
                                                 {/* <input type="date" className="form-control bg-blue-lv3" value={this.state.date_show} onChange={this.handleDateCheckChange} name="date_check" id="date_check" /> */}
                                                 <DatePicker
+                                                    autocomplete="off"
                                                     selected={this.state.date_show}
                                                     onChange={this.handleChangeDatePicker}
                                                     dateFormat="วันที่ d MMMM พ.ศ.YYYY"
@@ -904,7 +913,7 @@ class Corpor3Form extends Component {
                                             <div className="col-lg-8">
                                                 <DatePicker
                                                     selected={this.state.date_not_allow}
-
+                                                    autocomplete="off"
                                                     dateFormat="วันที่ d MMMM พ.ศ.YYYY"
                                                     locale="th"
                                                     name="date_check"
@@ -1111,26 +1120,11 @@ class Corpor3Form extends Component {
                         </div>
                         <br />
                         <div className="col-lg-12">
-                            <center><button className="btn btn-primary" data-toggle="modal" data-target="#myModal">บันทึก (คพ.๓)</button></center>
+                            <center><button className="btn btn-primary" data-toggle="modal" >บันทึก (คพ.๓)</button></center>
                         </div>
                     </form>
                 </div>
-                <div id="myModal" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-
-                       
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">ระบบกำลังตรวจสอบ และบันทึกข้อมูล</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p>ระบบกำลังตรวจสอบ และบันทึกข้อมูล</p>
-                            </div>
-                            
-                            </div>
-
-                        </div>
-                        </div>
+                }
             </div>
         )
     }

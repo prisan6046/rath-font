@@ -348,7 +348,8 @@ class Corpor5Form extends Component {
                                         </div>
                                         <div className="col-lg-8">
                                             <DatePicker 
-                                                selected={this.state.req_data_check} 
+                                                selected={this.state.req_data_check}
+                                                autocomplete="off" 
                                                 onChange={this.handleDataCheckChange} 
                                                 dateFormat="วันที่ d MMMM พ.ศ.YYYY"
                                                 locale="th"
@@ -386,6 +387,7 @@ class Corpor5Form extends Component {
                                         <div className="col-lg-8">
                                             <DatePicker 
                                                 selected={this.state.res_date_garage} 
+                                                autocomplete="off"
                                                 onChange={this.handleResDataGarageChange} 
                                                 dateFormat="วันที่ d MMMM พ.ศ.YYYY"
                                                 locale="th"
@@ -402,6 +404,7 @@ class Corpor5Form extends Component {
                                         <div className="col-lg-8">
                                          <DatePicker 
                                                 selected={this.state.req_date_garage} 
+                                                autocomplete="off"
                                                 onChange={this.handleReqDataGarageChange} 
                                                 dateFormat="วันที่ d MMMM พ.ศ.YYYY"
                                                 locale="th"
@@ -476,6 +479,7 @@ class Corpor5Form extends Component {
                                         <div className="col-lg-8">
                                         <DatePicker 
                                                 selected={this.state.data_check_appvore} 
+                                                autocomplete="off"
                                                 onChange={this.handleDataCheckAppvoreChange} 
                                                 dateFormat="วันที่ d MMMM พ.ศ.YYYY"
                                                 locale="th"

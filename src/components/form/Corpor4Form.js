@@ -202,7 +202,6 @@ class Corpor4Form extends Component {
                 this.setState({ loaded: 'upload'})
             },
         }).then(res => {
-            console.log(res)
             alert("บันทึกสำเร็จ")
         })
     }
@@ -297,6 +296,7 @@ class Corpor4Form extends Component {
                                                 selected={this.state.date_allow} 
                                                 onChange={this.handleDateNotAllowChange} 
                                                 dateFormat="วันที่ d MMMM พ.ศ.YYYY"
+                                                autocomplete="off"
                                                 locale="th"
                                                 name="date_check" 
                                                 id="date_check" />
@@ -380,6 +380,7 @@ class Corpor4Form extends Component {
                                         <div className="col-lg-8">
                                             <DatePicker 
                                                 selected={this.state.garage_in_date} 
+                                                autocomplete="off"
                                                 onChange={this.handleGarageInDateChange} 
                                                 dateFormat="วันที่ d MMMM พ.ศ.YYYY"
                                                 locale="th"
@@ -396,6 +397,7 @@ class Corpor4Form extends Component {
                                         <div className="col-lg-8">
                                             <DatePicker 
                                                 selected={this.state.garage_out_date} 
+                                                autocomplete="off"
                                                 onChange={this.handleGarageOutDateChange} 
                                                 dateFormat="วันที่ d MMMM พ.ศ.YYYY"
                                                 locale="th"
@@ -412,6 +414,7 @@ class Corpor4Form extends Component {
                                         <div className="col-lg-8">
                                             <DatePicker 
                                                 selected={this.state.end_remove_car} 
+                                                autocomplete="off"
                                                 onChange={this.handleEndRomoveCarChange} 
                                                 dateFormat="วันที่ d MMMM พ.ศ.YYYY"
                                                 locale="th"

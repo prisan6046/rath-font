@@ -349,6 +349,7 @@ class EditformThree extends Component{
 
         event.preventDefault();
         var formData = new FormData();
+        console.log(this.state.res_check)
         if(window.confirm("คุณต้องการที่จะบันทึกหรือไม่")){
         formData.append('_id' , this.props.id)
         formData.append('id' , this.state.id)

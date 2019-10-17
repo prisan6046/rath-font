@@ -126,7 +126,7 @@ class Corpor6Form extends Component {
             fetch(url+'/get_user_one?id=' + e.target.value)
                 .then((Response) => Response.json())
                 .then((res) => {
-                    console.log(res)
+                
                     this.setState({
                         data : res,
                         loading: true
@@ -234,6 +234,7 @@ class Corpor6Form extends Component {
                                         <div className="col-lg-8">
                                              <DatePicker 
                                                 selected={this.state.date_out} 
+                                                autocomplete="off"
                                                 onChange={this.handleDateOutChange} 
                                                 dateFormat="วันที่ d MMMM พ.ศ.YYYY"
                                                 locale="th"
@@ -325,6 +326,7 @@ class Corpor6Form extends Component {
                                         <div className="col-lg-8">
                                             <DatePicker 
                                                 selected={this.state.date_now} 
+                                                autocomplete="off"
                                                 onChange={this.handleDateNowChange} 
                                                 dateFormat="วันที่ d MMMM พ.ศ.YYYY"
                                                 locale="th"
