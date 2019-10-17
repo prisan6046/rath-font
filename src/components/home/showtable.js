@@ -24,22 +24,6 @@ class ShowTable extends Component {
     }
 
 
-
-    componentDidMount() {
-        // console.log("token ... >> " , this.props.token)
-
-        fetch(url + '/get_sum_month?token=' + this.props.token)
-            .then((Response) => Response.json())
-            .then((res) => {
-                this.setState({
-                    data : res.data,
-                    status : true
-                })
-            }).catch(function (error) {
-              
-            });
-
-    }
     handleStaffCheckIdChange(e) {
         this.setState({
             year : e.target.value,
@@ -56,7 +40,8 @@ class ShowTable extends Component {
             .then((res) => {
                 this.setState({
                     data : res.data,
-                    status : true
+                    status : true, 
+                    year : "ปี "+this.state.year
                 })
             }).catch(function (error) {
               
@@ -99,8 +84,6 @@ class ShowTable extends Component {
                                                         <div className="row">
                                                             <div className="col-lg-12">
                                                                 <div className="CarForm">
-                                                               
-
                                                                     <div className="card">
                                                                         <div className="card-header bg-primary text-white">ข้อมูลสถิติ</div>
                                                                         <div className="card-body">
@@ -125,6 +108,7 @@ class ShowTable extends Component {
                                                                                 </div>
                                                                             </div>
                                                                             < br />
+                                                                            <h3>ข้อมูล {this.state.year }</h3>
                                                                             <table className="table table-bordered">
                                                                                 <thead>
                                                                                     <tr>

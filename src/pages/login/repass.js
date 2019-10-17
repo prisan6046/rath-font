@@ -61,9 +61,6 @@ class ResetPassword extends Component {
         })
         }else{
         
-            
-
-            // console.log("update")
             if(this.state.password != this.state.confirmpass ){
                 alert("รหัสผ่านไม่ตรงกัน กรุณากรอกรหัสผ่านใหม่")
                 return ;
@@ -75,11 +72,6 @@ class ResetPassword extends Component {
                 if (res.data.status == 200) {
                     alert("ยืนยันสำเร็จ")
                     window.location.href = "/";
-                    // localStorage.setItem('email', this.state.email );
-                    // this.setState({
-                    //     set: true
-                    // });
-
                 } else {
                     alert("ขอ อภัยเนื่องจาก "+this.state.email +" ไม่มีอยู่ในระบบ ")
             
@@ -128,7 +120,7 @@ class ResetPassword extends Component {
                                         <div className="form-group form-inline">
                                             <div className="mx-auto">
                                                 <button to="" className="btn btn-primary mr-2">ยืนยัน</button>
-                                    
+                                                <Link to="/signin" className="btn btn-default">กลับสู่หน้าเข้าสู่ระบบ</Link>
                                             </div>
                                         </div>
                                         
