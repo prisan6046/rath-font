@@ -40,7 +40,7 @@ class Header extends Component {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-                        <Link className="navbar-brand" to="/">ข้อมูลการตรวจสอบยานพาหนะ</Link>
+                        <Link className="navbar-brand" to="/home">ข้อมูลการตรวจสอบยานพาหนะ</Link>
                         <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
 
                             <li className="nav-item">
