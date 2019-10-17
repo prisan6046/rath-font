@@ -33,7 +33,7 @@ class ShowTable extends Component {
 
     finddata(){
         this.setState({
-            status : false
+            status : 'load'
         })
         fetch(url + '/get_sum_month?token=' + this.props.token+'&year='+ this.state.year)
             .then((Response) => Response.json())
@@ -108,25 +108,32 @@ class ShowTable extends Component {
                                                                                 </div>
                                                                             </div>
                                                                             < br />
-                                                                            <h3>ข้อมูล {this.state.year }</h3>
-                                                                            <table className="table table-bordered">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th>เดือน</th>
-                                                                                        <th>ห้ามใช้ชั่วคราว</th>
-                                                                                        <th>ยกเลิกคำสั่งห้ามใช้ชั่วคราว</th>
-                                                                                        <th>ห้ามใช้เด็ดขาด</th>
-                                                                                        <th>ยกเลิกคำสั่งห้ามใช้เด็ดขาด</th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                   
-                                                                                    {
-                                                                                        this.state.status == true?  list : ''
-                                                                                    }
-                                                                                
-                                                                                </tbody>
-                                                                            </table>
+
+                                                                            {
+                                                                                        this.state.status == true?  <div>
+                                                                                        <h3>ข้อมูล {this.state.year }</h3>
+                                                                                        <table className="table table-bordered">
+                                                                                            <thead>
+                                                                                                <tr>
+                                                                                                    <th>เดือน</th>
+                                                                                                    <th>ห้ามใช้ชั่วคราว</th>
+                                                                                                    <th>ยกเลิกคำสั่งห้ามใช้ชั่วคราว</th>
+                                                                                                    <th>ห้ามใช้เด็ดขาด</th>
+                                                                                                    <th>ยกเลิกคำสั่งห้ามใช้เด็ดขาด</th>
+                                                                                                </tr>
+                                                                                            </thead>
+                                                                                            <tbody>
+                                                                                               
+                                                                                                {list}
+        
+                                                                                            </tbody>
+                                                                                        </table> </div>:
+                                                                                        this.state.status == 'load' ? 
+                                                                                        <div>กำลังโหลดข้อมูล กรุณารอสักคู่</div>
+                                                                                        : ''
+                                                                            }
+
+                                                            
 
                                                                         </div>
                                                                     </div>

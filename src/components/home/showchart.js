@@ -41,7 +41,7 @@ class ShowChart extends Component {
 
     finddata() {
         this.setState({
-            statusmonth: false,
+            statusmonth: 'load',
             statusyear : false
         })
         fetch(url + '/get_sum_month?token=' + this.props.token + '&year=' + this.state.year)
@@ -59,7 +59,7 @@ class ShowChart extends Component {
     getYear(){
         this.setState({
             statusmonth: false,
-            statusyear : false
+            statusyear : 'load'
         })
         fetch(url + '/get_sum_year?token=' + this.props.token)
             .then((Response) => Response.json())
@@ -162,7 +162,7 @@ class ShowChart extends Component {
 
 
                         </div>
-                        :<div>กำลังโหลดผลสถิติ</div>}
+                        : this.state.statusyear == 'load' ?  <div>กำลังโหลดผลสถิติ</div> : ''}
                     </div>
                     <div id="menu1" class="tab-pane fade">
                         <div className="row">
@@ -196,7 +196,7 @@ class ShowChart extends Component {
                                 <button type="button" onClick={() => { this.finddata() }} className="btn btn-primary">ค้นหา</button>
                             </div>
                         </div>  
-                        { this.state.statusmonth == true ? list : <div>กำลังโหลดผลสถิติ</div>  }
+                        { this.state.statusmonth == true ? list : this.state.statusmonth == 'load'? <div>กำลังโหลดผลสถิติ</div>   : '' }
                     </div>
                 </div>
 
