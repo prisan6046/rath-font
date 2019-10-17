@@ -13,10 +13,11 @@ class ShowChart extends Component {
         super()
         this.state = {
             list_doc: [],
-            data: [],
+            list_month: [],
             list_year: [],
             year: '',
-            status: false,
+            statusmonth: false,
+            statusyear : false,
             sum1: '',
             sum2: '',
             sum3: '',
@@ -30,33 +31,7 @@ class ShowChart extends Component {
 
 
 
-    componentDidMount() {
-
-        fetch(url + '/get_sum_month?token=' + this.props.token)
-            .then((Response) => Response.json())
-            .then((res) => {
-                console.log(res)
-                this.setState({
-                    data: res.data,
-                    status: true
-                })
-            }).catch(function (error) {
-
-            });
-
-        fetch(url + '/get_sum_year?token=' + this.props.token)
-            .then((Response) => Response.json())
-            .then((res) => {
-                console.log(res)
-                this.setState({
-                    list_year: res.data,
-                    status: true
-                })
-            }).catch(function (error) {
-
-            });
-    }
-
+  
     handleStaffCheckIdChange(e) {
         this.setState({
             year: e.target.value,
@@ -66,20 +41,38 @@ class ShowChart extends Component {
 
     finddata() {
         this.setState({
-            status: false
+            statusmonth: false,
+            statusyear : false
         })
         fetch(url + '/get_sum_month?token=' + this.props.token + '&year=' + this.state.year)
             .then((Response) => Response.json())
             .then((res) => {
                 this.setState({
-                    data: res.data,
-                    status: true
+                    list_month : res.data,
+                    statusmonth: true
                 })
             }).catch(function (error) {
 
             });
     }
 
+    getYear(){
+        this.setState({
+            statusmonth: false,
+            statusyear : false
+        })
+        fetch(url + '/get_sum_year?token=' + this.props.token)
+            .then((Response) => Response.json())
+            .then((res) => {
+               
+                this.setState({
+                    list_year: res.data,
+                    statusyear: true
+                })
+            }).catch(function (error) {
+
+            });
+    }
 
 
 
@@ -100,8 +93,8 @@ class ShowChart extends Component {
         let full_month = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
         let list = []
         
-        if (this.state.status == true) {
-            this.state.data.map((val, i) => {
+        if (this.state.statusmonth == true) {
+            this.state.list_month.map((val, i) => {
 
                 return list.push(
                     <div style={{ display: 'flex', maxWidth: 1024 }}>
@@ -119,7 +112,7 @@ class ShowChart extends Component {
                                     
                                     chartArea: { width: '30%' },
                                     hAxis: {
-                                        title: 'สรุปสถิติของแต่ละเดือน',
+                                        title: 'สรุปสถิติของแต่ละเดือน ปี '+this.state.year,
                                         minValue: 0,
                                     },
                                     vAxis: {
@@ -137,7 +130,7 @@ class ShowChart extends Component {
         return (
             <div>
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" className="btn btn-primary" href="#home">รายปี</a></li>
+                    <li class="active"><a data-toggle="tab" className="btn btn-primary" href="#home" onClick={() => { this.getYear() }} >รายปี</a></li>
                     <li><a data-toggle="tab" href="#menu1" className="btn btn-primary">รายเดือน</a></li>
 
                 </ul>
@@ -145,7 +138,7 @@ class ShowChart extends Component {
                 <div class="tab-content">
                     <div id="home" class="tab-pane fade in active">
 
-
+                        { this.state.statusyear == true ? 
                         <div style={{ display: 'flex', maxWidth: 1024 }}>
                             <Chart
                                 width={1400}
@@ -169,6 +162,7 @@ class ShowChart extends Component {
 
 
                         </div>
+                        :<div>กำลังโหลดผลสถิติ</div>}
                     </div>
                     <div id="menu1" class="tab-pane fade">
                         <div className="row">
@@ -202,7 +196,7 @@ class ShowChart extends Component {
                                 <button type="button" onClick={() => { this.finddata() }} className="btn btn-primary">ค้นหา</button>
                             </div>
                         </div>  
-                        { list  }
+                        { this.state.statusmonth == true ? list : <div>กำลังโหลดผลสถิติ</div>  }
                     </div>
                 </div>
 

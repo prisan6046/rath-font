@@ -31,7 +31,6 @@ class ChartShowMonth extends Component {
         fetch(url + '/get_sum_month?token=' + this.props.token)
             .then((Response) => Response.json())
             .then((res) => {
-                console.log(res)
                 this.setState({
                     data: res.data,
                     status: true
@@ -104,10 +103,10 @@ class ChartShowMonth extends Component {
                                 ]
                                 }
                                 options={{
-                                    title: 'กราฟสถิติของแต่ละเดือน',
+                           
                                     chartArea: { width: '30%' },
                                     hAxis: {
-                                        title: 'สรุปสถิติของแต่ละเดือน',
+                                        title: 'กราฟสถิติของแต่ละเดือน ปี '+this.state.year,
                                         minValue: 0,
                                     },
                                     vAxis: {
@@ -158,7 +157,6 @@ class ChartShowMonth extends Component {
                                     <option value="2570">2570</option>
                                     <option value="2571">2571</option>
                                     <option value="2572">2572</option>
-
                                     <option value="2573">2573</option>
                                     <option value="2574">2574</option>
                                     <option value="2575">2575</option>

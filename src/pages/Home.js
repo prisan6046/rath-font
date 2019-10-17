@@ -49,17 +49,7 @@ class Home extends Component {
     componentDidMount() {
 
         this.state.token = localStorage.getItem('token');
-        if (this.state.token == null) {
-            this.props.history.push("/")
-        }
         localStorage.removeItem('project_id');
-        this.setState({ token: this.state.token })
-        axios.get(url + '/getProfile?token=' + this.state.token).then(res => {
-            if (res.data.status == 200) {
-                this.setState({ status: res.data['status_user'] })
-            }
-        })
-
         fetch(url + '/get_all_doc?token=' + this.state.token)
             .then((Response) => Response.json())
             .then((res) => {
