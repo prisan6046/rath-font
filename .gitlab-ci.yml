@@ -40,7 +40,7 @@ deploy:
     - ssh -p22 $TARGET_USER "docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME"
     - ssh -p22 $TARGET_USER "docker stop ruth-font-new"
     - ssh -p22 $TARGET_USER "docker rm ruth-font-new"
-    - ssh -p22 $TARGET_USER "docker run --restart=always -d --name ruth-font-new -p 3001:3001 $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME"
+    - ssh -p22 $TARGET_USER "docker run --restart=always -d --name ruth-font-new -p 5000:5000 $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME"
 
   only :
     - master
