@@ -1,6 +1,6 @@
 
 stages:
-  - build
+  - release
 
 release:
   stage: release
