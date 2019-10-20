@@ -195,7 +195,7 @@ class AddUser extends Component {
                     support : res['support'],
                     username : res['user'],
                     email : res['email'],
-                    tel : res['tel'],
+                    tel : res['phone'],
                     edit : true
                 })
             }).catch(()=>{
