@@ -353,7 +353,7 @@ class Home extends Component {
                                             <div className="modal-footer">
                                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">ปิด</button>
                                                 <button type="button" data-toggle="modal" data-target="#exampleModal" onClick={() => { this.showdata(1) }} className="btn btn-primary">นำข้อมูลออกทั้งหมด</button>
-                                                <button type="button" data-toggle="modal" data-target="#exampleModal" onClick={() => { this.showdata(2) }} className="btn btn-primary">นำข้อมูลออกตามที่เลือก</button>
+                                                <button type="button" data-toggle="modal" data-target="#exampleModal" onClick={() => { this.showdata(0) }} className="btn btn-primary">นำข้อมูลออกตามที่เลือก</button>
                                             </div>
                                         </div>
                                     </div>
