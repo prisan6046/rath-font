@@ -66,6 +66,8 @@ class EditformThree extends Component{
                     check_check_id : res['0']['point'],
                     res_check_id : res['0']['support']
                 })
+            }).catch(()=>{
+                
             })
             fetch(url+'/get_car?token=' + this.state.token)
             .then((Response) => Response.json())
@@ -75,6 +77,8 @@ class EditformThree extends Component{
                     data_car : res,
                     loading : true
                 })
+            }).catch(()=>{
+                
             })
         })
 
@@ -349,7 +353,7 @@ class EditformThree extends Component{
 
         event.preventDefault();
         var formData = new FormData();
-        console.log(this.state.res_check)
+    
         if(window.confirm("คุณต้องการที่จะบันทึกหรือไม่")){
         formData.append('_id' , this.props.id)
         formData.append('id' , this.state.id)
@@ -428,11 +432,11 @@ class EditformThree extends Component{
         this.state.data_car.map((val, i) => {
             if(val.name_car == this.state.avg_car_brand){
                 return list_car.push(
-                    <option key={i} value={val._id.$oid} selected>{val.name_car}</option>
+                    <option key={i} value={val.name_car} selected>{val.name_car}</option>
                 )
             }else{
                 return list_car.push(
-                    <option key={i} value={val._id.$oid}>{val.name_car}</option>
+                    <option key={i} value={val.name_car}>{val.name_car}</option>
                 )
             }
             
@@ -442,11 +446,11 @@ class EditformThree extends Component{
         this.state.data_car.map((val, i) => {
             if(val.name_car == this.state.avg_car_engine){
                 return list_engine.push(
-                    <option key={i} value={val._id.$oid} selected>{val.name_car}</option>
+                    <option key={i} value={val.name_car} selected>{val.name_car}</option>
                 )
             }else{
                 return list_engine.push(
-                    <option key={i} value={val._id.$oid}>{val.name_car}</option>
+                    <option key={i} value={val.name_car}>{val.name_car}</option>
                 )
             }
             

@@ -268,7 +268,7 @@ class ShowData extends Component {
                                             <p>{val.home_subdistrict}</p>
                                             <p>{val.home_district}</p>
                                             <p>{val.home_province}</p>
-                                            <p>{val.home_code}</p>
+                            
                                         </div>
                                     </div>
 

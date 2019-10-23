@@ -19,6 +19,8 @@ class EditFormFour extends Component{
                 this.setState({
                     data_user: res
                 })
+            }).catch(()=>{
+                
             })
 
         fetch(url+'/get_doc_two_id?id=' + this.props.id + "&token=" + this.state.token)
@@ -38,6 +40,8 @@ class EditFormFour extends Component{
                 garage_out_date: res['0']['garage_out_date'],
                 end_remove_car: res['0']['end_remove_car']
             })
+        }).catch(()=>{
+                
         })
 
         fetch(url+'/get_service?token=' + this.state.token)
@@ -47,6 +51,8 @@ class EditFormFour extends Component{
                     data_servicecar : res,
                     loading : true
                 })
+            }).catch(()=>{
+                
             })
 
        

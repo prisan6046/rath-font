@@ -23,6 +23,8 @@ class ShowFormFive extends Component{
                 this.setState({
                     data_user: res
                 })
+            }).catch(()=>{
+                
             })
 
         fetch(url+'/get_doc_three_id?id=' + this.props.id + "&token=" + this.state.token)
@@ -46,6 +48,8 @@ class ShowFormFive extends Component{
                 staff_check_appvore: res['0']['staff_check_appvore'],
                 staff_check_appvore_id: res['0']['staff_check_appvore_id']
             })
+        }).catch(()=>{
+                
         })
 
         fetch(url+'/get_location?token=' + this.state.token)
@@ -55,6 +59,8 @@ class ShowFormFive extends Component{
                     data_location : res,
                     loading : true
                 })
+            }).catch(()=>{
+                
             })
     }
 

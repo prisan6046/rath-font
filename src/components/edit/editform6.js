@@ -22,6 +22,8 @@ class ShowFormSix extends Component{
                 this.setState({
                     data_user: res
                 })
+            }).catch(()=>{
+                
             })
 
         fetch(url+'/get_doc_four_id?id=' + this.props.id + "&token=" + this.state.token)
@@ -38,6 +40,8 @@ class ShowFormSix extends Component{
                 val_now : res['0']['val_now'],
                 date_now : res['0']['date_now']
             })
+        }).catch(()=>{
+                
         })
     
     }
