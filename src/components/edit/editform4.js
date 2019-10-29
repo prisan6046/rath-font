@@ -4,7 +4,8 @@ import { url } from '../../parameter/index';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
-import { DateThai, YearThai } from '../libraries/DateThai';
+import { DateThai, YearThai , Str_date } from '../libraries/DateThai';
+
 import 'moment/locale/th';
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import th from 'date-fns/locale/th';
@@ -13,6 +14,7 @@ class EditFormFour extends Component{
 
     componentDidMount(){
         this.state.token = localStorage.getItem('token');
+        this.state.date_check = localStorage.getItem('date_check')
         fetch(url+'/get_all_user?token=' + this.state.token)
             .then((Response) => Response.json())
             .then((res) => {
@@ -63,6 +65,7 @@ class EditFormFour extends Component{
         this.state = {
             data : [],
             data_user : [],
+            date_check : '',
             loading : false,
             project_id : '',
             data_province: [],
@@ -95,10 +98,25 @@ class EditFormFour extends Component{
 
     }
 
+    str_dataaa(e){
+        return Str_date(e)
+    }
+
     handleGarageNameChange(e) {
         this.setState({
             garage_name : e.target.value
         })
+    }
+    checkDate(get){
+       let gets = get.split("-")
+       let date = this.state.date_check;
+       let res = date.split("-");
+       var d1 = new Date(gets[0], gets[1], gets[2]);
+        var d2 = new Date(res[0], res[1], res[2])
+        if(d2 > d1){
+            return true
+        }
+
     }
 
     handleGarageInDateChange = (date) => {
@@ -211,12 +229,18 @@ class EditFormFour extends Component{
         moment.locale('en');
         const year_th = YearThai(moment(date).format('YYYY'))
         const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
-        const date_format_en = moment(date).format('YYYY-MM-DD');
+  
+        if(this.checkDate(full_date_th) == true){
+            alert("ไม่สามารถเลือกวันย้อนหลังวันที่ "+ this.str_dataaa(this.state.date_check) + " ได้")
+            return ;
+        }
 
         this.setState({
             date_allow: full_date_th
         });
     }
+
+    
 
     render() {
 
@@ -311,6 +335,7 @@ class EditFormFour extends Component{
                                                 onChange={this.handleDateNotAllowChange} 
                                                 dateFormat="วันที่ d MMMM พ.ศ.YYYY"
                                                 locale="th"
+                                                autocomplete="off"
                                                 name="date_check" 
                                                 id="date_check" />
                                             {/* <input type="date" className="form-control bg-blue-lv3" value={this.state.date_allow} onChange={this.handleDateAllowChange} name="date_check" id="date_check" /> */}
@@ -396,6 +421,7 @@ class EditFormFour extends Component{
                                                 onChange={this.handleGarageInDateChange} 
                                                 dateFormat="วันที่ d MMMM พ.ศ.YYYY"
                                                 locale="th"
+                                                autocomplete="off"
                                                 name="avg_check" 
                                                 id="avg_check" />
                                             {/* <input type="datetime-local" className="form-control bg-blue-lv3 w-50" value={this.state.garage_in_date} onChange={this.handleGarageInDateChange} name="avg_check" id="avg_check" /> */}
@@ -427,6 +453,7 @@ class EditFormFour extends Component{
                                                 selected={this.state.end_remove_car} 
                                                 onChange={this.handleEndRomoveCarChange} 
                                                 dateFormat="วันที่ d MMMM พ.ศ.YYYY"
+                                                autocomplete="off"
                                                 locale="th"
                                                 name="avg_check" 
                                                 id="avg_check" />

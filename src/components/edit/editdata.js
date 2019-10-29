@@ -26,6 +26,7 @@ class EditData extends Component{
                 
                 this.setState({
                     id: res['0']['id'],
+
                     load : true
                 })
             }).catch(function(){

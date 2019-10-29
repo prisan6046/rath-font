@@ -13,7 +13,7 @@ import th from 'date-fns/locale/th';
 class EditformThree extends Component{
 
     componentDidMount() {
-
+        
         this.state.token = localStorage.getItem('token');
         axios.get(url+'/province').then(res => {
             this.setState({ data_province: res.data })
@@ -30,7 +30,7 @@ class EditformThree extends Component{
         fetch(url+'/get_doc_id?id=' + this.props.id + "&token=" + this.state.token)
             .then((Response) => Response.json())
             .then((res) => {
-            
+                localStorage.setItem('date_check' , res['0']['date_check']) 
                 this.setState({
                     id :  res['0']['id'],
                     book_no: res['0']['book_no'],
@@ -309,11 +309,11 @@ class EditformThree extends Component{
         })
     }
     handleHomeProvinceChange(e) {
-        console.log("B : " + e.target.value)
+        
         this.setState({
             home_province: e.target.value
         })
-        console.log("A : " + this.state.home_province)
+       
     }
     handleHomeCodeChange(e) {
         this.setState({

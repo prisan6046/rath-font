@@ -6,7 +6,7 @@ import { url } from '../../parameter/index'
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
-import { DateThai, YearThai } from '../libraries/DateThai';
+import { DateThai, YearThai  , Str_date} from '../libraries/DateThai';
 import 'moment/locale/th';
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import th from 'date-fns/locale/th';
@@ -16,6 +16,7 @@ class ShowFormSix extends Component{
 
     componentDidMount() {
         this.state.token = localStorage.getItem('token');
+        this.state.date_check = localStorage.getItem('date_check')
         fetch(url+'/get_all_user?token=' + this.state.token)
             .then((Response) => Response.json())
             .then((res) => {
@@ -51,6 +52,7 @@ class ShowFormSix extends Component{
         this.state = {
             data_user : [],
             loading : false,
+            date_check : '',
             data : [],
             book_no : '',
             order_no : '',
@@ -76,6 +78,20 @@ class ShowFormSix extends Component{
         this.handleStaffIdChange = this.handleStaffIdChange.bind(this)
 
     }
+    str_dataaa(e){
+        return Str_date(e)
+    }
+    checkDate(get){
+        let gets = get.split("-")
+        let date = this.state.date_check;
+        let res = date.split("-");
+        var d1 = new Date(gets[0], gets[1], gets[2]);
+         var d2 = new Date(res[0], res[1], res[2])
+         if(d2 > d1){
+             return true
+         }
+ 
+     }
 
     handleBookOnChange(e){
         this.setState({
@@ -93,6 +109,11 @@ class ShowFormSix extends Component{
         moment.locale('en');
         const year_th = YearThai(moment(date).format('YYYY'))
         const full_date_th = `${year_th}-${moment(date).format('MM-DD')}`;
+
+        if(this.checkDate(full_date_th) == true){
+            alert("ไม่สามารถเลือกวันย้อนหลังวันที่ "+this.str_dataaa(this.state.date_check) + " ได้")
+            return ;
+        }
 
         this.setState({
             date_out : full_date_th,
