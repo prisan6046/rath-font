@@ -17,6 +17,7 @@ class AddUser extends Component {
             username: '',
             Password: '',
             confpassword : '',
+            status : '',
             edit : false,
             id : '',
             data_user: [],
@@ -31,6 +32,7 @@ class AddUser extends Component {
         this.handleConfPasswordChange = this.handleConfPasswordChange.bind(this)
         this.handleEmailChanage = this.handleEmailChanage.bind(this)
         this.handleTelChanage = this.handleTelChanage.bind(this)
+        this.handleStatusChange = this.handleStatusChange.bind(this)
     }
 
     handleNameChange(e) {
@@ -124,6 +126,7 @@ class AddUser extends Component {
 
         formData.append('email', this.state.email);
         formData.append('phone', this.state.tel);
+        formData.append('status' , this.state.status)
         formData.append('id', this.state.id);
 
         if(this.state.edit == false){
@@ -180,6 +183,7 @@ class AddUser extends Component {
                 support : "",
                 username : "",
                 email : "",
+                status : '',
                 tel :""
             })
 
@@ -196,6 +200,7 @@ class AddUser extends Component {
                     username : res['user'],
                     email : res['email'],
                     tel : res['phone'],
+                    status : res['status'] ,
                     edit : true
                 })
             }).catch(()=>{
@@ -203,6 +208,12 @@ class AddUser extends Component {
             })
         }
        
+    }
+
+    handleStatusChange(e){
+        this.setState({
+            status : e.target.value
+        })
     }
 
     render() {
@@ -342,6 +353,23 @@ class AddUser extends Component {
                                                                    
                                                                 </div>
                                                             </div>
+
+                                                            {
+                                                                this.state.edit == true?
+                                                                    <div className="row mb-2">
+                                                                    <div className="col-lg-3 border-right">
+                                                                        <label htmlFor="avg_check" className="col-form-label"> status User</label>
+                                                                    </div>
+                                                                    <div className="col-lg-9">
+                                                                    <select className="form-control bg-blue-lv3 w-50" onChange={this.handleStatusChange} name="avg_check" id="avg_check">
+                                                                        <option value="Admin" selected={this.state.status == 'Admin'} >Admin</option>
+                                                                        <option value="User" selected={this.state.status == 'User'} >User</option>
+                                                                       
+                                                                    </select>
+                                                                    </div>
+                                                                </div> : ''
+
+                                                            }
                                                         </div>
 
                                                     </div>

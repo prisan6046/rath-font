@@ -171,7 +171,6 @@ class Corpor3Form extends Component {
         this.handleHomeSubdisChange = this.handleHomeSubdisChange.bind(this);
         this.handleHomeDistrictChange = this.handleHomeDistrictChange.bind(this);
         this.handleHomeProvinceChange = this.handleHomeProvinceChange.bind(this);
-        this.handleHomeProvinceChange = this.handleHomeProvinceChange.bind(this);
         this.handleHomeTelChange = this.handleHomeTelChange.bind(this);
         this.handleAvgCarBandChange = this.handleAvgCarBandChange.bind(this)
         this.handleDriverTitleChange = this.handleDriverTitleChange.bind(this)
@@ -412,11 +411,7 @@ class Corpor3Form extends Component {
             home_code: e.target.value
         })
     }
-    handleHomeProvinceChange(e) {
-        this.setState({
-            home_province: e.target.value
-        })
-    }
+   
     handleHomeTelChange(e) {
         this.setState({
             home_tel: e.target.value

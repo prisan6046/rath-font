@@ -348,10 +348,19 @@ class ShowData extends Component {
 
                                                                     <div className="row mb-2">
                                                                         <div className="col-lg-4 border-right">
-                                                                            <label htmlFor="staff_check" className="col-form-label">เจ้าหน้าที่ผู้ตรวจสอบ</label>
+                                                                            <label htmlFor="location_check" className="col-form-label">จังหวัดที่ออกคำสั่ง</label>
                                                                         </div>
                                                                         <div className="col-lg-8">
                                                                             <p>{val.staff_check}</p>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className="row mb-2">
+                                                                        <div className="col-lg-4 border-right">
+                                                                            <label htmlFor="staff_check" className="col-form-label">เจ้าหน้าที่ผู้ตรวจสอบ</label>
+                                                                        </div>
+                                                                        <div className="col-lg-8">
+                                                                            
                                                                             <p>{this.state.name}</p>
                                                                             <p>{this.state.check_check_id}</p>
                                                                             <p>{this.state.res_check_id}</p>

@@ -75,7 +75,9 @@ class ShowChart extends Component {
     }
 
 
-
+    printChart(){
+        window.print();
+    }
     // getRandomDatum = () => Math.floor(Math.random() * 100);
 
 
@@ -97,7 +99,8 @@ class ShowChart extends Component {
             this.state.list_month.map((val, i) => {
 
                 return list.push(
-                    <div style={{ display: 'flex', maxWidth: 1024 }}>
+                    <div className="col-md-12">
+                        <center>
                             <Chart
                                 width={1400}
                                 height={800}
@@ -121,6 +124,7 @@ class ShowChart extends Component {
                                 }}
                                 legendToggle
                             />
+                            </center>
                         </div>
                     
                 )
@@ -136,32 +140,46 @@ class ShowChart extends Component {
                 </ul>
 
                 <div class="tab-content">
+
+                
                     <div id="home" class="tab-pane fade in active">
 
                         { this.state.statusyear == true ? 
-                        <div style={{ display: 'flex', maxWidth: 1024 }}>
-                            <Chart
-                                width={1400}
-                                height={800}
-                                chartType="ColumnChart"
-                                loader={<div>กำลังโหลดผลสถิติ</div>}
-                                data={list_year_all}
-                                options={{
-                                  
-                                    chartArea: { width: '30%' },
-                                    hAxis: {
-                                        title: 'สรุปสถิติของแต่ละปี',
-                                        minValue: 0,
-                                    },
-                                    vAxis: {
-                                        title: 'จำนวนคัน',
-                                    },
-                                }}
-                                legendToggle
-                            />
-
-
+                        <div className="row">
+                            <div className="col-md-12">
+                                    <center>
+                                        
+                                        <Chart
+                                            width={1400}
+                                            height={800}
+                                            chartType="ColumnChart"
+                                            loader={<div>กำลังโหลดผลสถิติ</div>}
+                                            data={list_year_all}
+                                            options={{
+                                            
+                                                chartArea: { width: '30%' },
+                                                hAxis: {
+                                                    title: 'สรุปสถิติของแต่ละปี',
+                                                    minValue: 0,
+                                                },
+                                                vAxis: {
+                                                    title: 'จำนวนคัน',
+                                                },
+                                            }}
+                                            legendToggle
+                                        />
+                                    
+                                </center>
+                            </div>  
+                            <div className="col-md-12">
+                                <br />
+                                <center><button type="button" class="btn btn-success" onClick={()=>{this.printChart()}}>พิมพ์กราฟ</button></center>
+                            </div>
                         </div>
+                        
+                        
+
+                    
                         : this.state.statusyear == 'load' ?  <div>กำลังโหลดผลสถิติ</div> : ''}
                     </div>
                     <div id="menu1" class="tab-pane fade">
@@ -196,7 +214,17 @@ class ShowChart extends Component {
                                 <button type="button" onClick={() => { this.finddata() }} className="btn btn-primary">ค้นหา</button>
                             </div>
                         </div>  
-                        { this.state.statusmonth == true ? list : this.state.statusmonth == 'load'? <div>กำลังโหลดผลสถิติ</div>   : '' }
+                        { this.state.statusmonth == true ? 
+                            <div className="row"> 
+                                { list }
+                                <div className="col-md-12">
+                                    <br />
+                                    <center><button type="button" class="btn btn-success" onClick={()=>{this.printChart()}}>พิมพ์กราฟ</button></center>
+                                </div>
+                             
+                            </div>
+                            
+                            : this.state.statusmonth == 'load'? <div>กำลังโหลดผลสถิติ</div>   : '' }
                     </div>
                 </div>
 

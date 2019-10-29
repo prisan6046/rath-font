@@ -30,6 +30,7 @@ class EditformThree extends Component{
         fetch(url+'/get_doc_id?id=' + this.props.id + "&token=" + this.state.token)
             .then((Response) => Response.json())
             .then((res) => {
+            
                 this.setState({
                     id :  res['0']['id'],
                     book_no: res['0']['book_no'],
@@ -72,7 +73,6 @@ class EditformThree extends Component{
             fetch(url+'/get_car?token=' + this.state.token)
             .then((Response) => Response.json())
             .then((res) => {
-                console.log(res)
                 this.setState({
                     data_car : res,
                     loading : true
@@ -153,7 +153,6 @@ class EditformThree extends Component{
         this.handleHomeNumberChange = this.handleHomeNumberChange.bind(this);
         this.handleHomeSubdisChange = this.handleHomeSubdisChange.bind(this);
         this.handleHomeDistrictChange = this.handleHomeDistrictChange.bind(this);
-        this.handleHomeProvinceChange = this.handleHomeProvinceChange.bind(this);
         this.handleHomeProvinceChange = this.handleHomeProvinceChange.bind(this);
         this.handleHomeTelChange = this.handleHomeTelChange.bind(this);
         this.handleAvgCarBandChange = this.handleAvgCarBandChange.bind(this)
@@ -310,20 +309,18 @@ class EditformThree extends Component{
         })
     }
     handleHomeProvinceChange(e) {
+        console.log("B : " + e.target.value)
         this.setState({
             home_province: e.target.value
         })
+        console.log("A : " + this.state.home_province)
     }
     handleHomeCodeChange(e) {
         this.setState({
             home_code: e.target.value
         })
     }
-    handleHomeProvinceChange(e) {
-        this.setState({
-            home_province: e.target.value
-        })
-    }
+   
     handleHomeTelChange(e) {
         this.setState({
             home_tel: e.target.value
@@ -421,6 +418,21 @@ class EditformThree extends Component{
                 )
             }else{
                 return list_province_location.push(
+                    <option key={i} value={val.name_province}>{val.name_province}</option>
+                )
+
+            }
+            
+        })
+
+        let user_province_location = []
+        this.state.data_province.map((val, i) => {
+            if(val.name_province == this.state.home_province ){
+                return user_province_location.push(
+                    <option key={i} value={val.name_province} selected>{val.name_province}</option>
+                )
+            }else{
+                return user_province_location.push(
                     <option key={i} value={val.name_province}>{val.name_province}</option>
                 )
 
@@ -529,7 +541,7 @@ class EditformThree extends Component{
 
                                         <div className="row mb-2">
                                             <div className="col-lg-4 border-right">
-                                                <label htmlFor="staff_check" className="col-form-label">จังหวัดที่ตรวจสอบ</label>
+                                                <label htmlFor="staff_check" className="col-form-label">จังหวัดที่ออกคำสั่ง</label>
                                             </div>
                                             <div className="col-lg-8">
                                                 {/* <input type="text" className="form-control bg-blue-lv3 mb-1" name="staff_check" id="staff_check" value={this.state.staff_check} onChange={this.handleStaffCheckChange} placeholder="นาย, นาง, นางสาว, ยศ" /> */}
@@ -760,7 +772,7 @@ class EditformThree extends Component{
                                                     <select name="select_staff_check" id="select_staff_check" onChange={this.handleHomeProvinceChange} className="form-control bg-blue-lv3 w-50">
                                                     <option value=""></option>
                                                         {
-                                                            list_province
+                                                            this.state.loading == true? user_province_location : ''
                                                         }
 
                                                     </select>
