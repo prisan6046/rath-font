@@ -49,6 +49,30 @@ class ShowFormFive extends Component{
                 staff_check_appvore: res['0']['staff_check_appvore'],
                 staff_check_appvore_id: res['0']['staff_check_appvore_id']
             })
+
+            fetch(url+'/get_user_one?id=' + this.state.staff_support_id)
+                .then((Response) => Response.json())
+                .then((res) => {
+                    this.setState({
+                        data : res,
+                        loading_one : true
+                    })
+                }).catch(()=>{
+                    
+            })
+
+            fetch(url+'/get_user_one?id=' + this.state.staff_check_appvore_id)
+                .then((Response) => Response.json())
+                .then((res) => {
+                    this.setState({
+                        data_app : res,
+                        loading_two : true
+                    })
+                }).catch(()=>{
+                    
+            })
+
+
         }).catch(()=>{
                 
         })
