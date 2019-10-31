@@ -50,18 +50,21 @@ class ShowFormFive extends Component{
                 staff_check_appvore_id: res['0']['staff_check_appvore_id']
             })
 
-            fetch(url+'/get_user_one?id=' + this.state.staff_support_id)
-                .then((Response) => Response.json())
-                .then((res) => {
-                    this.setState({
-                        data : res,
-                        loading_one : true
-                    })
-                }).catch(()=>{
-                    
-            })
+            if(res['0']['staff_check_appvore_id'] != ''){
+                fetch(url+'/get_user_one?id=' + res['0']['staff_support_id'] )
+                    .then((Response) => Response.json())
+                    .then((res) => {
+                        this.setState({
+                            data : res,
+                            loading_one : true
+                        })
+                    }).catch(()=>{
+                        
+                })
+            }
 
-            fetch(url+'/get_user_one?id=' + this.state.staff_check_appvore_id)
+            if(res['0']['staff_check_appvore_id'] != ''){
+                fetch(url+'/get_user_one?id=' + res['0']['staff_check_appvore_id'] )
                 .then((Response) => Response.json())
                 .then((res) => {
                     this.setState({
@@ -71,11 +74,13 @@ class ShowFormFive extends Component{
                 }).catch(()=>{
                     
             })
-
+            }
+            
 
         }).catch(()=>{
                 
         })
+
 
         fetch(url+'/get_location?token=' + this.state.token)
             .then((Response) => Response.json())
@@ -326,30 +331,33 @@ class ShowFormFive extends Component{
     render() {
 
         let set_user_list = []
-        this.state.data.map((val, i) => {
-            return set_user_list.push(
-                <div key={i}>
-                    <div className="row mb-2">
-                        <div className="col-lg-4 border-right">
-                            <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
+        if(this.state.loading_one == true){
+            this.state.data.map((val, i) => {
+                return set_user_list.push(
+                    <div key={i}>
+                        <div className="row mb-2">
+                            <div className="col-lg-4 border-right">
+                                <label htmlFor="position" className="col-form-label">ตำแหน่ง</label>
+                            </div>
+                            <div className="col-lg-8">
+                                <input type="text" className="form-control bg-blue-lv3" name="position" defaultValue={val.point} id="position" />
+                            </div>
                         </div>
-                        <div className="col-lg-8">
-                            <input type="text" className="form-control bg-blue-lv3" name="position" defaultValue={val.point} id="position" />
+    
+                        <div className="row mb-2">
+                            <div className="col-lg-4 border-right">
+                                <label htmlFor="under" className="col-form-label">สังกัด</label>
+                            </div>
+                            <div className="col-lg-8">
+                                <input type="text" className="form-control bg-blue-lv3" name="under" defaultValue={val.support} id="under" />
+                            </div>
                         </div>
+    
                     </div>
-
-                    <div className="row mb-2">
-                        <div className="col-lg-4 border-right">
-                            <label htmlFor="under" className="col-form-label">สังกัด</label>
-                        </div>
-                        <div className="col-lg-8">
-                            <input type="text" className="form-control bg-blue-lv3" name="under" defaultValue={val.support} id="under" />
-                        </div>
-                    </div>
-
-                </div>
-            )
-        })
+                )
+            })
+        }
+        
 
         let set_user_list_app = []
         this.state.data.map((val, i) => {
