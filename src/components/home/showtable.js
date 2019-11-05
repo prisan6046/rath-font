@@ -23,6 +23,10 @@ class ShowTable extends Component {
         this.handleStaffCheckIdChange = this.handleStaffCheckIdChange.bind(this)
     }
 
+    printChart(){
+        window.print();
+    }
+
 
     handleStaffCheckIdChange(e) {
         this.setState({
@@ -127,13 +131,17 @@ class ShowTable extends Component {
                                                                                                 {list}
         
                                                                                             </tbody>
-                                                                                        </table> </div>:
+                                                                                        </table>
+                                                                                        <br></br>
+                                                                                        <center><button type="button" class="btn btn-success" onClick={()=>{this.printChart()}}>พิมพ์หน้าสถิติ</button></center>
+                                                                                         </div>:
                                                                                         this.state.status == 'load' ? 
                                                                                         <div>กำลังโหลดข้อมูล กรุณารอสักคู่</div>
                                                                                         : ''
                                                                             }
 
                                                             
+
 
                                                                         </div>
                                                                     </div>
